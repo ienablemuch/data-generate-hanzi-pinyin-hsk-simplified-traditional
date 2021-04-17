@@ -35,7 +35,6 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     }
 
     async function createHanziConversionLookupFiles() {
-        throw Error("Y");
         // use for both simplified and traditional
         interface IHanziConversionLookup {
             [hanzi: string]: string;
