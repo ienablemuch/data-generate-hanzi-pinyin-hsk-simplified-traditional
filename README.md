@@ -1,5 +1,5 @@
-# data-generate-hanzi-pinyin-hsk-simplified-traditional
-# data-generate-hanzi-pinyin-hsk-simplified-traditional
-# data-generate-hanzi-pinyin-hsk-simplified-traditional
-# data-generate-hanzi-pinyin-hsk-simplified-traditional
-# data-generate-hanzi-pinyin-hsk-simplified-traditional
+To run:
+
+```
+deno run --allow-read --allow-write convert.ts
+```
