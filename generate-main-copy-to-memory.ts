@@ -155,7 +155,10 @@ async function* cleanSimplifiedTraditional(): AsyncIterable<ISimplifiedTradition
     for (const entry of json) {
         const items = entry.replace(/\|+/g, "|").split("|");
 
-        const [simplified, traditional, pinyin] = items.slice(-3);
+        // const [simplified, traditional, pinyin] = items.slice(-3);
+        const simplified = items[0];
+        const traditional = items[1];
+        const pinyin = items[items.length - 1];
 
         /*
         //  chinese comma, chinese dot separator, chinese reverse comma
@@ -185,6 +188,9 @@ async function* cleanSimplifiedTraditional(): AsyncIterable<ISimplifiedTradition
             traditionalList.length === pinyinList.length;
 
         if (!areSameSize) {
+            console.error("entry");
+            console.error(entry);
+            console.group();
             console.error(simplifiedList.length);
             console.error(traditionalList.length);
             console.error(pinyinList.length);
@@ -192,6 +198,7 @@ async function* cleanSimplifiedTraditional(): AsyncIterable<ISimplifiedTradition
             console.error(simplifiedList);
             console.error(traditionalList);
             console.error(pinyinList);
+            console.groupEnd();
             throw Error("Wrong regex perhaps?");
         }
 
