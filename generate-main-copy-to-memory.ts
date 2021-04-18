@@ -17,14 +17,6 @@ export async function generateMainCopyToMemory(
 ): IHanziLookup {
     const hzl: IHanziLookup = {};
 
-    for await (const {
-        simplified,
-        traditional,
-        pinyin,
-    } of cleanSimplifiedTraditional()) {
-        processSimplifiedTraditional({ simplified, traditional, pinyin }, "AA");
-    }
-
     for await (const { from, to } of cleanSimplifiedToTraditional()) {
         // existing simplified
         const eSim = hzl[from];
@@ -99,6 +91,19 @@ export async function generateMainCopyToMemory(
             ...eHanzi,
             hsk: Math.max(eHanzi.hsk ?? 0, hsk),
         };
+    }
+
+    // Let's do this last, this is the dirtiest database
+    for await (const {
+        simplified,
+        traditional,
+        pinyin,
+    } of cleanSimplifiedTraditional()) {
+        if (simplified)
+            processSimplifiedTraditional(
+                { simplified, traditional, pinyin },
+                "ZZ"
+            );
     }
 
     return hzl;
