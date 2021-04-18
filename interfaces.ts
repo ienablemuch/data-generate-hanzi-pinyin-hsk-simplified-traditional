@@ -29,6 +29,11 @@ interface IConversion {
     to: string;
 }
 
+// master list for 100% hanzi type
+interface IHanziTypeList {
+    [hanzi: string]: 'S' | 'T';
+}
+
 // ..cleaned
 
 // master source to generate from

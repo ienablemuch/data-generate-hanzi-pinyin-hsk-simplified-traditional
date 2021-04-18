@@ -12,7 +12,9 @@ import { IHanziLookup } from "./interfaces.ts";
 // for await (const word of cleanHanziHskFromUnihan()) console.log(word);
 // ..tests
 
-export async function generateMainCopyToMemory(): IHanziLookup {
+export async function generateMainCopyToMemory(
+    hanziTypeList: IHanziTypeList
+): IHanziLookup {
     const hzl: IHanziLookup = {};
 
     for await (const {
@@ -29,7 +31,7 @@ export async function generateMainCopyToMemory(): IHanziLookup {
         const type = eSim?.type;
         hzl[from] = {
             ...eSim,
-            type: type === "T" ? "B" : type ?? "S",
+            type: hanziTypeList[from] ?? (type === "T" ? "B" : type ?? "S"),
             aka: eSim?.aka ?? to,
         };
 
@@ -43,7 +45,7 @@ export async function generateMainCopyToMemory(): IHanziLookup {
         const type = eTra?.type;
         hzl[from] = {
             ...eTra,
-            type: type === "S" ? "B" : type ?? "T",
+            type: hanziTypeList[from] ?? (type === "S" ? "B" : type ?? "T"),
             aka: eTra?.aka ?? to,
         };
 
@@ -114,7 +116,9 @@ export async function generateMainCopyToMemory(): IHanziLookup {
             hzl[simIndex] = {
                 ...eSim,
                 pinyin: [...new Set([...(eSim?.pinyin ?? []), pinyin])],
-                type: type === "T" ? "B" : type ?? "S",
+                type:
+                    hanziTypeList[simIndex] ??
+                    (type === "T" ? "B" : type ?? "S"),
             };
 
             if (!hzl[simIndex].aka && traditional !== simplified) {
@@ -134,7 +138,9 @@ export async function generateMainCopyToMemory(): IHanziLookup {
             hzl[traIndex] = {
                 ...eTra,
                 pinyin: [...new Set([...(eTra?.pinyin ?? []), pinyin])],
-                type: type === "S" ? "B" : type ?? "T",
+                type:
+                    hanziTypeList[traIndex] ??
+                    (type === "S" ? "B" : type ?? "T"),
             };
 
             if (!hzl[traIndex].aka && simplified !== traditional) {

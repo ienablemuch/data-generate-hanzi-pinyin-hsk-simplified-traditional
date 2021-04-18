@@ -1,13 +1,14 @@
-import "./interfaces.ts";
+import { generateHanziTypeToMemory } from "./generate-hanzi-type-to-memory.ts";
 import { generateMainCopyToMemory } from "./generate-main-copy-to-memory.ts";
 import { generateHanziLookupFiles } from "./generate-hanzi-lookup-files.ts";
 
-const hzl = await generateMainCopyToMemory();
-cleanUp();
+const hanziTypeList = await generateHanziTypeToMemory();
+const hzl = await generateMainCopyToMemory(hanziTypeList);
 
 const toGenerateFiles = true;
 
 if (toGenerateFiles) {
+    cleanUp();
     await generateHanziLookupFiles(hzl);
 } else {
     console.log(hzl);
