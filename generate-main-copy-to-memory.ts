@@ -28,7 +28,7 @@ export async function generateMainCopyToMemory(
         };
 
         // @ts-ignore
-        hzl[from].source = (hzl[from].source ?? "") + "BB";
+        hzl[from].source = (hzl[from].source ?? "") + "AA";
     }
 
     for await (const { from, to } of cleanTraditionalToSimplified()) {
@@ -42,7 +42,7 @@ export async function generateMainCopyToMemory(
         };
 
         // @ts-ignore
-        hzl[from].source = (hzl[from].source ?? "") + "CC";
+        hzl[from].source = (hzl[from].source ?? "") + "BB";
     }
 
     for await (const { hanzi, pinyin, hsk } of cleanHanziPinyinHsk()) {
@@ -55,15 +55,7 @@ export async function generateMainCopyToMemory(
         };
 
         // @ts-ignore
-        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "DD";
-    }
-
-    for await (const {
-        simplified,
-        traditional,
-        pinyin,
-    } of cleanHanziPinyinFromDictionary()) {
-        processSimplifiedTraditional({ simplified, traditional, pinyin }, "EE");
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "CC";
     }
 
     for await (const { hanzi, pinyin } of cleanHanziPinyinFromUnihan()) {
@@ -75,7 +67,7 @@ export async function generateMainCopyToMemory(
         };
 
         // @ts-ignore
-        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "FF";
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "DD";
     }
 
     for await (const { hanzi, hsk } of cleanHanziHskFromUnihan()) {
@@ -91,6 +83,9 @@ export async function generateMainCopyToMemory(
             ...eHanzi,
             hsk: Math.max(eHanzi.hsk ?? 0, hsk),
         };
+
+        // @ts-ignore
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "EE";
     }
 
     // Let's do this last, this is the dirtiest database
@@ -102,8 +97,16 @@ export async function generateMainCopyToMemory(
         if (simplified)
             processSimplifiedTraditional(
                 { simplified, traditional, pinyin },
-                "ZZ"
+                "YY"
             );
+    }
+
+    for await (const {
+        simplified,
+        traditional,
+        pinyin,
+    } of cleanHanziPinyinFromDictionary()) {
+        processSimplifiedTraditional({ simplified, traditional, pinyin }, "ZZ");
     }
 
     return hzl;
