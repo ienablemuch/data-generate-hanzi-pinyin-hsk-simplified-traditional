@@ -78,8 +78,7 @@ String.prototype.replaceAt = function (index, replacement) {
  *                       and tone mark inserted.
  */
 String.prototype.convertPinyin = function () {
-    // convert to lowercase
-    var str = this.toLocaleLowerCase();
+    var str = this;
     // get index of the tone number
     var toneNumIndex = str.search(/[1-5]/);
     // get index of the first pinyin vowel
