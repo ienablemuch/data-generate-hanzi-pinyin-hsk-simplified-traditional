@@ -2,6 +2,8 @@ import { readJson } from "https://deno.land/x/jsonfile/mod.ts";
 
 import { IHanziLookup } from "./interfaces.ts";
 
+import { pinyinify } from "./pinyinify.ts";
+
 // tests..
 // for await (const word of cleanSimplifiedTraditional()) console.log(word);
 // for await (const word of cleanSimplifiedToTraditional()) console.log(word);
@@ -10,6 +12,8 @@ import { IHanziLookup } from "./interfaces.ts";
 // for await (const word of cleanHanziPinyinFromDictionary()) console.log(word);
 // for await (const word of cleanHanziPinyinFromUnihan()) console.log(word);
 // for await (const word of cleanHanziHskFromUnihan()) console.log(word);
+// for await (const word of of cleanCEDictJSON()) console.log(word);
+// for await (const word of cleanZhongwenMaster()) console.log(word);
 // ..tests
 
 export async function generateMainCopyToMemory(
@@ -100,9 +104,17 @@ export async function generateMainCopyToMemory(
             if (simplified)
                 processSimplifiedTraditional(
                     { simplified, traditional, pinyin },
-                    "YY"
+                    "WW"
                 );
         }
+    }
+
+    for await (const {
+        simplified,
+        traditional,
+        pinyin,
+    } of cleanZhongwenMaster()) {
+        processSimplifiedTraditional({ simplified, traditional, pinyin }, "XX");
     }
 
     for await (const { simplified, traditional, pinyin } of cleanCEDictJSON()) {
@@ -359,3 +371,43 @@ async function* cleanConversion(source: string): AsyncIterable<IConversion> {
         yield { from, to };
     }
 }
+
+async function* cleanZhongwenMaster(): AsyncIterable<ISimplifiedTraditional> {
+    const text = await Deno.readTextFile(
+        "zhongwen-master/data/cedict_ts.u8.txt"
+    );
+
+    const lines = text.split("\n");
+
+    for (const line of lines) {
+        const lineString = line as any;
+
+        /([^\[]+)\[([^\]]+)\]/.test(lineString);
+
+        const hanzi = RegExp.$1
+            .split("")
+            .map((word) => word.trim())
+            .filter((word) => word.length > 0);
+        const pinyin = pinyinify(RegExp.$2).split(" ");
+
+        if (pinyin.length * 2 !== hanzi.length) {
+            continue;
+            console.error(hanzi);
+            console.error(pinyin);
+            throw Error(
+                `Error on ${lineString}; PL: ${pinyin.length}; HL: ${hanzi.length}`
+            );
+        }
+
+        const word = {
+            simplified: hanzi.slice(0, pinyin.length).join(""),
+            traditional: hanzi.slice(pinyin.length).join(""),
+            pinyin: pinyinify(pinyin.join("")),
+        };
+
+        yield word;
+    }
+}
+
+// "凈 净 [jing4] /variant of 淨|净
+// 冷顫 冷颤 [leng3 zhan5]

@@ -9,7 +9,7 @@ const toGenerateFiles = true;
 
 if (toGenerateFiles) {
     // Generate file
-    // cleanUp();
+    // cleanUp(); // remove the source
     await generateHanziLookupFiles(hzl);
 } else {
     // Preview on terminal
@@ -34,5 +34,7 @@ chinese-sentence-miner-master/data/hsk.json
 chinese-xinhua-master/data/word.json
 unihan-json/kMandarin.json
 unihan-json/kGradeLevel.json
+chinese-pinyin-JSON-master/cedictJSON.json
+zhongwen-master/data/cedict_ts.u8.txt
 *exclude this* hanzi-tools-master/src/pinyin-dict.json
 */
