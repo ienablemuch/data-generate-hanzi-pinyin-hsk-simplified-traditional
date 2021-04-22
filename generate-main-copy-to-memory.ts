@@ -400,8 +400,8 @@ async function* cleanZhongwenMaster(): AsyncIterable<ISimplifiedTraditional> {
         }
 
         const word = {
-            simplified: hanzi.slice(0, pinyin.length).join(""),
-            traditional: hanzi.slice(pinyin.length).join(""),
+            simplified: hanzi.slice(pinyin.length).join(""),
+            traditional: hanzi.slice(0, pinyin.length).join(""),
             pinyin: pinyinify(pinyin.join("")),
         };
 
