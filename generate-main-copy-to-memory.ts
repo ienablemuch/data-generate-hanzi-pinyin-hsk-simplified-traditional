@@ -89,16 +89,24 @@ export async function generateMainCopyToMemory(
     }
 
     // Let's do this last, this is the dirtiest database
-    for await (const {
-        simplified,
-        traditional,
-        pinyin,
-    } of cleanSimplifiedTraditional()) {
-        if (simplified)
-            processSimplifiedTraditional(
-                { simplified, traditional, pinyin },
-                "YY"
-            );
+
+    // let's not use x_x_cleanSimplifiedTraditional(). looks like this is more comprehensive: chinese-pinyin-JSON-master/cedictJSON.json
+    if (false) {
+        for await (const {
+            simplified,
+            traditional,
+            pinyin,
+        } of x_cleanSimplifiedTraditional()) {
+            if (simplified)
+                processSimplifiedTraditional(
+                    { simplified, traditional, pinyin },
+                    "YY"
+                );
+        }
+    }
+
+    for await (const { simplified, traditional, pinyin } of cleanCEDictJSON()) {
+        processSimplifiedTraditional({ simplified, traditional, pinyin }, "YY");
     }
 
     for await (const {
@@ -161,7 +169,31 @@ export async function generateMainCopyToMemory(
     } // function processSimplifiedTraditional
 } // function generateMainCopyToMemory
 
-async function* cleanSimplifiedTraditional(): AsyncIterable<ISimplifiedTraditional> {
+async function* cleanCEDictJSON(): AsyncIterable<ISimplifiedTraditional> {
+    interface ICEDictEntry {
+        traditional: string;
+        simplified: string;
+        pinyinRead: string;
+        pinyinType: string;
+        definition: string[];
+    }
+    // chinese-pinyin-JSON-master/cedictJSON.json
+    const json = (await readJson(
+        "chinese-pinyin-JSON-master/cedictJSON.json"
+    )) as ICEDictEntry[];
+
+    for (const entry of json) {
+        const { simplified, traditional, pinyinRead: pinyin } = entry;
+        // console.log(entry);
+        yield {
+            simplified,
+            traditional,
+            pinyin,
+        };
+    }
+}
+
+async function* x_cleanSimplifiedTraditional(): AsyncIterable<ISimplifiedTraditional> {
     const json = (await readJson(
         "hanzi-tools-master/src/pinyin-dict.json"
     )) as string[];

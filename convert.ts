@@ -34,5 +34,5 @@ chinese-sentence-miner-master/data/hsk.json
 chinese-xinhua-master/data/word.json
 unihan-json/kMandarin.json
 unihan-json/kGradeLevel.json
-hanzi-tools-master/src/pinyin-dict.json
+*exclude this* hanzi-tools-master/src/pinyin-dict.json
 */
