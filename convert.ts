@@ -9,7 +9,7 @@ const toGenerateFiles = true;
 
 if (toGenerateFiles) {
     // Generate file
-    cleanUp(); // remove the source
+    // cleanUp(); // remove the source
     await generateHanziLookupFiles(hzl);
 } else {
     // Preview on terminal
