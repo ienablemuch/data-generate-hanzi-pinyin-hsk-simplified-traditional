@@ -8,6 +8,8 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     await createHanziHskLookupFile();
     await createHanziEnglishLookupFile();
 
+    await createHanziPinyinEnglishLookupFile();
+
     return;
 
     async function createHanziAllJsonFile() {
@@ -102,6 +104,42 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
         }
 
         await writeJson("./lookup-hanzi-english.json", hel);
+    }
+
+    async function createHanziPinyinEnglishLookupFile() {
+        interface IHanziPinyinEnglishLookup {
+            [hanzi: string]: {
+                p: string;
+                e?: string;
+            };
+        }
+
+        const hpel: IHanziPinyinEnglishLookup = {};
+
+        // prettier-ignore
+        for (const [hanzi, {pinyin, english}] of Object.entries(hzl)) {
+            const cleanedPinyin = compressPinyin(pinyin?.[0]);
+            if (!cleanedPinyin) {
+                continue;
+            }
+            hpel[hanzi] = {
+                p: cleanedPinyin
+            };
+
+            const matchLength = english?.filter(
+                (e) =>
+                    !/\p{Script=Han}|[^A-Za-z]/u.test(e) &&
+                    e.length <= cleanedPinyin.length
+            )?.[0];
+
+            if (matchLength) {
+                hpel[hanzi].e = matchLength;
+            }
+        }
+
+        // console.log(hpl);
+
+        await writeJson("./lookup-hanzi-pinyin-english.json", hpel);
     }
 }
 
