@@ -5,7 +5,7 @@ import { generateHanziLookupFiles } from "./generate-hanzi-lookup-files.ts";
 const hanziTypeList = await generateHanziTypeToMemory();
 const hzl = await generateMainCopyToMemory(hanziTypeList);
 
-const toGenerateFiles = false;
+const toGenerateFiles = true;
 
 if (toGenerateFiles) {
     // Generate file

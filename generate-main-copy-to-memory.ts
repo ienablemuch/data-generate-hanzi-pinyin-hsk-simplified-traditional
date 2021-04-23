@@ -315,7 +315,9 @@ async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskW
         "chinese-sentence-miner-master/data/hsk.json"
     )) as IHsk[];
 
-    for (const { hanzi, pinyin, HSK: hsk, translations: english } of json) {
+    for (const { hanzi, pinyin, HSK: hsk, translations } of json) {
+        // don't allow symbols
+        const english = translations.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
         yield { hanzi, pinyin, hsk, english };
     }
 }
