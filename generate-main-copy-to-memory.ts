@@ -101,7 +101,7 @@ export async function generateMainCopyToMemory(
     // Let's do this last, this is the dirtiest database
 
     // let's not use x_x_cleanSimplifiedTraditional(). looks like this is more comprehensive: chinese-pinyin-JSON-master/cedictJSON.json
-    if (false) {
+    /*if (false) {
         for await (const {
             simplified,
             traditional,
@@ -113,22 +113,30 @@ export async function generateMainCopyToMemory(
                     "WW"
                 );
         }
-    }
+    }*/
 
     for await (const {
         simplified,
         traditional,
         pinyin,
+        english,
     } of cleanZhongwenMasterWithEnglish()) {
-        processSimplifiedTraditional({ simplified, traditional, pinyin }, "XX");
+        processSimplifiedTraditional(
+            { simplified, traditional, pinyin, english },
+            "XX"
+        );
     }
 
     for await (const {
         simplified,
         traditional,
         pinyin,
+        english,
     } of cleanCEDictJSONWithEnglish()) {
-        processSimplifiedTraditional({ simplified, traditional, pinyin }, "YY");
+        processSimplifiedTraditional(
+            { simplified, traditional, pinyin, english },
+            "YY"
+        );
     }
 
     for await (const {
@@ -136,13 +144,21 @@ export async function generateMainCopyToMemory(
         traditional,
         pinyin,
     } of cleanHanziPinyinFromDictionary()) {
-        processSimplifiedTraditional({ simplified, traditional, pinyin }, "ZZ");
+        processSimplifiedTraditional(
+            { simplified, traditional, pinyin, english: [] },
+            "ZZ"
+        );
     }
 
     return hzl;
 
     function processSimplifiedTraditional(
-        { simplified, traditional, pinyin }: ISimplifiedTraditional,
+        {
+            simplified,
+            traditional,
+            pinyin,
+            english,
+        }: ISimplifiedTraditionalWithEnglish,
         source: string
     ) {
         {
@@ -157,14 +173,19 @@ export async function generateMainCopyToMemory(
                 type:
                     hanziTypeList[simIndex] ??
                     (type === "T" ? "B" : type ?? "S"),
+                english: [...new Set([...(eSim?.english ?? []), ...english])],
             };
 
-            if (!hzl[simIndex].aka && traditional !== simplified) {
+            if ((hzl[simIndex].english?.length ?? 0) === 0) {
+                delete hzl[simIndex].english;
+            }
+
+            if (!eSim?.aka && traditional !== simplified) {
                 hzl[simIndex].aka ??= traditional;
             }
 
             // @ts-ignore
-            hzl[simIndex].source = (hzl[simIndex].source ?? "") + source + "x";
+            hzl[simIndex].source = (eSim?.source ?? "") + source + "x";
         }
 
         {
@@ -179,14 +200,19 @@ export async function generateMainCopyToMemory(
                 type:
                     hanziTypeList[traIndex] ??
                     (type === "S" ? "B" : type ?? "T"),
+                english: [...new Set([...(eTra?.english ?? []), ...english])],
             };
 
-            if (!hzl[traIndex].aka && simplified !== traditional) {
+            if ((hzl[traIndex].english?.length ?? 0) === 0) {
+                delete hzl[traIndex].english;
+            }
+
+            if (!eTra?.aka && simplified !== traditional) {
                 hzl[traIndex].aka ??= simplified;
             }
 
             // @ts-ignore
-            hzl[traIndex].source = (hzl[traIndex].source ?? "") + source + "y";
+            hzl[traIndex].source = (eTra?.source ?? "") + source + "y";
         }
     } // function processSimplifiedTraditional
 } // function generateMainCopyToMemory

@@ -129,7 +129,7 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
             const matchLength = english?.filter(
                 (e) =>
                     !/\p{Script=Han}|[^A-Za-z]/u.test(e) &&
-                    e.length <= cleanedPinyin.length
+                    e.length <= cleanedPinyin.length * 2
             )?.[0];
 
             if (matchLength) {
