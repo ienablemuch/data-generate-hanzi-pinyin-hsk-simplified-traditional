@@ -8,12 +8,12 @@ import { pinyinify } from "./pinyinify.ts";
 // for await (const word of cleanSimplifiedTraditional()) console.log(word);
 // for await (const word of cleanSimplifiedToTraditional()) console.log(word);
 // for await (const word of cleanTraditionalToSimplified()) console.log(word);
-// for await (const word of cleanHanziPinyinHsk()) console.log(word);
+// for await (const word of cleanHanziPinyinHskWithEnglish()) console.log(word);
 // for await (const word of cleanHanziPinyinFromDictionary()) console.log(word);
 // for await (const word of cleanHanziPinyinFromUnihan()) console.log(word);
 // for await (const word of cleanHanziHskFromUnihan()) console.log(word);
-// for await (const word of of cleanCEDictJSON()) console.log(word);
-// for await (const word of cleanZhongwenMaster()) console.log(word);
+// for await (const word of cleanCEDictJSONWithEnglish()) console.log(word);
+// for await (const word of cleanZhongwenMasterWithEnglish()) console.log(word);
 // ..tests
 
 export async function generateMainCopyToMemory(
@@ -49,13 +49,19 @@ export async function generateMainCopyToMemory(
         hzl[from].source = (hzl[from].source ?? "") + "BB";
     }
 
-    for await (const { hanzi, pinyin, hsk } of cleanHanziPinyinHsk()) {
+    for await (const {
+        hanzi,
+        pinyin,
+        hsk,
+        english,
+    } of cleanHanziPinyinHskWithEnglish()) {
         const eHanzi = hzl[hanzi];
 
         hzl[hanzi] = {
             ...eHanzi,
             pinyin: [...new Set([...(eHanzi?.pinyin ?? []), pinyin])],
             hsk: eHanzi?.hsk ?? hsk,
+            english: [...new Set([...(eHanzi?.english ?? []), ...english])],
         };
 
         // @ts-ignore
@@ -113,11 +119,15 @@ export async function generateMainCopyToMemory(
         simplified,
         traditional,
         pinyin,
-    } of cleanZhongwenMaster()) {
+    } of cleanZhongwenMasterWithEnglish()) {
         processSimplifiedTraditional({ simplified, traditional, pinyin }, "XX");
     }
 
-    for await (const { simplified, traditional, pinyin } of cleanCEDictJSON()) {
+    for await (const {
+        simplified,
+        traditional,
+        pinyin,
+    } of cleanCEDictJSONWithEnglish()) {
         processSimplifiedTraditional({ simplified, traditional, pinyin }, "YY");
     }
 
@@ -181,7 +191,7 @@ export async function generateMainCopyToMemory(
     } // function processSimplifiedTraditional
 } // function generateMainCopyToMemory
 
-async function* cleanCEDictJSON(): AsyncIterable<ISimplifiedTraditional> {
+async function* cleanCEDictJSONWithEnglish(): AsyncIterable<ISimplifiedTraditionalWithEnglish> {
     interface ICEDictEntry {
         traditional: string;
         simplified: string;
@@ -195,12 +205,18 @@ async function* cleanCEDictJSON(): AsyncIterable<ISimplifiedTraditional> {
     )) as ICEDictEntry[];
 
     for (const entry of json) {
-        const { simplified, traditional, pinyinRead: pinyin } = entry;
+        const {
+            simplified,
+            traditional,
+            pinyinType,
+            definition: english,
+        } = entry;
         // console.log(entry);
         yield {
             simplified,
             traditional,
-            pinyin,
+            pinyin: pinyinify(pinyinType),
+            english,
         };
     }
 }
@@ -286,7 +302,7 @@ async function* x_cleanSimplifiedTraditional(): AsyncIterable<ISimplifiedTraditi
     } // async function* getSimplifiedTraditional
 }
 
-async function* cleanHanziPinyinHsk(): AsyncIterable<IHanziPinyinHsk> {
+async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskWithEnglish> {
     interface IHsk {
         id: number;
         hanzi: string;
@@ -299,8 +315,8 @@ async function* cleanHanziPinyinHsk(): AsyncIterable<IHanziPinyinHsk> {
         "chinese-sentence-miner-master/data/hsk.json"
     )) as IHsk[];
 
-    for (const { hanzi, pinyin, HSK: hsk } of json) {
-        yield { hanzi, pinyin, hsk };
+    for (const { hanzi, pinyin, HSK: hsk, translations: english } of json) {
+        yield { hanzi, pinyin, hsk, english };
     }
 }
 
@@ -372,7 +388,7 @@ async function* cleanConversion(source: string): AsyncIterable<IConversion> {
     }
 }
 
-async function* cleanZhongwenMaster(): AsyncIterable<ISimplifiedTraditional> {
+async function* cleanZhongwenMasterWithEnglish(): AsyncIterable<ISimplifiedTraditionalWithEnglish> {
     const text = await Deno.readTextFile(
         "zhongwen-master/data/cedict_ts.u8.txt"
     );
@@ -382,13 +398,18 @@ async function* cleanZhongwenMaster(): AsyncIterable<ISimplifiedTraditional> {
     for (const line of lines) {
         const lineString = line as any;
 
-        /([^\[]+)\[([^\]]+)\]/.test(lineString);
+        /([^\[]+)\[([^\]]+)\] \/(.+)\//.test(lineString);
 
-        const hanzi = RegExp.$1
+        const hanziSource = RegExp.$1;
+        const pinyinSource = RegExp.$2;
+        const englishSource = RegExp.$3;
+
+        const hanzi = hanziSource
             .split("")
             .map((word) => word.trim())
             .filter((word) => word.length > 0);
-        const pinyin = pinyinify(RegExp.$2).split(" ");
+        const pinyin = pinyinify(pinyinSource).split(" ");
+        const english = englishSource.split(/[\/;]/).map((d) => d.trim());
 
         if (pinyin.length * 2 !== hanzi.length) {
             continue;
@@ -402,7 +423,8 @@ async function* cleanZhongwenMaster(): AsyncIterable<ISimplifiedTraditional> {
         const word = {
             simplified: hanzi.slice(pinyin.length).join(""),
             traditional: hanzi.slice(0, pinyin.length).join(""),
-            pinyin: pinyinify(pinyin.join("")),
+            pinyin: pinyinify(pinyin.join(" ")),
+            english,
         };
 
         yield word;

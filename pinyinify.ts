@@ -188,3 +188,10 @@ var pinyinify = function (str) {
 };
 
 export { pinyinify };
+
+// 研修员
+// yan2 xiu1 yuan2"
+// 硫酸钾
+// liu2 suan1 jia3
+// console.log(pinyinify("yan2 xiu1 yuan2")); // yán xiū yuán
+// console.log(pinyinify("liu2 suan1 jia3")); // liú suān jiǎ

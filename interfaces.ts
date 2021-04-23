@@ -9,13 +9,18 @@ interface ISimplifiedTraditional {
     pinyin: string;
 }
 
+interface ISimplifiedTraditionalWithEnglish extends ISimplifiedTraditional {
+    english: string[];
+}
+
 interface IHanziPinyin {
     hanzi: string;
     pinyin: string;
 }
 
-interface IHanziPinyinHsk extends IHanziPinyin {
+interface IHanziPinyinHskWithEnglish extends IHanziPinyin {
     hsk: number;
+    english: string[];
 }
 
 interface IHanziHsk {
@@ -31,7 +36,7 @@ interface IConversion {
 
 // master list for 100% hanzi type
 interface IHanziTypeList {
-    [hanzi: string]: 'S' | 'T';
+    [hanzi: string]: "S" | "T";
 }
 
 // ..cleaned
@@ -42,6 +47,7 @@ interface IHanziLookup {
         pinyin: string[];
         hsk?: number;
         type?: "S" | "T" | "B" | "X"; // simplified, traditional, both, unknown
-        aka?: string; // also known as. hanzi
+        aka?: string; // also known as. hanzi,
+        english?: string[];
     };
 }
