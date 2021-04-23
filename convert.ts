@@ -2,21 +2,28 @@ import { generateHanziTypeToMemory } from "./generate-hanzi-type-to-memory.ts";
 import { generateMainCopyToMemory } from "./generate-main-copy-to-memory.ts";
 import { generateHanziLookupFiles } from "./generate-hanzi-lookup-files.ts";
 
+import { postCleanup } from "./cleanup-generated-main-copy-memory.ts";
+
 const hanziTypeList = await generateHanziTypeToMemory();
-const hzl = await generateMainCopyToMemory(hanziTypeList);
+
+// // no cleanup performed
+// const hzl = await generateMainCopyToMemory(hanziTypeList);
+
+const hzlSemiFinal = await generateMainCopyToMemory(hanziTypeList);
+const hzl = await postCleanup(hzlSemiFinal);
 
 const toGenerateFiles = true;
 
 if (toGenerateFiles) {
     // Generate file
-    // cleanUp(); // remove the source
+    // cleanupSource(); // remove the source
     await generateHanziLookupFiles(hzl);
 } else {
     // Preview on terminal
     console.log(hzl);
 }
 
-function cleanUp() {
+function cleanupSource() {
     for (const [key, value] of Object.entries(hzl)) {
         // @ts-ignore
         if (value.source) {

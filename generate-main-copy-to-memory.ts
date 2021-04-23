@@ -1,6 +1,17 @@
 import { readJson } from "https://deno.land/x/jsonfile/mod.ts";
 
-import { IHanziLookup } from "./interfaces.ts";
+import {
+    IHanziTypeList,
+    IHanziLookup,
+    ISimplifiedTraditionalWithEnglish,
+    ISimplifiedTraditional,
+    IHanziPinyinHskWithEnglish,
+    IHanziPinyin,
+    IHanziHsk,
+    IConversion,
+} from "./interfaces.ts";
+
+// import "./interfaces.ts";
 
 import { pinyinify } from "./pinyinify.ts";
 
@@ -18,7 +29,7 @@ import { pinyinify } from "./pinyinify.ts";
 
 export async function generateMainCopyToMemory(
     hanziTypeList: IHanziTypeList
-): IHanziLookup {
+): Promise<IHanziLookup> {
     const hzl: IHanziLookup = {};
 
     for await (const { from, to } of cleanSimplifiedToTraditional()) {

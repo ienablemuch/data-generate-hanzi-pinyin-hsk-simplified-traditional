@@ -2,7 +2,7 @@ import { readJson } from "https://deno.land/x/jsonfile/mod.ts";
 
 import { IHanziTypeList } from "./interfaces.ts";
 
-export async function generateHanziTypeToMemory(): IHanziTypeList {
+export async function generateHanziTypeToMemory(): Promise<IHanziTypeList> {
     const htl: IHanziTypeList = {};
 
     interface ITraToSim {
