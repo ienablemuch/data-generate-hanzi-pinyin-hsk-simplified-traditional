@@ -45,14 +45,13 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
             [hanzi: string]: {
                 p?: string;
                 l?: number;
-                a?: string; // either traditional or simplified alias
             };
         }
 
         const hphl: IHanziPinyinHskLookup = {};
 
         // prettier-ignore
-        for (const [hanzi, {pinyin, hsk, aka}] of Object.entries(hzl)) {
+        for (const [hanzi, {pinyin, hsk}] of Object.entries(hzl)) {
             const cleanedPinyin = compressPinyin(pinyin?.[0]);
 
             hphl[hanzi] = {};
@@ -60,8 +59,8 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
             const hl = hphl[hanzi];
 
 
-            if (!(cleanedPinyin || hsk || aka)) {            
-                console.error(`Should have one present data for Hanzi ${hanzi}. Pinyin ${!!cleanedPinyin}. HSK: ${!!hsk}. AKA: ${!!aka}`);
+            if (!(cleanedPinyin || hsk )) {            
+                console.error(`Should have one present data for Hanzi ${hanzi}. Pinyin ${!!cleanedPinyin}. HSK: ${!!hsk}`);
                 continue;
             }
 
@@ -75,10 +74,6 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
                 // console.error(`No hsk for ${hanzi}`);
                 hl.l = hsk;
             }      
-
-            if (aka) {
-                hl.a = aka;
-            }
         }
 
         // console.log(hpl);
