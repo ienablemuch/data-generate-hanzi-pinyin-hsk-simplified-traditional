@@ -6,6 +6,7 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     await createHanziAllJsonFile();
 
     await createHanziPinyinLookupFile();
+    await createHanziPinyinHskLookupFile();
     await createHanziConversionLookupFiles();
     await createHanziHskLookupFile();
     await createHanziEnglishLookupFile();
@@ -37,6 +38,52 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
         // console.log(hpl);
 
         await writeJson("./lookup-hanzi-pinyin.json", hpl);
+    }
+
+    async function createHanziPinyinHskLookupFile() {
+        interface IHanziPinyinHskLookup {
+            [hanzi: string]: {
+                p?: string;
+                l?: number;
+                a?: string; // either traditional or simplified alias
+            };
+        }
+
+        const hphl: IHanziPinyinHskLookup = {};
+
+        // prettier-ignore
+        for (const [hanzi, {pinyin, hsk, aka}] of Object.entries(hzl)) {
+            const cleanedPinyin = compressPinyin(pinyin?.[0]);
+
+            hphl[hanzi] = {};
+
+            const hl = hphl[hanzi];
+
+
+            if (!(cleanedPinyin || hsk || aka)) {            
+                console.error(`Should have one present data for Hanzi ${hanzi}. Pinyin ${!!cleanedPinyin}. HSK: ${!!hsk}. AKA: ${!!aka}`);
+                continue;
+            }
+
+
+            if (cleanedPinyin) {
+                // console.error(`No pinyin for ${hanzi}`);
+                hl.p = cleanedPinyin;
+            }
+
+            if (hsk) {
+                // console.error(`No hsk for ${hanzi}`);
+                hl.l = hsk;
+            }      
+
+            if (aka) {
+                hl.a = aka;
+            }
+        }
+
+        // console.log(hpl);
+
+        await writeJson("./lookup-hanzi-pinyin-hsk.json", hphl);
     }
 
     async function createHanziConversionLookupFiles() {
@@ -82,7 +129,7 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
 
     async function createHanziEnglishLookupFile() {
         interface IHanziEnglishLookup {
-            [hanzi: string]: string;
+            [hanzi: string]: string[];
         }
 
         const hel: IHanziEnglishLookup = {};
@@ -92,17 +139,19 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
                 continue;
             }
 
-            const cleanedPinyin = compressPinyin(pinyin?.[0]);
+            hel[hanzi] = english;
 
-            const matchLength = english.filter(
-                (e) =>
-                    !/\p{Script=Han}|[^A-Za-z]/u.test(e) &&
-                    e.length <= (cleanedPinyin?.length ?? 0)
-            )?.[0];
+            // const cleanedPinyin = compressPinyin(pinyin?.[0]);
 
-            if (matchLength) {
-                hel[hanzi] = matchLength;
-            }
+            // const matchLength = english.filter(
+            //     (e) =>
+            //         !/\p{Script=Han}|[^A-Za-z]/u.test(e) &&
+            //         e.length <= (cleanedPinyin?.length ?? 0)
+            // )?.[0];
+
+            // if (matchLength) {
+            //     hel[hanzi] = matchLength;
+            // }
         }
 
         await writeJson("./lookup-hanzi-english.json", hel);
@@ -112,7 +161,7 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
         interface IHanziPinyinEnglishLookup {
             [hanzi: string]: {
                 p: string;
-                e?: string;
+                e?: string[];
             };
         }
 
@@ -121,22 +170,23 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
         // prettier-ignore
         for (const [hanzi, {pinyin, english}] of Object.entries(hzl)) {
             const cleanedPinyin = compressPinyin(pinyin?.[0]);
-            if (!cleanedPinyin) {
+            if (!(cleanedPinyin && english)) {
                 continue;
             }
             hpel[hanzi] = {
-                p: cleanedPinyin
+                p: cleanedPinyin,
+                e: english
             };
 
-            const matchLength = english?.filter(
-                (e) =>
-                    !/\p{Script=Han}|[^A-Za-z]/u.test(e) &&
-                    e.length <= cleanedPinyin.length * 2
-            )?.[0];
+            // const matchLength = english?.filter(
+            //     (e) =>
+            //         !/\p{Script=Han}|[^A-Za-z]/u.test(e) &&
+            //         e.length <= cleanedPinyin.length * 2
+            // )?.[0];
 
-            if (matchLength) {
-                hpel[hanzi].e = matchLength;
-            }
+            // if (matchLength) {
+            //     hpel[hanzi].e = matchLength;
+            // }
         }
 
         // console.log(hpl);
