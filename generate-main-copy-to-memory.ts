@@ -131,18 +131,6 @@ export async function generateMainCopyToMemory(
         traditional,
         pinyin,
         english,
-    } of cleanZhongwenMasterWithEnglish()) {
-        processSimplifiedTraditional(
-            { simplified, traditional, pinyin, english },
-            "XX"
-        );
-    }
-
-    for await (const {
-        simplified,
-        traditional,
-        pinyin,
-        english,
     } of cleanCEDictJSONWithEnglish()) {
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english },
@@ -158,6 +146,19 @@ export async function generateMainCopyToMemory(
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english: [] },
             "ZZ"
+        );
+    }
+
+    // This puts 不了 as bu le5 as first entry, instnead of bu4 liao3
+    for await (const {
+        simplified,
+        traditional,
+        pinyin,
+        english,
+    } of cleanZhongwenMasterWithEnglish()) {
+        processSimplifiedTraditional(
+            { simplified, traditional, pinyin, english },
+            "XX"
         );
     }
 
