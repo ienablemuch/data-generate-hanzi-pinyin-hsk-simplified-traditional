@@ -39,7 +39,16 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
 
     const newHzl: IHanziLookup = {};
 
-    for (const { hanzi, hsk, type, aka, english, uniquePinyins } of list) {
+    for (const {
+        hanzi,
+        hsk,
+        type,
+        aka,
+        english,
+        uniquePinyins,
+        // @ts-ignore
+        source,
+    } of list) {
         if (newHzl[hanzi]) {
             console.error(newHzl[hanzi]);
             throw Error(`Anomaly found!`);
@@ -49,10 +58,16 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
             type,
             aka,
             english,
+            // @ts-ignore
+            source,
         };
 
         if (uniquePinyins?.length > 0) {
             newHzl[hanzi].pinyin = uniquePinyins;
+        } else if ((uniquePinyins?.length ?? 0) === 0) {
+            console.log(`Hanzi ${hanzi} don't have any pinyin.`);
+
+            console.log(newHzl[hanzi]);
         }
     }
 
