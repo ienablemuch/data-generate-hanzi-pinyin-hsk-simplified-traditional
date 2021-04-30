@@ -134,7 +134,7 @@ export async function generateMainCopyToMemory(
     } of cleanCEDictJSONWithEnglish()) {
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english },
-            "YY"
+            "XX"
         );
     }
 
@@ -145,7 +145,7 @@ export async function generateMainCopyToMemory(
     } of cleanHanziPinyinFromDictionary()) {
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english: [] },
-            "ZZ"
+            "YY"
         );
     }
 
@@ -158,7 +158,7 @@ export async function generateMainCopyToMemory(
     } of cleanZhongwenMasterWithEnglish()) {
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english },
-            "XX"
+            "ZZ"
         );
     }
 
