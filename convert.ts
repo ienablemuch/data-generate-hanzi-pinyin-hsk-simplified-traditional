@@ -3,6 +3,7 @@ import { generateMainCopyToMemory } from "./generate-main-copy-to-memory.ts";
 import { generateHanziLookupFiles } from "./generate-hanzi-lookup-files.ts";
 
 import { postCleanup } from "./cleanup-generated-main-copy-memory.ts";
+import { applyCompatibility } from "./compatibility.ts";
 
 const hanziTypeList = await generateHanziTypeToMemory();
 
@@ -10,7 +11,8 @@ const hanziTypeList = await generateHanziTypeToMemory();
 // const hzl = await generateMainCopyToMemory(hanziTypeList);
 
 const hzlSemiFinal = await generateMainCopyToMemory(hanziTypeList);
-const hzl = await postCleanup(hzlSemiFinal);
+const cleanedHzl = await postCleanup(hzlSemiFinal);
+const hzl = await applyCompatibility(cleanedHzl);
 
 const toGenerateFiles = true;
 
