@@ -1,0 +1,1 @@
+Source: https://www.unicode.org/Public/UCD/latest/ucd/EquivalentUnifiedIdeograph.txt

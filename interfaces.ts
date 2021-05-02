@@ -52,3 +52,7 @@ export interface IHanziLookup {
         english?: string[];
     };
 }
+
+export interface ICorrection {
+    [hanzi: string]: string;
+}

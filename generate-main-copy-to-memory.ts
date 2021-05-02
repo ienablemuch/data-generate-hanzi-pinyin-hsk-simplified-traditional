@@ -436,9 +436,7 @@ async function* cleanZhongwenMasterWithEnglish(): AsyncIterable<ISimplifiedTradi
     const lines = text.split("\n");
 
     for (const line of lines) {
-        const lineString = line as any;
-
-        /([^\[]+)\[([^\]]+)\] \/(.+)\//.test(lineString);
+        /([^\[]+)\[([^\]]+)\] \/(.+)\//.test(line);
 
         const hanziSource = RegExp.$1;
         const pinyinSource = RegExp.$2;
@@ -456,7 +454,7 @@ async function* cleanZhongwenMasterWithEnglish(): AsyncIterable<ISimplifiedTradi
             console.error(hanzi);
             console.error(pinyin);
             throw Error(
-                `Error on ${lineString}; PL: ${pinyin.length}; HL: ${hanzi.length}`
+                `Error on ${line}; PL: ${pinyin.length}; HL: ${hanzi.length}`
             );
         }
 

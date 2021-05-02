@@ -66,7 +66,6 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
             newHzl[hanzi].pinyin = uniquePinyins;
         } else if ((uniquePinyins?.length ?? 0) === 0) {
             console.log(`Hanzi ${hanzi} don't have any pinyin.`);
-
             console.log(newHzl[hanzi]);
         }
     }

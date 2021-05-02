@@ -1,39 +1,58 @@
 import { generateHanziTypeToMemory } from "./generate-hanzi-type-to-memory.ts";
 import { generateMainCopyToMemory } from "./generate-main-copy-to-memory.ts";
-import { generateHanziLookupFiles } from "./generate-hanzi-lookup-files.ts";
 
 import { postCleanup } from "./cleanup-generated-main-copy-memory.ts";
-import { applyCompatibility } from "./compatibility.ts";
 
-const hanziTypeList = await generateHanziTypeToMemory();
+import {
+    applyUnifiedCorrection,
+    applyCompatibilityCorrection,
+} from "./generate-correction-to-memory.ts";
 
-// // no cleanup performed
-// const hzl = await generateMainCopyToMemory(hanziTypeList);
+import { generateHanziLookupFiles } from "./generate-hanzi-lookup-files.ts";
+import { generateCorrectionFile } from "./generate-correction-to-file.ts";
 
-const hzlSemiFinal = await generateMainCopyToMemory(hanziTypeList);
-const cleanedHzl = await postCleanup(hzlSemiFinal);
-const hzl = await applyCompatibility(cleanedHzl);
+(async () => {
+    const hanziTypeList = await generateHanziTypeToMemory();
 
-const toGenerateFiles = true;
+    // // no cleanup performed
+    // const hzl = await generateMainCopyToMemory(hanziTypeList);
 
-if (toGenerateFiles) {
-    // Generate file
-    // cleanupSource(); // remove the source
-    await generateHanziLookupFiles(hzl);
-} else {
-    // Preview on terminal
-    console.log(hzl);
-}
+    const hzlSemiFinal = await generateMainCopyToMemory(hanziTypeList);
+    const hzl = await postCleanup(hzlSemiFinal);
+    const unifiedMappingCorrection = await applyUnifiedCorrection(hzl);
+    const compatibilityMappingCorrection = await applyCompatibilityCorrection(
+        hzl
+    );
 
-function cleanupSource() {
-    for (const [key, value] of Object.entries(hzl)) {
-        // @ts-ignore
-        if (value.source) {
+    const toGenerateFiles = true;
+
+    if (toGenerateFiles) {
+        // Generate file
+        // cleanupSource(); // remove the source
+        await generateHanziLookupFiles(hzl);
+        await generateCorrectionFile({
+            ...unifiedMappingCorrection,
+            ...compatibilityMappingCorrection,
+        });
+    } else {
+        // Preview on terminal
+        // console.log(hzl);
+        console.log({
+            ...unifiedMappingCorrection,
+            ...compatibilityMappingCorrection,
+        });
+    }
+
+    function cleanupSource() {
+        for (const [key, value] of Object.entries(hzl)) {
             // @ts-ignore
-            delete value.source;
+            if (value.source) {
+                // @ts-ignore
+                delete value.source;
+            }
         }
     }
-}
+})();
 
 // parse sequence
 /*
