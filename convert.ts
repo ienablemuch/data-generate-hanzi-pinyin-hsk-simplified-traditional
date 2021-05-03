@@ -31,15 +31,15 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
         // cleanupSource(); // remove the source
         await generateHanziLookupFiles(hzl);
         await generateCorrectionFile({
-            ...unifiedMappingCorrection,
             ...compatibilityMappingCorrection,
+            ...unifiedMappingCorrection,
         });
     } else {
         // Preview on terminal
         // console.log(hzl);
         console.log({
-            ...unifiedMappingCorrection,
             ...compatibilityMappingCorrection,
+            ...unifiedMappingCorrection,
         });
     }
 
