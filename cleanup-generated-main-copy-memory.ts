@@ -32,9 +32,13 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                     .replace("v", "ü")
             ),
         }))
+        // unusual letter g
         .map((c) => ({
             ...c,
-            uniquePinyins: [...new Set(c.newPinyin)],
+            uniquePinyins: [
+                // @ts-ignore
+                ...new Set(c.newPinyin?.map((p) => p.replace("ɡ", "g"))), // unusual letter g
+            ],
         }));
 
     const newHzl: IHanziLookup = {};
