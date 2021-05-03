@@ -16,7 +16,7 @@ export interface ISimplifiedTraditionalWithEnglish
 
 export interface IHanziPinyin {
     hanzi: string;
-    pinyin: string;
+    pinyin: string | string[];
 }
 
 export interface IHanziPinyinHskWithEnglish extends IHanziPinyin {

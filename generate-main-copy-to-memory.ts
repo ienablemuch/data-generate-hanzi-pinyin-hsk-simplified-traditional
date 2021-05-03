@@ -70,7 +70,12 @@ export async function generateMainCopyToMemory(
 
         hzl[hanzi] = {
             ...eHanzi,
-            pinyin: [...new Set([...(eHanzi?.pinyin ?? []), pinyin])],
+            pinyin: [
+                ...new Set([
+                    ...(eHanzi?.pinyin ?? []),
+                    ...(typeof pinyin === "string" ? [pinyin] : pinyin),
+                ]),
+            ],
             hsk: eHanzi?.hsk ?? hsk,
             english: [...new Set([...(eHanzi?.english ?? []), ...english])],
         };
@@ -84,7 +89,7 @@ export async function generateMainCopyToMemory(
 
         hzl[hanzi] = {
             ...eHanzi,
-            pinyin: [...new Set([...(eHanzi?.pinyin ?? []), pinyin])],
+            pinyin: [...new Set([...(eHanzi?.pinyin ?? []), ...pinyin])],
         };
 
         // @ts-ignore
@@ -390,7 +395,7 @@ async function* cleanHanziPinyinFromUnihan(): AsyncIterable<IHanziPinyin> {
     )) as IHanziCollection;
 
     for (const [hanzi, pinyin] of Object.entries(json)) {
-        yield { hanzi, pinyin };
+        yield { hanzi, pinyin: pinyin.split(" ") };
     }
 }
 
