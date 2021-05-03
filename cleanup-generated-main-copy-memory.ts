@@ -37,7 +37,11 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
             ...c,
             uniquePinyins: [
                 // @ts-ignore
-                ...new Set(c.newPinyin?.map((p) => p.replace("ɡ", "g"))), // unusual letter g
+                ...new Set(
+                    c.newPinyin?.map((p) =>
+                        p.replaceAll("ɡ", "g").replaceAll("r5", "r")
+                    )
+                ), // unusual letter g
             ],
         }));
 
