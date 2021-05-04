@@ -2,11 +2,15 @@ import { writeJson } from "https://deno.land/x/jsonfile/mod.ts";
 
 import { IHanziLookup } from "./interfaces.ts";
 
+import { getToneNumber } from "./3rd-party-code/pinyin-utils.ts";
+
 export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     await createHanziAllJsonFile();
 
     await createHanziPinyinLookupFile();
     await createHanziPinyinHskLookupFile();
+    await createHanziPinyinHskLookupFile();
+    await createHanziPinyinHskToneLookupFile();
     await createHanziConversionLookupFiles();
     await createHanziHskLookupFile();
     await createHanziEnglishLookupFile();
@@ -43,42 +47,89 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     async function createHanziPinyinHskLookupFile() {
         interface IHanziPinyinHskLookup {
             [hanzi: string]: {
-                p?: string;
-                l?: number;
+                p?: string; // pinyin
+                l?: number; // HSK level
             };
         }
 
         const hphl: IHanziPinyinHskLookup = {};
 
-        // prettier-ignore
-        for (const [hanzi, {pinyin, hsk}] of Object.entries(hzl)) {
-            const cleanedPinyin = compressPinyin(pinyin?.[0]);
+        for (const [hanzi, { pinyin, hsk }] of Object.entries(hzl)) {
+            const firstPinyin = pinyin?.[0];
 
-            hphl[hanzi] = {};
-
-            const hl = hphl[hanzi];
-
-
-            if (!(cleanedPinyin || hsk )) {            
-                console.error(`Should have one present data for Hanzi ${hanzi}. Pinyin ${!!cleanedPinyin}. HSK: ${!!hsk}`);
+            if (!(firstPinyin || hsk)) {
+                console.error(
+                    `Should have one present data for Hanzi ${hanzi}. Pinyin ${!!firstPinyin}. HSK: ${!!hsk}`
+                );
                 continue;
             }
 
+            hphl[hanzi] = {};
+            const hl = hphl[hanzi];
+
+            const cleanedPinyin = compressPinyin(firstPinyin);
 
             if (cleanedPinyin) {
-                // console.error(`No pinyin for ${hanzi}`);
                 hl.p = cleanedPinyin;
             }
 
             if (hsk) {
-                // console.error(`No hsk for ${hanzi}`);
                 hl.l = hsk;
-            }      
+            }
         }
 
         // console.log(hpl);
 
         await writeJson("./lookup-hanzi-pinyin-hsk.json", hphl);
+    }
+
+    async function createHanziPinyinHskToneLookupFile() {
+        interface IHanziPinyinHskToneLookup {
+            [hanzi: string]: {
+                p?: string; // pinyin
+                l?: number; // hsk level
+                t?: string; // tone
+            };
+        }
+
+        const hphlt: IHanziPinyinHskToneLookup = {};
+
+        for (const [hanzi, { pinyin, hsk }] of Object.entries(hzl)) {
+            const firstPinyin = pinyin?.[0];
+
+            if (!(firstPinyin || hsk)) {
+                console.error(
+                    `Should have one present data for Hanzi ${hanzi}. Pinyin ${!!firstPinyin}. HSK: ${!!hsk}`
+                );
+                continue;
+            }
+
+            const cleanedPinyin = compressPinyin(firstPinyin);
+
+            hphlt[hanzi] = {};
+            const hl = hphlt[hanzi];
+
+            if (cleanedPinyin) {
+                hl.p = cleanedPinyin;
+
+                const tones = firstPinyin
+                    ?.split(" ")
+                    .map((syllable) => getToneNumber(syllable))
+                    .join("");
+
+                if (tones) {
+                    hl.t = tones;
+                }
+            }
+
+            if (hsk) {
+                hl.l = hsk;
+            }
+        }
+
+        // console.log(hpl);
+
+        await writeJson("./lookup-hanzi-pinyin-hsk-tone.json", hphlt);
     }
 
     async function createHanziConversionLookupFiles() {
