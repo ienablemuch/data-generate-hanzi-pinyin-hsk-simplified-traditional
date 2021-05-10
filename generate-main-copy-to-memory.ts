@@ -138,6 +138,18 @@ export async function generateMainCopyToMemory(
         traditional,
         pinyin,
         english,
+    } of cleanCedPane()) {
+        processSimplifiedTraditional(
+            { simplified, traditional, pinyin, english },
+            "WW"
+        );
+    }
+
+    for await (const {
+        simplified,
+        traditional,
+        pinyin,
+        english,
     } of cleanCEDictJSONWithEnglish()) {
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english },
@@ -589,7 +601,7 @@ export async function generateLongHanzi(
         // console.log(eachWord);
     }
 
-    console.log(newWords);
+    // console.log(newWords);
 
     const toIncludeInHzl = Object.entries(newWords).reduce(
         (acc, [key, value]) => ({
@@ -599,11 +611,32 @@ export async function generateLongHanzi(
         {}
     );
 
-    console.log(toIncludeInHzl);
+    // console.log(toIncludeInHzl);
 
     const newHzl = { ...hzl, ...toIncludeInHzl };
 
     return newHzl;
+}
+
+async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish> {
+    const text = await Deno.readTextFile("CedPane-master/cedpane.txt");
+
+    const lines = text.split("\n").slice(2);
+
+    for (const line of lines) {
+        const [english, simplified, traditional, pinyin] = line.split("\t");
+
+        if (!line) {
+            continue;
+        }
+
+        yield {
+            simplified,
+            traditional,
+            pinyin,
+            english: [english],
+        };
+    }
 }
 
 // "凈 净 [jing4] /variant of 淨|净
