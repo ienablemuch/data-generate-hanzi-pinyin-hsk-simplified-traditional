@@ -1,5 +1,8 @@
 import { generateHanziTypeToMemory } from "./generate-hanzi-type-to-memory.ts";
-import { generateMainCopyToMemory } from "./generate-main-copy-to-memory.ts";
+import {
+    generateMainCopyToMemory,
+    generateLongHanzi,
+} from "./generate-main-copy-to-memory.ts";
 
 import { postCleanup } from "./cleanup-generated-main-copy-memory.ts";
 
@@ -18,13 +21,20 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     // const hzl = await generateMainCopyToMemory(hanziTypeList);
 
     const hzlSemiFinal = await generateMainCopyToMemory(hanziTypeList);
-    const hzl = await postCleanup(hzlSemiFinal);
+    const cleanedUpHzl = await postCleanup(hzlSemiFinal); // cleaned: umlauts, r5 (儿), unusual letter g
+
+    console.log(Object.keys(cleanedUpHzl).length);
+    const hzl = await generateLongHanzi(cleanedUpHzl);
     const unifiedMappingCorrection = await applyUnifiedCorrection(hzl);
     const compatibilityMappingCorrection = await applyCompatibilityCorrection(
         hzl
     );
 
     const toGenerateFiles = true;
+
+    console.log(Object.keys(hzl).length);
+    // Before 2021-05-09: 217,258
+    // 2021-05-10: 217,28
 
     if (toGenerateFiles) {
         // Generate file
@@ -36,7 +46,7 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
         });
     } else {
         // Preview on terminal
-        // console.log(hzl);
+        console.log(hzl);
         console.log({
             ...compatibilityMappingCorrection,
             ...unifiedMappingCorrection,

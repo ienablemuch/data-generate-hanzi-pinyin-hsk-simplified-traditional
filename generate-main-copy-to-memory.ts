@@ -15,6 +15,8 @@ import {
 
 import { pinyinify } from "./pinyinify.ts";
 
+import { removeTone } from "./3rd-party-code/pinyin-utils.ts";
+
 // tests..
 // for await (const word of cleanSimplifiedTraditional()) console.log(word);
 // for await (const word of cleanSimplifiedToTraditional()) console.log(word);
@@ -154,7 +156,7 @@ export async function generateMainCopyToMemory(
         );
     }
 
-    // This puts 不了 as bu le5 as first entry, instnead of bu4 liao3
+    // This puts 不了 as bu le5 as first entry, instead of bu4 liao3
     for await (const {
         simplified,
         traditional,
@@ -472,6 +474,136 @@ async function* cleanZhongwenMasterWithEnglish(): AsyncIterable<ISimplifiedTradi
 
         yield word;
     }
+}
+
+export async function generateLongHanzi(
+    hzl: IHanziLookup
+): Promise<IHanziLookup> {
+    const text = await Deno.readTextFile(
+        "chinese-sentence-miner-master/data/default.csv"
+    );
+    const lines = text.split("\n");
+
+    interface INewWordCollection {
+        [hanzi: string]: {
+            sourcePinyin: string;
+            lookupPinyin: string;
+        };
+    }
+
+    const newWords: INewWordCollection = {};
+
+    for (const line of lines) {
+        const [hanziSentence, pinyinSentence, english] = line.split("\t");
+
+        const hanziSyllables = hanziSentence.split("");
+
+        const eachWord = [];
+
+        let sentencePinyinIndex = 0;
+        let hanziWord = "";
+        let hanziWordPinyin = "";
+        let sentencePinyinIndexBeginning = sentencePinyinIndex;
+        for (const hanzi of hanziSyllables) {
+            if (["。", ""].includes(hanzi)) {
+                break;
+            }
+
+            if (!/\p{Script=Han}/u.test(hanzi)) {
+                // console.log("not");
+                // console.log(hanzi);
+                continue;
+            }
+            const hanziPinyinList = hzl[hanzi]?.pinyin ?? [];
+            // console.log(hanzi);
+            // console.log(hanziPinyinList);
+            for (const hanziPinyin of hanziPinyinList) {
+                const detonedHanziPinyin = removeTone(
+                    hanziPinyin
+                ).toLowerCase();
+
+                const detonedSentencePinyin = removeTone(
+                    pinyinSentence
+                        .slice(
+                            sentencePinyinIndex,
+                            sentencePinyinIndex + detonedHanziPinyin.length
+                        )
+                        .toLowerCase()
+                );
+
+                // console.log("detoned");
+                // console.log(
+                //     detonedHanziPinyin + " " + detonedHanziPinyin.length
+                // );
+                // console.log(
+                //     detonedSentencePinyin + " " + detonedSentencePinyin.length
+                // );
+
+                if (detonedSentencePinyin === detonedHanziPinyin) {
+                    sentencePinyinIndex += detonedHanziPinyin.length;
+                    hanziWord += hanzi;
+                    hanziWordPinyin += hanziPinyin + " ";
+                    // console.log("hanziWord");
+                    // console.log(hanziWord);
+                    // console.log("--");
+                    break;
+                }
+            }
+
+            const nextSentenceChar = pinyinSentence.slice(
+                sentencePinyinIndex,
+                sentencePinyinIndex + 1
+            );
+
+            // console.log("x" + nextSentenceChar + "y");
+
+            if ([" ", ""].includes(nextSentenceChar)) {
+                if (hanziWord.length > 0) {
+                    eachWord.push(hanziWord);
+
+                    if (!hzl[hanziWord] && !newWords[hanziWord]) {
+                        const newWordPinyin = pinyinSentence.slice(
+                            sentencePinyinIndexBeginning,
+                            sentencePinyinIndex
+                        );
+                        newWords[hanziWord] = {
+                            sourcePinyin: newWordPinyin,
+                            // proper nouns for first character
+                            lookupPinyin:
+                                newWordPinyin[0] +
+                                hanziWordPinyin.slice(1).trim(),
+                        };
+                    }
+                }
+
+                ++sentencePinyinIndex;
+                sentencePinyinIndexBeginning = sentencePinyinIndex;
+
+                hanziWord = "";
+                hanziWordPinyin = "";
+            }
+        }
+
+        // sentencePinyinIndexBeginning
+
+        // console.log(eachWord);
+    }
+
+    console.log(newWords);
+
+    const toIncludeInHzl = Object.entries(newWords).reduce(
+        (acc, [key, value]) => ({
+            ...acc,
+            [key]: { pinyin: [value.lookupPinyin] },
+        }),
+        {}
+    );
+
+    console.log(toIncludeInHzl);
+
+    const newHzl = { ...hzl, ...toIncludeInHzl };
+
+    return newHzl;
 }
 
 // "凈 净 [jing4] /variant of 淨|净
