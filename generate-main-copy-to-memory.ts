@@ -557,6 +557,8 @@ export async function generateLongHanziFromChineseSentenceMiner(
             ...existingHzl,
             pinyin: [...(existingHzl?.pinyin ?? []), value.lookupPinyin],
             type: existingHzl?.type ?? value.type,
+            // @ts-ignore
+            source: (existingHzl?.source ?? "") + "VV",
         };
     }
 
@@ -642,6 +644,8 @@ export async function generateLongHanziFromCedPane(
             aka: value.aka,
             pinyin: [...(existingHzl?.pinyin ?? []), value.lookupPinyin],
             type: existingHzl?.type ?? value.type,
+            // @ts-ignore
+            source: (existingHzl?.source ?? "") + "UU",
         };
     }
 
