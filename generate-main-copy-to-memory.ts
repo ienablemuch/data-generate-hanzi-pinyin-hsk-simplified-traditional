@@ -490,11 +490,13 @@ async function* cleanZhongwenMasterWithEnglish(): AsyncIterable<ISimplifiedTradi
 
 interface IHanziPinyinSentence {
     hanziSentence: string;
+    akaHanziSentence?: string;
     pinyinSentence: string;
 }
 
 interface INewWordCollection {
     [hanzi: string]: {
+        aka?: string;
         sourcePinyin: string;
         lookupPinyin: string;
         type: "S" | "T";
@@ -504,6 +506,7 @@ interface INewWordCollection {
 // get each complete hanzi word from the sentence
 interface ILongHanziPinyin {
     hanzi: string;
+    aka: string;
     sourcePinyin: string;
     lookupPinyin: string;
 }
@@ -520,9 +523,8 @@ export async function generateLongHanziFromChineseSentenceMiner(
     const newWords: INewWordCollection = {};
 
     for (const line of lines) {
-        const [hanziSentence, pinyinSentence, englishSentence] = line.split(
-            "\t"
-        );
+        const [hanziSentence, pinyinSentence, englishSentence] =
+            line.split("\t");
 
         const hanziPinyinSentence: IHanziPinyinSentence = {
             hanziSentence,
@@ -577,26 +579,27 @@ export async function generateLongHanziFromCedPane(
     for (const line of lines) {
         const lineSplitted = line.split("\t");
 
-        const [
-            englishSentence,
-            simplified,
-            traditional,
-            pinyinSentence,
-        ] = lineSplitted;
+        const [englishSentence, simplified, traditional, pinyinSentence] =
+            lineSplitted;
 
         if (!simplified) {
             break;
         }
 
         for (const item of generateLongHanziFromLine(
-            { hanziSentence: simplified, pinyinSentence },
+            {
+                hanziSentence: simplified,
+                akaHanziSentence: traditional,
+                pinyinSentence,
+            },
             hzl
         )) {
-            const { hanzi, sourcePinyin, lookupPinyin } = item;
+            const { hanzi, aka, sourcePinyin, lookupPinyin } = item;
             if (hzl[hanzi] || newWords[hanzi]) {
                 continue;
             }
             newWords[hanzi] = {
+                aka,
                 sourcePinyin,
                 lookupPinyin,
                 type: "S",
@@ -604,14 +607,19 @@ export async function generateLongHanziFromCedPane(
         }
 
         for (const item of generateLongHanziFromLine(
-            { hanziSentence: traditional, pinyinSentence },
+            {
+                hanziSentence: traditional,
+                akaHanziSentence: simplified,
+                pinyinSentence,
+            },
             hzl
         )) {
-            const { hanzi, sourcePinyin, lookupPinyin } = item;
+            const { hanzi, aka, sourcePinyin, lookupPinyin } = item;
             if (hzl[hanzi] || newWords[hanzi]) {
                 continue;
             }
             newWords[hanzi] = {
+                aka,
                 sourcePinyin,
                 lookupPinyin,
                 type: "T",
@@ -631,6 +639,7 @@ export async function generateLongHanziFromCedPane(
         const existingHzl = hzl[hanzi];
         toIncludeInHzl[hanzi] = {
             ...existingHzl,
+            aka: value.aka,
             pinyin: [...(existingHzl?.pinyin ?? []), value.lookupPinyin],
             type: existingHzl?.type ?? value.type,
         };
@@ -645,16 +654,21 @@ export async function generateLongHanziFromCedPane(
 }
 
 function* generateLongHanziFromLine(
-    { hanziSentence, pinyinSentence }: IHanziPinyinSentence,
+    { hanziSentence, akaHanziSentence, pinyinSentence }: IHanziPinyinSentence,
     hzl: IHanziLookup
 ): Iterable<ILongHanziPinyin> {
     const hanziSyllables = hanziSentence.split("");
+    const akaHanziSyllables = akaHanziSentence?.split("");
 
     let sentencePinyinIndex = 0;
     let hanziWord = "";
+    let akaHanziWord = "";
     let hanziWordPinyin = "";
     let sentencePinyinIndexBeginning = sentencePinyinIndex;
-    for (const hanzi of hanziSyllables) {
+
+    for (let i = 0; i < hanziSyllables.length; ++i) {
+        const hanzi = hanziSyllables[i];
+        const akaHanzi = akaHanziSyllables?.[i];
         if (["。", ""].includes(hanzi)) {
             break;
         }
@@ -669,6 +683,15 @@ function* generateLongHanziFromLine(
         // console.log(hanziPinyinList);
         for (const hanziPinyin of hanziPinyinList) {
             const detonedHanziPinyin = removeTone(hanziPinyin).toLowerCase();
+
+            if (
+                pinyinSentence.slice(
+                    sentencePinyinIndex,
+                    sentencePinyinIndex + 1
+                ) === "'"
+            ) {
+                ++sentencePinyinIndex;
+            }
 
             const sentencePinyinSyllable = pinyinSentence.slice(
                 sentencePinyinIndex,
@@ -690,6 +713,7 @@ function* generateLongHanziFromLine(
             if (detonedSentencePinyin === detonedHanziPinyin) {
                 sentencePinyinIndex += detonedHanziPinyin.length;
                 hanziWord += hanzi;
+                akaHanziWord += akaHanzi;
                 hanziWordPinyin += sentencePinyinSyllable + " ";
                 // console.log("hanziWord");
                 // console.log(hanziWord);
@@ -729,6 +753,7 @@ function* generateLongHanziFromLine(
 
                 yield {
                     hanzi: hanziWord,
+                    aka: akaHanziWord,
                     sourcePinyin: newWordPinyin,
                     lookupPinyin:
                         newWordPinyin[0] + hanziWordPinyin.slice(1).trim(),
