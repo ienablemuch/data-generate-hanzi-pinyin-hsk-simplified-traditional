@@ -766,6 +766,7 @@ function* generateLongHanziFromLine(
             sentencePinyinIndexBeginning = sentencePinyinIndex;
 
             hanziWord = "";
+            akaHanziWord = "";
             hanziWordPinyin = "";
         }
     }
