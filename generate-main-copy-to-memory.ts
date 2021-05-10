@@ -133,17 +133,17 @@ export async function generateMainCopyToMemory(
         }
     }*/
 
-    for await (const {
-        simplified,
-        traditional,
-        pinyin,
-        english,
-    } of cleanCedPane()) {
-        processSimplifiedTraditional(
-            { simplified, traditional, pinyin, english },
-            "WW"
-        );
-    }
+    // for await (const {
+    //     simplified,
+    //     traditional,
+    //     pinyin,
+    //     english,
+    // } of cleanCedPane()) {
+    //     processSimplifiedTraditional(
+    //         { simplified, traditional, pinyin, english },
+    //         "WW"
+    //     );
+    // }
 
     for await (const {
         simplified,
@@ -488,128 +488,75 @@ async function* cleanZhongwenMasterWithEnglish(): AsyncIterable<ISimplifiedTradi
     }
 }
 
-export async function generateLongHanzi(
+interface IHanziPinyinSentence {
+    hanziSentence: string;
+    pinyinSentence: string;
+}
+
+interface INewWordCollection {
+    [hanzi: string]: {
+        sourcePinyin: string;
+        lookupPinyin: string;
+        type: "S" | "T";
+    };
+}
+
+// get each complete hanzi word from the sentence
+interface ILongHanziPinyin {
+    hanzi: string;
+    sourcePinyin: string;
+    lookupPinyin: string;
+}
+
+export async function generateLongHanziFromChineseSentenceMiner(
     hzl: IHanziLookup
 ): Promise<IHanziLookup> {
     const text = await Deno.readTextFile(
         "chinese-sentence-miner-master/data/default.csv"
     );
-    const lines = text.split("\n");
 
-    interface INewWordCollection {
-        [hanzi: string]: {
-            sourcePinyin: string;
-            lookupPinyin: string;
-        };
-    }
+    const lines = text.split("\n");
 
     const newWords: INewWordCollection = {};
 
     for (const line of lines) {
-        const [hanziSentence, pinyinSentence, english] = line.split("\t");
+        const [hanziSentence, pinyinSentence, englishSentence] = line.split(
+            "\t"
+        );
 
-        const hanziSyllables = hanziSentence.split("");
+        const hanziPinyinSentence: IHanziPinyinSentence = {
+            hanziSentence,
+            pinyinSentence,
+        };
 
-        const eachWord = [];
-
-        let sentencePinyinIndex = 0;
-        let hanziWord = "";
-        let hanziWordPinyin = "";
-        let sentencePinyinIndexBeginning = sentencePinyinIndex;
-        for (const hanzi of hanziSyllables) {
-            if (["。", ""].includes(hanzi)) {
-                break;
-            }
-
-            if (!/\p{Script=Han}/u.test(hanzi)) {
-                // console.log("not");
-                // console.log(hanzi);
+        for (const item of generateLongHanziFromLine(
+            hanziPinyinSentence,
+            hzl
+        )) {
+            const { hanzi, sourcePinyin, lookupPinyin } = item;
+            if (hzl[hanzi] || newWords[hanzi]) {
                 continue;
             }
-            const hanziPinyinList = hzl[hanzi]?.pinyin ?? [];
-            // console.log(hanzi);
-            // console.log(hanziPinyinList);
-            for (const hanziPinyin of hanziPinyinList) {
-                const detonedHanziPinyin = removeTone(
-                    hanziPinyin
-                ).toLowerCase();
-
-                const detonedSentencePinyin = removeTone(
-                    pinyinSentence
-                        .slice(
-                            sentencePinyinIndex,
-                            sentencePinyinIndex + detonedHanziPinyin.length
-                        )
-                        .toLowerCase()
-                );
-
-                // console.log("detoned");
-                // console.log(
-                //     detonedHanziPinyin + " " + detonedHanziPinyin.length
-                // );
-                // console.log(
-                //     detonedSentencePinyin + " " + detonedSentencePinyin.length
-                // );
-
-                if (detonedSentencePinyin === detonedHanziPinyin) {
-                    sentencePinyinIndex += detonedHanziPinyin.length;
-                    hanziWord += hanzi;
-                    hanziWordPinyin += hanziPinyin + " ";
-                    // console.log("hanziWord");
-                    // console.log(hanziWord);
-                    // console.log("--");
-                    break;
-                }
-            }
-
-            const nextSentenceChar = pinyinSentence.slice(
-                sentencePinyinIndex,
-                sentencePinyinIndex + 1
-            );
-
-            // console.log("x" + nextSentenceChar + "y");
-
-            if ([" ", ""].includes(nextSentenceChar)) {
-                if (hanziWord.length > 0) {
-                    eachWord.push(hanziWord);
-
-                    if (!hzl[hanziWord] && !newWords[hanziWord]) {
-                        const newWordPinyin = pinyinSentence.slice(
-                            sentencePinyinIndexBeginning,
-                            sentencePinyinIndex
-                        );
-                        newWords[hanziWord] = {
-                            sourcePinyin: newWordPinyin,
-                            // proper nouns for first character
-                            lookupPinyin:
-                                newWordPinyin[0] +
-                                hanziWordPinyin.slice(1).trim(),
-                        };
-                    }
-                }
-
-                ++sentencePinyinIndex;
-                sentencePinyinIndexBeginning = sentencePinyinIndex;
-
-                hanziWord = "";
-                hanziWordPinyin = "";
-            }
+            newWords[hanzi] = {
+                sourcePinyin,
+                lookupPinyin,
+                type: "S",
+            };
         }
-
-        // sentencePinyinIndexBeginning
-
-        // console.log(eachWord);
     }
 
     // console.log(newWords);
 
-    const toIncludeInHzl = Object.entries(newWords).reduce(
-        (acc, [key, value]) => ({
-            ...acc,
-            [key]: { pinyin: [value.lookupPinyin] },
-        }),
-        {}
-    );
+    const toIncludeInHzl: IHanziLookup = {};
+    const entries = Object.entries(newWords);
+    for (const [hanzi, value] of entries) {
+        const existingHzl = hzl[hanzi];
+        toIncludeInHzl[hanzi] = {
+            ...existingHzl,
+            pinyin: [...(existingHzl?.pinyin ?? []), value.lookupPinyin],
+            type: existingHzl?.type ?? value.type,
+        };
+    }
 
     // console.log(toIncludeInHzl);
 
@@ -618,7 +565,190 @@ export async function generateLongHanzi(
     return newHzl;
 }
 
-async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish> {
+export async function generateLongHanziFromCedPane(
+    hzl: IHanziLookup
+): Promise<IHanziLookup> {
+    const text = await Deno.readTextFile("CedPane-master/cedpane.txt");
+
+    const lines = text.split("\n").slice(2);
+
+    const newWords: INewWordCollection = {};
+
+    for (const line of lines) {
+        const lineSplitted = line.split("\t");
+
+        const [
+            englishSentence,
+            simplified,
+            traditional,
+            pinyinSentence,
+        ] = lineSplitted;
+
+        if (!simplified) {
+            break;
+        }
+
+        for (const item of generateLongHanziFromLine(
+            { hanziSentence: simplified, pinyinSentence },
+            hzl
+        )) {
+            const { hanzi, sourcePinyin, lookupPinyin } = item;
+            if (hzl[hanzi] || newWords[hanzi]) {
+                continue;
+            }
+            newWords[hanzi] = {
+                sourcePinyin,
+                lookupPinyin,
+                type: "S",
+            };
+        }
+
+        for (const item of generateLongHanziFromLine(
+            { hanziSentence: traditional, pinyinSentence },
+            hzl
+        )) {
+            const { hanzi, sourcePinyin, lookupPinyin } = item;
+            if (hzl[hanzi] || newWords[hanzi]) {
+                continue;
+            }
+            newWords[hanzi] = {
+                sourcePinyin,
+                lookupPinyin,
+                type: "T",
+            };
+        }
+    }
+
+    // console.log("new words");
+    // console.log(newWords);
+
+    const entries = Object.entries(newWords);
+
+    // console.log("entries count: " + entries.length);
+
+    const toIncludeInHzl: IHanziLookup = {};
+    for (const [hanzi, value] of entries) {
+        const existingHzl = hzl[hanzi];
+        toIncludeInHzl[hanzi] = {
+            ...existingHzl,
+            pinyin: [...(existingHzl?.pinyin ?? []), value.lookupPinyin],
+            type: existingHzl?.type ?? value.type,
+        };
+    }
+
+    // console.log(toIncludeInHzl);
+    // console.log("is it finishing");
+
+    const newHzl = { ...hzl, ...toIncludeInHzl };
+
+    return newHzl;
+}
+
+function* generateLongHanziFromLine(
+    { hanziSentence, pinyinSentence }: IHanziPinyinSentence,
+    hzl: IHanziLookup
+): Iterable<ILongHanziPinyin> {
+    const hanziSyllables = hanziSentence.split("");
+
+    let sentencePinyinIndex = 0;
+    let hanziWord = "";
+    let hanziWordPinyin = "";
+    let sentencePinyinIndexBeginning = sentencePinyinIndex;
+    for (const hanzi of hanziSyllables) {
+        if (["。", ""].includes(hanzi)) {
+            break;
+        }
+
+        if (!/\p{Script=Han}/u.test(hanzi)) {
+            // console.log("not");
+            // console.log(hanzi);
+            continue;
+        }
+        const hanziPinyinList = hzl[hanzi]?.pinyin ?? [];
+        // console.log(hanzi);
+        // console.log(hanziPinyinList);
+        for (const hanziPinyin of hanziPinyinList) {
+            const detonedHanziPinyin = removeTone(hanziPinyin).toLowerCase();
+
+            const sentencePinyinSyllable = pinyinSentence.slice(
+                sentencePinyinIndex,
+                sentencePinyinIndex + detonedHanziPinyin.length
+            );
+
+            const detonedSentencePinyin = removeTone(
+                sentencePinyinSyllable
+            ).toLowerCase();
+
+            // console.log("detoned");
+            // console.log(
+            //     detonedHanziPinyin + " " + detonedHanziPinyin.length
+            // );
+            // console.log(
+            //     detonedSentencePinyin + " " + detonedSentencePinyin.length
+            // );
+
+            if (detonedSentencePinyin === detonedHanziPinyin) {
+                sentencePinyinIndex += detonedHanziPinyin.length;
+                hanziWord += hanzi;
+                hanziWordPinyin += sentencePinyinSyllable + " ";
+                // console.log("hanziWord");
+                // console.log(hanziWord);
+                // console.log("--");
+                break;
+            }
+        }
+
+        const nextSentenceChar = pinyinSentence.slice(
+            sentencePinyinIndex,
+            sentencePinyinIndex + 1
+        );
+
+        // console.log("x" + nextSentenceChar + "y");
+
+        if ([" ", ""].includes(nextSentenceChar)) {
+            if (hanziWord.length > 0) {
+                // eachWord.push(hanziWord);
+
+                // if (!hzl[hanziWord] && !newWords[hanziWord]) {
+                //     const newWordPinyin = pinyinSentence.slice(
+                //         sentencePinyinIndexBeginning,
+                //         sentencePinyinIndex
+                //     );
+                //     newWords[hanziWord] = {
+                //         sourcePinyin: newWordPinyin,
+                //         // proper nouns for first character
+                //         lookupPinyin:
+                //             newWordPinyin[0] + hanziWordPinyin.slice(1).trim(),
+                //     };
+                // }
+
+                const newWordPinyin = pinyinSentence.slice(
+                    sentencePinyinIndexBeginning,
+                    sentencePinyinIndex
+                );
+
+                yield {
+                    hanzi: hanziWord,
+                    sourcePinyin: newWordPinyin,
+                    lookupPinyin:
+                        newWordPinyin[0] + hanziWordPinyin.slice(1).trim(),
+                };
+            }
+
+            ++sentencePinyinIndex;
+            sentencePinyinIndexBeginning = sentencePinyinIndex;
+
+            hanziWord = "";
+            hanziWordPinyin = "";
+        }
+    }
+
+    // sentencePinyinIndexBeginning
+
+    // console.log(eachWord);
+}
+
+async function* x_cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish> {
     const text = await Deno.readTextFile("CedPane-master/cedpane.txt");
 
     const lines = text.split("\n").slice(2);
@@ -628,6 +758,12 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
 
         if (!line) {
             continue;
+        }
+
+        if (simplified.split("").length > 10) {
+            console.log("long words");
+            console.log(english);
+            console.log(simplified);
         }
 
         yield {

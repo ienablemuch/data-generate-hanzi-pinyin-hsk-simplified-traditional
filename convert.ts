@@ -1,7 +1,8 @@
 import { generateHanziTypeToMemory } from "./generate-hanzi-type-to-memory.ts";
 import {
     generateMainCopyToMemory,
-    generateLongHanzi,
+    generateLongHanziFromChineseSentenceMiner,
+    generateLongHanziFromCedPane,
 } from "./generate-main-copy-to-memory.ts";
 
 import { postCleanup } from "./cleanup-generated-main-copy-memory.ts";
@@ -24,7 +25,12 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     const cleanedUpHzl = await postCleanup(hzlSemiFinal); // cleaned: umlauts, r5 (儿), unusual letter g
 
     console.log(Object.keys(cleanedUpHzl).length);
-    const hzl = await generateLongHanzi(cleanedUpHzl);
+
+    const hzlSentenceMiner = await generateLongHanziFromChineseSentenceMiner(
+        cleanedUpHzl
+    );
+    const hzl = await generateLongHanziFromCedPane(hzlSentenceMiner);
+
     const unifiedMappingCorrection = await applyUnifiedCorrection(hzl);
     const compatibilityMappingCorrection = await applyCompatibilityCorrection(
         hzl
@@ -36,6 +42,11 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     // Before 2021-05-09: 217,258
     // 2021-05-10: 217,280
     // 2021-05-10: 315,272
+    // Exclude the whole phrases from CedPane for the meantime,
+    // we just get its individual words for the meantime.
+    // Forgot to take into account that each syllable should have a space so the
+    // process that extracts tone from pinyin can be done.
+    // 2021-05-10 283,726
 
     if (toGenerateFiles) {
         // Generate file
