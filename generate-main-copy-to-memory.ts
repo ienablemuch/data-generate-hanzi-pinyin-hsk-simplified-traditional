@@ -685,10 +685,12 @@ function* generateLongHanziFromLine(
             const detonedHanziPinyin = removeTone(hanziPinyin).toLowerCase();
 
             if (
-                pinyinSentence.slice(
-                    sentencePinyinIndex,
-                    sentencePinyinIndex + 1
-                ) === "'"
+                ["-", "'"].includes(
+                    pinyinSentence.slice(
+                        sentencePinyinIndex,
+                        sentencePinyinIndex + 1
+                    )
+                )
             ) {
                 ++sentencePinyinIndex;
             }

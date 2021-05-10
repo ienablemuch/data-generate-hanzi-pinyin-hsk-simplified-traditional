@@ -2,7 +2,7 @@ import { writeJson } from "https://deno.land/x/jsonfile/mod.ts";
 
 import { IHanziLookup } from "./interfaces.ts";
 
-import { getToneNumber } from "./3rd-party-code/pinyin-utils.ts";
+import { getToneNumber, removeTone } from "./3rd-party-code/pinyin-utils.ts";
 
 export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     await createHanziAllJsonFile();
@@ -242,5 +242,14 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
 }
 
 function compressPinyin(pinyin: string | undefined): string | undefined {
-    return pinyin?.split(" ")?.join("");
+    // prettier-ignore
+    return pinyin?.split(" ")?.reduce(
+        (acc, syllable) => acc + (
+            (['a','e','i','o','u'].includes(removeTone(syllable[0].toLowerCase())) ? 
+                '\'' 
+            : 
+                ''
+            ) + syllable
+        )
+    );
 }
