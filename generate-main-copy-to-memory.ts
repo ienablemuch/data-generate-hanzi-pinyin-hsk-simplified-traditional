@@ -606,7 +606,6 @@ export async function generateLongHanziFromCedPane(
             }
 
             if (newWords[hanzi]) {
-                newWords[hanzi].type = "B";
                 continue;
             }
 
@@ -614,7 +613,7 @@ export async function generateLongHanziFromCedPane(
                 aka,
                 sourcePinyin,
                 lookupPinyin,
-                type: "S",
+                type: aka === hanzi ? "B" : "S",
             };
         }
 
@@ -632,7 +631,6 @@ export async function generateLongHanziFromCedPane(
             }
 
             if (newWords[hanzi]) {
-                newWords[hanzi].type = "B";
                 continue;
             }
 
@@ -640,7 +638,7 @@ export async function generateLongHanziFromCedPane(
                 aka,
                 sourcePinyin,
                 lookupPinyin,
-                type: "T",
+                type: aka === hanzi ? "B" : "T",
             };
         }
     }
