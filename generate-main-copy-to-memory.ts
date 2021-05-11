@@ -846,9 +846,11 @@ function* generateLongHanziFromLine(
 }
 
 async function* x_cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish> {
-    const text = await Deno.readTextFile("CedPane-master/cedpane.txt");
+    const text = await Deno.readTextFile(
+        "CedPane-master/other-formats/CedPane-ChinaScribe.txt"
+    );
 
-    const lines = text.split("\n").slice(2);
+    const lines = text.split("\n").slice(6);
 
     for (const line of lines) {
         const [english, simplified, traditional, pinyin] = line.split("\t");

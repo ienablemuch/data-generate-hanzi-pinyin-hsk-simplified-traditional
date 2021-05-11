@@ -132,13 +132,20 @@ export function numberToMark(list: string[]): string[];
 export function numberToMark(data: string | string[]): string | string[] {
     const process = (text: string) => {
         if (text.trim().length === 0) return text;
+
         const tone = getToneNumber(text);
+
         text = removeTone(text);
+
+        console.log("tone number: " + tone);
+
         if (tone !== 5) {
             if (text === "m" || text === "n" || text === "M" || text === "N") {
                 return (text + toneMarks[tone - 1]).normalize("NFC");
             }
+            console.log("original text: " + text);
             text = text.replace("u:", "ü");
+            console.log(text);
             const matchedVovels = text.match(/[aeiouü]/gi);
             if (matchedVovels) {
                 let vovel = matchedVovels[matchedVovels.length - 1];
@@ -148,7 +155,12 @@ export function numberToMark(data: string | string[]): string | string[] {
                 const finalText = text
                     .replace(vovel, vovel + toneMarks[tone - 1])
                     .normalize("NFC");
+
+                console.log("final text");
+                console.log(finalText);
                 return finalText;
+            } else {
+                console.log("blah");
             }
         }
         return text;

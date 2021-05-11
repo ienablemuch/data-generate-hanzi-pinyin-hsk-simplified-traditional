@@ -38,7 +38,6 @@ export const toneMarks = ["\u0304", "\u0301", "\u030c", "\u0300"];
  */
 export const getToneNumber = (text: string) => {
     // Check for tone number
-    text = text.replace("u:", "ü");
     const matches = text.match(/[a-zü](\d)/i);
     if (matches) return +matches[1];
     // Check for tone mark
@@ -132,23 +131,24 @@ export function numberToMark(list: string[]): string[];
 export function numberToMark(data: string | string[]): string | string[] {
     const process = (text: string) => {
         if (text.trim().length === 0) return text;
+
         const tone = getToneNumber(text);
+
         text = removeTone(text);
+
         if (tone !== 5) {
             if (text === "m" || text === "n" || text === "M" || text === "N") {
                 return (text + toneMarks[tone - 1]).normalize("NFC");
             }
-            text = text.replace("u:", "ü");
             const matchedVovels = text.match(/[aeiouü]/gi);
             if (matchedVovels) {
                 let vovel = matchedVovels[matchedVovels.length - 1];
                 if (text.match("ou")) vovel = "o";
                 if (text.match("a")) vovel = "a";
                 if (text.match("e")) vovel = "e";
-                const finalText = text
+                return text
                     .replace(vovel, vovel + toneMarks[tone - 1])
                     .normalize("NFC");
-                return finalText;
             }
         }
         return text;

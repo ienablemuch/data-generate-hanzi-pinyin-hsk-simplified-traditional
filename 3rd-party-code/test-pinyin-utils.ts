@@ -17,4 +17,10 @@ for (const syllable of toTest.split(" ")) {
     console.log(syllable + " " + numberToMark(syllable));
 }
 
-console.log(numberToMark(toTest));
+console.log(numberToMark(toTest.split(" ")));
+
+// const normalized = "lu:4".replace("u:", "ü");
+// console.log(numberToMark(normalized));
+
+console.log("test lu:4");
+console.log(numberToMark("lu:4"));
