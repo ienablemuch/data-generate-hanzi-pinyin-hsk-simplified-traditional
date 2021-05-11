@@ -499,7 +499,7 @@ interface INewWordCollection {
         aka?: string;
         sourcePinyin: string;
         lookupPinyin: string;
-        type: "S" | "T";
+        type: "S" | "T" | "B";
     };
 }
 
@@ -512,7 +512,8 @@ interface ILongHanziPinyin {
 }
 
 export async function generateLongHanziFromChineseSentenceMiner(
-    hzl: IHanziLookup
+    hzl: IHanziLookup,
+    hanziTypeList: IHanziTypeList
 ): Promise<IHanziLookup> {
     const text = await Deno.readTextFile(
         "chinese-sentence-miner-master/data/default.csv"
@@ -552,13 +553,15 @@ export async function generateLongHanziFromChineseSentenceMiner(
     const toIncludeInHzl: IHanziLookup = {};
     const entries = Object.entries(newWords);
     for (const [hanzi, value] of entries) {
-        const existingHzl = hzl[hanzi];
+        const eHanzi = hzl[hanzi];
         toIncludeInHzl[hanzi] = {
-            ...existingHzl,
-            pinyin: [...(existingHzl?.pinyin ?? []), value.lookupPinyin],
-            type: existingHzl?.type ?? value.type,
+            ...eHanzi,
+            pinyin: [...(eHanzi?.pinyin ?? []), value.lookupPinyin],
+            type:
+                hanziTypeList[hanzi] ??
+                (eHanzi?.type === "T" ? "B" : eHanzi?.type ?? "S"),
             // @ts-ignore
-            source: (existingHzl?.source ?? "") + "VV",
+            source: (eHanzi?.source ?? "") + "VV",
         };
     }
 
@@ -570,7 +573,8 @@ export async function generateLongHanziFromChineseSentenceMiner(
 }
 
 export async function generateLongHanziFromCedPane(
-    hzl: IHanziLookup
+    hzl: IHanziLookup,
+    hanziTypeList: IHanziTypeList
 ): Promise<IHanziLookup> {
     const text = await Deno.readTextFile("CedPane-master/cedpane.txt");
 
@@ -597,9 +601,15 @@ export async function generateLongHanziFromCedPane(
             hzl
         )) {
             const { hanzi, aka, sourcePinyin, lookupPinyin } = item;
-            if (hzl[hanzi] || newWords[hanzi]) {
+            if (hzl[hanzi]) {
                 continue;
             }
+
+            if (newWords[hanzi]) {
+                newWords[hanzi].type = "B";
+                continue;
+            }
+
             newWords[hanzi] = {
                 aka,
                 sourcePinyin,
@@ -617,9 +627,15 @@ export async function generateLongHanziFromCedPane(
             hzl
         )) {
             const { hanzi, aka, sourcePinyin, lookupPinyin } = item;
-            if (hzl[hanzi] || newWords[hanzi]) {
+            if (hzl[hanzi]) {
                 continue;
             }
+
+            if (newWords[hanzi]) {
+                newWords[hanzi].type = "B";
+                continue;
+            }
+
             newWords[hanzi] = {
                 aka,
                 sourcePinyin,
@@ -638,14 +654,29 @@ export async function generateLongHanziFromCedPane(
 
     const toIncludeInHzl: IHanziLookup = {};
     for (const [hanzi, value] of entries) {
-        const existingHzl = hzl[hanzi];
+        // existing hanzi
+        const eHanzi = hzl[hanzi];
         toIncludeInHzl[hanzi] = {
-            ...existingHzl,
+            ...eHanzi,
             aka: value.aka,
-            pinyin: [...(existingHzl?.pinyin ?? []), value.lookupPinyin],
-            type: existingHzl?.type ?? value.type,
+            pinyin: [
+                ...new Set([...(eHanzi?.pinyin ?? []), value.lookupPinyin]),
+            ],
+            type:
+                // prettier-ignore
+                hanziTypeList[hanzi] ??
+                (
+                    eHanzi?.type === "T" && value.type === 'S' 
+                    ||
+                    eHanzi?.type === "S" && value.type === 'T' 
+                    ? 
+                        "B" 
+                    : 
+                        eHanzi?.type ?? value.type
+                ),
+
             // @ts-ignore
-            source: (existingHzl?.source ?? "") + "UU",
+            source: (eHanzi?.source ?? "") + "UU",
         };
     }
 

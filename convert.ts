@@ -27,9 +27,13 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     console.log(Object.keys(cleanedUpHzl).length);
 
     const hzlSentenceMiner = await generateLongHanziFromChineseSentenceMiner(
-        cleanedUpHzl
+        cleanedUpHzl,
+        hanziTypeList
     );
-    const hzl = await generateLongHanziFromCedPane(hzlSentenceMiner);
+    const hzl = await generateLongHanziFromCedPane(
+        hzlSentenceMiner,
+        hanziTypeList
+    );
 
     const unifiedMappingCorrection = await applyUnifiedCorrection(hzl);
     const compatibilityMappingCorrection = await applyCompatibilityCorrection(
