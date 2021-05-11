@@ -856,8 +856,8 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
         // prettier-ignore
         const r = line.match(/(\p{Script=Han}+) (\p{Script=Han}+) \[([^\]]+)\] \/(.*)\//u);
         const {
-            $1: simplified,
-            $2: traditional,
+            $1: traditional,
+            $2: simplified,
             $3: pinyinRaw,
             $4: englishRaw,
         } = RegExp;
