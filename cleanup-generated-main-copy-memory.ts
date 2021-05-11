@@ -1,5 +1,7 @@
 import { IHanziLookup } from "./interfaces.ts";
 
+import { numberToMark } from "./3rd-party-code/pinyin-utils.ts";
+
 // import "./interfaces.ts";
 
 const umlautMapper: { [umlautCharacter: string]: string } = {
@@ -39,7 +41,11 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                 // @ts-ignore
                 ...new Set(
                     c.newPinyin?.map((p) =>
-                        p.replaceAll("ɡ", "g").replaceAll("r5", "r")
+                        p
+                            .replaceAll("ɡ", "g")
+                            .split(" ")
+                            .map((c) => numberToMark(c))
+                            .join(" ")
                     )
                 ), // unusual letter g
             ],

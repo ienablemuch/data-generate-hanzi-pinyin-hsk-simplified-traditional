@@ -753,7 +753,7 @@ function* generateLongHanziFromLine(
         // console.log(hanzi);
         // console.log(hanziPinyinList);
         for (const hanziPinyin of hanziPinyinList) {
-            const detonedHanziPinyin = removeTone(hanziPinyin).toLowerCase();
+            const detonedHanziPinyin = hanziPinyin; // .toLowerCase();
 
             if (
                 ["-", "'"].includes(
@@ -771,9 +771,7 @@ function* generateLongHanziFromLine(
                 sentencePinyinIndex + detonedHanziPinyin.length
             );
 
-            const detonedSentencePinyin = removeTone(
-                sentencePinyinSyllable
-            ).toLowerCase();
+            const detonedSentencePinyin = sentencePinyinSyllable; // .toLowerCase();
 
             // console.log("detoned");
             // console.log(
