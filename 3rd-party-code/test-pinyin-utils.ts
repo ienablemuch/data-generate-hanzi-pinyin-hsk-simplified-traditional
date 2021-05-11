@@ -22,5 +22,7 @@ console.log(numberToMark(toTest.split(" ")));
 // const normalized = "lu:4".replace("u:", "ü");
 // console.log(numberToMark(normalized));
 
-console.log("test lu:4");
+console.log("test number to mark: lu:4");
 console.log(numberToMark("lu:4"));
+console.log("test tone: lu:4");
+console.log(getToneNumber("lu:4"));

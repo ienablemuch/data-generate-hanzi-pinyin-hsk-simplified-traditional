@@ -17,21 +17,27 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
         .map(([hanzi, obj]) => ({ hanzi, ...obj }))
         .map((c) => ({
             ...c,
-            newPinyin: c.pinyin?.map((p) =>
-                p
-                    .split(" ")
-                    .map(
-                        (ps) =>
-                            ps.replace(
-                                /(.+)([ūúǔùu])(.*)\:(.*)/,
-                                (_match, ...ms) =>
-                                    `${ms[0]}${umlautMapper[ms[1]]}${ms[2]}${
-                                        ms[3]
-                                    }`
-                            ) ?? p
+            newPinyin: c.pinyin?.map((pSentence) =>
+                pSentence
+                    .split("_")
+                    .map((pWord) =>
+                        pWord
+                            .split(" ")
+                            .map(
+                                // ps = pinyin syllable
+                                (ps) =>
+                                    ps.replace(
+                                        /(.+)([ūúǔùu])(.*)\:(.*)/,
+                                        (_match, ...ms) =>
+                                            `${ms[0]}${umlautMapper[ms[1]]}${
+                                                ms[2]
+                                            }${ms[3]}`
+                                    ) ?? ps
+                            )
+                            .join(" ")
+                            .replace("v", "ü")
                     )
-                    .join(" ")
-                    .replace("v", "ü")
+                    .join("_")
             ),
         }))
         // unusual letter g
@@ -40,12 +46,17 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
             uniquePinyins: [
                 // @ts-ignore
                 ...new Set(
-                    c.newPinyin?.map((p) =>
-                        p
-                            .replaceAll("ɡ", "g")
-                            .split(" ")
-                            .map((c) => numberToMark(c))
-                            .join(" ")
+                    c.newPinyin?.map((pSentence) =>
+                        pSentence
+                            .split("_")
+                            .map((pWord) =>
+                                pWord
+                                    .replaceAll("ɡ", "g")
+                                    .split(" ")
+                                    .map((c) => numberToMark(c))
+                                    .join(" ")
+                            )
+                            .join("_")
                     )
                 ), // unusual letter g
             ],

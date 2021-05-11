@@ -15,7 +15,7 @@ import {
 
 import { pinyinify } from "./pinyinify.ts";
 
-import { removeTone } from "./3rd-party-code/pinyin-utils.ts";
+import { removeTone, numberToMark } from "./3rd-party-code/pinyin-utils.ts";
 
 // tests..
 // for await (const word of cleanSimplifiedTraditional()) console.log(word);
@@ -133,17 +133,17 @@ export async function generateMainCopyToMemory(
         }
     }*/
 
-    // for await (const {
-    //     simplified,
-    //     traditional,
-    //     pinyin,
-    //     english,
-    // } of cleanCedPane()) {
-    //     processSimplifiedTraditional(
-    //         { simplified, traditional, pinyin, english },
-    //         "WW"
-    //     );
-    // }
+    for await (const {
+        simplified,
+        traditional,
+        pinyin,
+        english,
+    } of cleanCedPane()) {
+        processSimplifiedTraditional(
+            { simplified, traditional, pinyin, english },
+            "TT"
+        );
+    }
 
     for await (const {
         simplified,
@@ -845,31 +845,42 @@ function* generateLongHanziFromLine(
     // console.log(eachWord);
 }
 
-async function* x_cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish> {
+async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish> {
     const text = await Deno.readTextFile(
         "CedPane-master/other-formats/CedPane-ChinaScribe.txt"
     );
 
     const lines = text.split("\n").slice(6);
-
+    let count = 0;
     for (const line of lines) {
-        const [english, simplified, traditional, pinyin] = line.split("\t");
+        // prettier-ignore
+        const r = line.match(/(\p{Script=Han}+) (\p{Script=Han}+) \[([^\]]+)\] \/(.*)\//u);
+        const {
+            $1: simplified,
+            $2: traditional,
+            $3: pinyinRaw,
+            $4: englishRaw,
+        } = RegExp;
 
-        if (!line) {
-            continue;
-        }
+        const pinyin = pinyinRaw.replace(/[\p{Script=Latin}\d]+/gu, (match) =>
+            numberToMark(match)
+        );
 
-        if (simplified.split("").length > 10) {
-            console.log("long words");
-            console.log(english);
+        const english = englishRaw.split("/");
+
+        if (simplified === "允許安裝來自未知來源的應用") {
+            console.log(line);
             console.log(simplified);
+            console.log(traditional);
+            console.log(pinyin);
+            console.log(english);
         }
 
         yield {
             simplified,
             traditional,
             pinyin,
-            english: [english],
+            english,
         };
     }
 }

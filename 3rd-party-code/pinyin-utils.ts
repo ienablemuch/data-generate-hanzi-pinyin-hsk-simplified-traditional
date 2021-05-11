@@ -138,7 +138,6 @@ export function numberToMark(data: string | string[]): string | string[] {
             if (text === "m" || text === "n" || text === "M" || text === "N") {
                 return (text + toneMarks[tone - 1]).normalize("NFC");
             }
-            text = text.replace("u:", "ü");
             const matchedVovels = text.match(/[aeiouü]/gi);
             if (matchedVovels) {
                 let vovel = matchedVovels[matchedVovels.length - 1];

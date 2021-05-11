@@ -104,7 +104,17 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
                 continue;
             }
 
+            if (hanzi === "允許安裝來自未知來源的應用") {
+                console.log("firstPinyin");
+                console.log(firstPinyin);
+            }
+
             const cleanedPinyin = compressPinyin(firstPinyin);
+
+            if (hanzi === "允許安裝來自未知來源的應用") {
+                console.log("cleanedPinyin");
+                console.log(cleanedPinyin);
+            }
 
             hphlt[hanzi] = {};
             const hl = hphlt[hanzi];
@@ -113,7 +123,7 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
                 hl.p = cleanedPinyin;
 
                 const tones = firstPinyin
-                    ?.split(" ")
+                    ?.split(/[_ ]/)
                     .map((syllable) => getToneNumber(syllable))
                     .join("");
 
@@ -243,13 +253,32 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
 
 function compressPinyin(pinyin: string | undefined): string | undefined {
     // prettier-ignore
-    return pinyin?.split(" ")?.reduce(
-        (acc, syllable) => acc + (
+
+    const result = pinyin?.split('_')?.map(word =>
+        word.split(" ")?.reduce((acc, syllable) => acc + (
+            // put single quote if the first letter is a vowel
+            // 迈克尔 
+            // Màikè'ěr
             (['a','e','i','o','u'].includes(removeTone(syllable[0].toLowerCase())) ? 
                 '\'' 
             : 
                 ''
             ) + syllable
-        )
-    );
+        ))
+    )?.join(' ');
+
+    return result;
 }
+
+/*
+
+允許安裝來自未知來源的應用 允许安装来自未知来源的应用 [yun3 xu3_an1 zhuang1_lai2 zi4_wei4 zhi1_lai2 yuan2_de5_ying4 yong4] /allow installation from unknown sources (setting on Android 7 and below)/installation from unknown sources, allow (setting on Android 7 and below)/
+允許安裝來自未知來源的應用
+允许安装来自未知来源的应用
+yǔn xǔ_ān zhuāng_lái zì_wèi zhī_lái yuán_de_yìng yòng
+[
+  "allow installation from unknown sources (setting on Android 7 and below)",
+  "installation from unknown sources, allow (setting on Android 7 and below)"
+]
+
+*/
