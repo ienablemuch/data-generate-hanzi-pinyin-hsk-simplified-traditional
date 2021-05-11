@@ -602,6 +602,9 @@ export async function generateLongHanziFromCedPane(
         )) {
             const { hanzi, aka, sourcePinyin, lookupPinyin } = item;
             if (hzl[hanzi]) {
+                if (hzl[hanzi]?.type === "T") {
+                    hzl[hanzi].type = "B";
+                }
                 continue;
             }
 
@@ -627,6 +630,9 @@ export async function generateLongHanziFromCedPane(
         )) {
             const { hanzi, aka, sourcePinyin, lookupPinyin } = item;
             if (hzl[hanzi]) {
+                if (hzl[hanzi]?.type === "S") {
+                    hzl[hanzi].type = "B";
+                }
                 continue;
             }
 
