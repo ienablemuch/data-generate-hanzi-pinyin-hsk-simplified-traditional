@@ -602,9 +602,24 @@ export async function generateLongHanziFromCedPane(
         )) {
             const { hanzi, aka, sourcePinyin, lookupPinyin } = item;
             if (hzl[hanzi]) {
-                if (hzl[hanzi]?.type === "T") {
-                    hzl[hanzi].type = "B";
-                }
+                // We can't do this defensive programming.
+                // Looks like there are dirty data, this simplified 丑 is
+                // present on traditional sentence
+
+                // if (hzl[hanzi]?.type === "T") {
+                //     console.log("from simplified");
+                //     console.log(hzl[hanzi]);
+                //     console.log(hanzi);
+
+                //     hzl[hanzi].type = "B";
+                //     Deno.exit(1);
+                // }
+
+                // if ("丑醜".split("").includes(hanzi)) {
+                //     console.log("from simplified");
+                //     console.log(hanzi);
+                //     console.log(hzl[hanzi]);
+                // }
                 continue;
             }
 
@@ -630,9 +645,26 @@ export async function generateLongHanziFromCedPane(
         )) {
             const { hanzi, aka, sourcePinyin, lookupPinyin } = item;
             if (hzl[hanzi]) {
-                if (hzl[hanzi]?.type === "S") {
-                    hzl[hanzi].type = "B";
-                }
+                // We can't do this defensive programming.
+                // Looks like there are dirty data, this simplified 丑 is
+                // present on traditional sentence
+
+                // if (hzl[hanzi]?.type === "S") {
+                //     console.log("from traditional");
+                //     console.log(hzl[hanzi]);
+                //     console.log(hanzi);
+
+                //     hzl[hanzi].type = "B";
+
+                //     Deno.exit(1);
+                // }
+
+                // if ("丑醜".split("").includes(hanzi)) {
+                //     console.log("from traditional");
+                //     console.log(hanzi);
+                //     console.log(hzl[hanzi]);
+                // }
+
                 continue;
             }
 
