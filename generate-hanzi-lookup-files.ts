@@ -254,6 +254,9 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
 function compressPinyin(pinyin: string | undefined): string | undefined {
     // prettier-ignore
 
+    // console.log(pinyin);
+
+    // prettier-ignore
     const result = pinyin?.split('_')?.map(word =>
         word.split(" ")?.reduce((acc, syllable) => acc + (
             // put single quote if the first letter is a vowel

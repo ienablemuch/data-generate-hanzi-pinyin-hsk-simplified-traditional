@@ -1,0 +1,18 @@
+金窝银窝不如自己的狗窝
+
+jīn wō yín wō bùrú zìjǐ de gǒu wō
+
+
+高速公路
+
+gāosù gōnglù
+
+
+// lookup-all.json number of lines prior to adding word boundary
+3,564,464
+
+// after word boundary with long hanzi from CedPane
+
+3,574,388
+
+3,607,716

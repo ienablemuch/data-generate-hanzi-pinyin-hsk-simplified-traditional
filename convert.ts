@@ -3,6 +3,7 @@ import {
     generateMainCopyToMemory,
     generateLongHanziFromChineseSentenceMiner,
     generateLongHanziFromCedPane,
+    generateSpacing,
 } from "./generate-main-copy-to-memory.ts";
 
 import { postCleanup } from "./cleanup-generated-main-copy-memory.ts";
@@ -30,10 +31,12 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
         cleanedUpHzl,
         hanziTypeList
     );
-    const hzl = await generateLongHanziFromCedPane(
+    const hzlCedPane = await generateLongHanziFromCedPane(
         hzlSentenceMiner,
         hanziTypeList
     );
+
+    const hzl = generateSpacing(hzlCedPane);
 
     const unifiedMappingCorrection = await applyUnifiedCorrection(hzl);
     const compatibilityMappingCorrection = await applyCompatibilityCorrection(
@@ -53,6 +56,7 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     // Forgot to take into account that each syllable should have a space so the
     // process that extracts tone from pinyin can be done.
     // 2021-05-10 283,726
+    // 2021-05-13 315,257 - 319,419
 
     if (toGenerateFiles) {
         // Generate file

@@ -739,6 +739,7 @@ function* generateLongHanziFromLine(
 
     for (let i = 0; i < hanziSyllables.length; ++i) {
         const hanzi = hanziSyllables[i];
+
         const akaHanzi = akaHanziSyllables?.[i];
         if (["。", ""].includes(hanzi)) {
             break;
@@ -789,6 +790,13 @@ function* generateLongHanziFromLine(
                 // console.log("hanziWord");
                 // console.log(hanziWord);
                 // console.log("--");
+
+                // if (["阿克达拉乡"].includes(hanziSentence)) {
+                //     console.log("hey");
+                //     console.log(hanziWordPinyin);
+                //     // Deno.exit(1);
+                // }
+
                 break;
             }
         }
@@ -822,12 +830,23 @@ function* generateLongHanziFromLine(
                     sentencePinyinIndex
                 );
 
+                const longestPinyin =
+                    newWordPinyin[0] + hanziWordPinyin.slice(1).trimEnd();
+
+                // if (["阿克达拉乡"].includes(hanziSentence)) {
+                //     console.log("longestPinyin");
+                //     console.log(newWordPinyin);
+                //     console.log(hanziWordPinyin);
+                //     console.log(longestPinyin);
+
+                //     console.log("newWordPinyin");
+                // }
+
                 yield {
                     hanzi: hanziWord,
                     aka: akaHanziWord,
                     sourcePinyin: newWordPinyin,
-                    lookupPinyin:
-                        newWordPinyin[0] + hanziWordPinyin.slice(1).trim(),
+                    lookupPinyin: longestPinyin,
                 };
             }
 
@@ -883,6 +902,129 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
             english,
         };
     }
+}
+
+export function generateSpacing(hzl: IHanziLookup): IHanziLookup {
+    console.log("hey");
+
+    // @ts-ignore
+    for (const [hanzi, { source, pinyin: pinyinArray }] of Object.entries(
+        hzl
+    )) {
+        if (hanzi.length <= 3 || source.startsWith("AA") || !pinyinArray) {
+            continue;
+        }
+
+        // const toTest = ["高速公路", "金窝银窝不如自己的狗窝"];
+
+        // const toTest = [
+        //     "俄克拉荷马",
+        //     "阿克达拉",
+        //     "高速公路",
+        //     "金窝银窝不如自己的狗窝",
+        // ];
+
+        // if (!toTest.includes(hanzi)) {
+        //     continue;
+        // }
+
+        // problematic hanzi to pinyin mapping
+        // const firstPinyinOverrides {
+        //     "阿克达拉":
+        // }
+
+        const firstPinyin = pinyinArray[0];
+
+        // console.log("to generate");
+        // console.log(hanzi);
+        // console.log(firstPinyin);
+
+        const words: string[] = [];
+
+        for (let i = 0; i < hanzi.length; ) {
+            let hasMatch = false;
+            // @ts-ignore
+            for (let upTo = hanzi.length - ((i === 0) + 0); upTo > i; --upTo) {
+                const word = hanzi.slice(i, upTo);
+
+                const matched = hzl[word];
+
+                if (matched) {
+                    words.push(word);
+                    i += word.length;
+                    hasMatch = true;
+                    break;
+                }
+            }
+            if (!hasMatch) {
+                ++i;
+                continue;
+            }
+        }
+
+        const pinyinSyllables = firstPinyin.split(" ");
+
+        // const pinyinLetters = firstPinyin.replaceAll(" ", "").split("");
+
+        const pinyinWords: string[] = [];
+        for (const word of words) {
+            const obtainedSyllables = pinyinSyllables.splice(0, word.length);
+            pinyinWords.push(obtainedSyllables.join(" "));
+
+            // const obtainedPinyinSyllableList = [];
+
+            // for (const hanziSyllable of word) {
+            //     // will break on 乐。 yue = 3, le = 2
+            //     const hanziSyllableLength =
+            //         hzl[hanziSyllable]?.pinyin?.[0]?.length ?? 0;
+
+            //     const obtainedPinyinSyllable = pinyinLetters.splice(
+            //         0,
+            //         hanziSyllableLength
+            //     );
+
+            //     obtainedPinyinSyllableList.push(
+            //         obtainedPinyinSyllable.join("")
+            //     );
+            // }
+
+            // pinyinWords.push(obtainedPinyinSyllableList.join(" "));
+        }
+
+        const hasEqualHanziPinyin = words.every(
+            (word, i) => pinyinWords[i].split(" ").length === word.length
+        );
+
+        if (!hasEqualHanziPinyin) {
+            console.log("does not matched!");
+            console.log(hanzi);
+            console.log(firstPinyin);
+            console.log(words);
+            console.log(pinyinWords);
+            // Deno.exit(1);
+            continue;
+        }
+
+        // console.log(hanzi);
+        // console.log(firstPinyin);
+        // //
+        // console.log(words);
+        // console.log(pinyinWords);
+        const pinyinWithWordBoundary = pinyinWords.join("_");
+        // console.log(pinyinWithWordBoundary);
+
+        const matchedHanzi = hzl[hanzi];
+        hzl[hanzi] = {
+            ...matchedHanzi,
+            pinyin: [pinyinWithWordBoundary, ...(matchedHanzi.pinyin ?? [])],
+            // @ts-ignore
+            source: matchedHanzi.source + "$",
+        };
+
+        // let newPinyin = [];
+    }
+
+    return hzl;
 }
 
 // "凈 净 [jing4] /variant of 淨|净
