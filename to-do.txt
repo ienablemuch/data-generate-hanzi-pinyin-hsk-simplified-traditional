@@ -10,6 +10,60 @@ does not matched!
     Ān ní · Xià fēi wéi
     Ān ní_·_Xià_fēi
 
+罗伯特・路易斯・斯蒂文森
+
+路易斯・伊纳西奥・卢拉・达席尔瓦
+
+
+  "汤姆・索亚历险记": {
+    "type": "S",
+    "aka": "湯姆・索亞歷險記",
+    "english": [
+      "Adventures of Tom Sawyer by Mark Twain 馬克・吐溫|马克・吐温[Ma3 ke4 · Tu3 wen1]"
+    ],
+    "source": "XXx$",
+    "pinyin": [
+      "Tāng mǔ_·_Suǒ_yà Lì_xiǎn_Jì",
+      "Tāng mǔ · Suǒ yà Lì xiǎn Jì"
+    ]
+
+  },
+  "伽利略・伽利雷": {
+    "type": "B",
+    "english": [
+      "Galileo Galilei (1564-1642), Italian scientist"
+    ],
+    "source": "XXxXXy$",
+    "pinyin": [
+      "Jiā lì lüè_·_Jiā_lì_léi",
+      "Jiā lì lüè · Jiā lì léi"
+
+
+ "米格爾・德・塞萬提斯・薩維德拉": {
+    "type": "T",
+    "aka": "米格尔・德・塞万提斯・萨维德拉",
+    "english": [
+      "Miguel de Cervantes Saavedra (1547-1616), Spanish novelist, poet and playwright, author of Don Quixote 堂・吉河德[Tang2 · Ji2 he2 de2]"
+    ],
+    "source": "XXy$",
+    "pinyin": [
+      "Mǐ gé ěr_·_dé_·_Sāi wàn tí sī_·_Sà_wéi dé_lā",
+      "Mǐ gé ěr · dé · Sāi wàn tí sī · Sà wéi dé lā"
+    ]
+  },
+
+  "那木巴爾・恩赫巴亞爾": {
+    "type": "T",
+    "aka": "那木巴尔・恩赫巴亚尔",
+    "english": [
+      "Nambaryn Enkhbayar (1958-), Mongolian Peoples Revolutionary Party politician, President of Mongolia 2005-2009"
+    ],
+    "source": "XXy$",
+    "pinyin": [
+      "Nǎ_mù_bā ěr_·_Ēn_hè bā_yà ěr",
+      "Nǎ mù bā ěr · Ēn hè bā yà ěr"
+    ]
+
 4,659 lines
 ----
 

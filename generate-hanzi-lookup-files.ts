@@ -104,10 +104,10 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
                 continue;
             }
 
-            if (hanzi === "允許安裝來自未知來源的應用") {
-                console.log("firstPinyin");
-                console.log(firstPinyin);
-            }
+            // if (hanzi === "允許安裝來自未知來源的應用") {
+            //     console.log("firstPinyin");
+            //     console.log(firstPinyin);
+            // }
 
             const cleanedPinyin = compressPinyin(firstPinyin);
 

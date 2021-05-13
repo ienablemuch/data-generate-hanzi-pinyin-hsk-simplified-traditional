@@ -904,13 +904,19 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
     }
 }
 
-export function generateSpacing(hzl: IHanziLookup): IHanziLookup {
+export function generateSpacing(hzlSource: IHanziLookup): IHanziLookup {
     console.log("hey");
+
+    let hzl = { ...hzlSource };
+
+    console.log("continue generating");
 
     // @ts-ignore
     for (const [hanzi, { source, pinyin: pinyinArray }] of Object.entries(
         hzl
     )) {
+        // console.log("hanzi");
+        // console.log(hanzi);
         if (
             /\d/.test(hanzi) ||
             hanzi.length <= 3 ||
@@ -933,6 +939,47 @@ export function generateSpacing(hzl: IHanziLookup): IHanziLookup {
         // }
 
         const firstPinyin = pinyinArray[0];
+
+        // /g is not needed for test, but it is for replace
+        const nameMarker = / · /g;
+        if (nameMarker.test(firstPinyin)) {
+            console.log("matched person name");
+            console.log(hanzi);
+
+            // we should not modify the hzlSource directly, change other parts of code
+            const matchedHanzi = hzl[hanzi];
+
+            // looks like immutable is slow
+
+            // hzl[hanzi] = {
+            //     ...matchedHanzi,
+            // };
+            // hzl = {
+            //     ...hzl,
+            //     [hanzi]: {
+            //         ...matchedHanzi,
+            //         pinyin: [
+            //             firstPinyin.replace(nameMarker, " "),
+            //             ...(matchedHanzi.pinyin ?? []),
+            //         ],
+            //         // @ts-ignore
+            //         source: matchedHanzi.source + "$",
+            //     },
+            // };
+
+            // mutate it directly
+            hzl[hanzi] = {
+                ...matchedHanzi,
+                pinyin: [
+                    firstPinyin.replace(nameMarker, "_"),
+                    ...(matchedHanzi.pinyin ?? []),
+                ],
+                // @ts-ignore
+                source: matchedHanzi.source + "$",
+            };
+
+            continue;
+        }
 
         // console.log("to generate");
         // console.log(hanzi);
@@ -1022,6 +1069,22 @@ export function generateSpacing(hzl: IHanziLookup): IHanziLookup {
         }
 
         const matchedHanzi = hzl[hanzi];
+
+        // looks like immutable is slow
+        // hzl = {
+        //     ...hzl,
+        //     [hanzi]: {
+        //         ...matchedHanzi,
+        //         pinyin: [
+        //             pinyinWithWordBoundary,
+        //             ...(matchedHanzi.pinyin ?? []),
+        //         ],
+        //         // @ts-ignore
+        //         source: matchedHanzi.source + "$",
+        //     },
+        // };
+
+        // mutate it directly
         hzl[hanzi] = {
             ...matchedHanzi,
             pinyin: [pinyinWithWordBoundary, ...(matchedHanzi.pinyin ?? [])],
