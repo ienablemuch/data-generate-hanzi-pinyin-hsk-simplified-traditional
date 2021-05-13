@@ -911,26 +911,25 @@ export function generateSpacing(hzl: IHanziLookup): IHanziLookup {
     for (const [hanzi, { source, pinyin: pinyinArray }] of Object.entries(
         hzl
     )) {
-        if (hanzi.length <= 3 || source.startsWith("AA") || !pinyinArray) {
+        if (
+            /\d/.test(hanzi) ||
+            hanzi.length <= 3 ||
+            source.startsWith("AA") ||
+            !pinyinArray
+        ) {
             continue;
         }
 
-        // const toTest = ["高速公路", "金窝银窝不如自己的狗窝"];
-
-        // const toTest = [
-        //     "俄克拉荷马",
-        //     "阿克达拉",
-        //     "高速公路",
-        //     "金窝银窝不如自己的狗窝",
-        // ];
+        const toTest = [
+            // "俄克拉荷马",
+            // "阿克达拉",
+            // "高速公路",
+            // "金窝银窝不如自己的狗窝",
+            "害人之心不可有，防人之心不可无",
+        ];
 
         // if (!toTest.includes(hanzi)) {
         //     continue;
-        // }
-
-        // problematic hanzi to pinyin mapping
-        // const firstPinyinOverrides {
-        //     "阿克达拉":
         // }
 
         const firstPinyin = pinyinArray[0];
@@ -957,6 +956,9 @@ export function generateSpacing(hzl: IHanziLookup): IHanziLookup {
                 }
             }
             if (!hasMatch) {
+                const toPush = hanzi.slice(i, i + 1);
+                // console.log(toPush);
+                words.push(toPush);
                 ++i;
                 continue;
             }
@@ -995,16 +997,6 @@ export function generateSpacing(hzl: IHanziLookup): IHanziLookup {
             (word, i) => pinyinWords[i].split(" ").length === word.length
         );
 
-        if (!hasEqualHanziPinyin) {
-            console.log("does not matched!");
-            console.log(hanzi);
-            console.log(firstPinyin);
-            console.log(words);
-            console.log(pinyinWords);
-            // Deno.exit(1);
-            continue;
-        }
-
         // console.log(hanzi);
         // console.log(firstPinyin);
         // //
@@ -1012,6 +1004,22 @@ export function generateSpacing(hzl: IHanziLookup): IHanziLookup {
         // console.log(pinyinWords);
         const pinyinWithWordBoundary = pinyinWords.join("_");
         // console.log(pinyinWithWordBoundary);
+
+        if (
+            !hasEqualHanziPinyin ||
+            pinyinWithWordBoundary.length !== firstPinyin.length
+        ) {
+            console.log("does not matched!");
+            console.group();
+            console.log(hanzi);
+            console.log(firstPinyin);
+            console.log(words);
+            console.log(pinyinWords);
+            console.log(pinyinWithWordBoundary);
+            console.groupEnd();
+            // Deno.exit(1);
+            continue;
+        }
 
         const matchedHanzi = hzl[hanzi];
         hzl[hanzi] = {

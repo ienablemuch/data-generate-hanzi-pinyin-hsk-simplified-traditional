@@ -45,8 +45,6 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
 
     const toGenerateFiles = true;
 
-    // return;
-
     console.log(Object.keys(hzl).length);
     // Before 2021-05-09: 217,258
     // 2021-05-10: 217,280

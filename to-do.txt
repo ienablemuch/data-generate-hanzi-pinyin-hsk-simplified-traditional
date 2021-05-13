@@ -1,3 +1,19 @@
+exclude the pinyin with numbers
+does not matched!
+    害人之心不可有，防人之心不可无
+    hài rén zhī xīn bù kě yǒu , fáng rén zhī xīn bù kě wú
+    hài rén_zhī_xīn_bù kě_yǒu_,_fáng_rén_zhī_xīn bù_kě
+
+
+does not matched!
+    安妮・夏菲維
+    Ān ní · Xià fēi wéi
+    Ān ní_·_Xià_fēi
+
+4,659 lines
+----
+
+
 金窝银窝不如自己的狗窝
 
 jīn wō yín wō bùrú zìjǐ de gǒu wō
@@ -16,3 +32,5 @@ gāosù gōnglù
 3,574,388
 
 3,607,716
+
+

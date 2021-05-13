@@ -1,0 +1,234 @@
+Hanzi 㛟 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𡞵"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 㛠 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𡢃"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 㭣 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𣙎"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 㳢 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𣾷"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 㻘 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𤪺"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䌶 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"䊷"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䘛 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𧝞"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䘞 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𧜗"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䜤 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"鿁"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䜥 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𧩙"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䞎 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𧶧"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䢂 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𨋢"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䥿 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𨯅"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䦀 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𨦫"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䦁 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𨧜"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䯃 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𩣑"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䲝 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"䱽"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 䲤 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"鿐"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 鿓 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"鿒"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𠆿 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𠌥"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𠲥 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𡅏"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𡋀 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𡓾"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𡋗 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𡑭"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𡞱 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"㜢"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𡭜 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𡮉"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𡭬 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𡮣"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𢘞 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𢣭"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𢫊 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𢷮"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𢫞 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𢶫"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𢬦 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𢹿"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𣍨 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𦢈"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𣑶 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𣠲"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𣘓 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𣞻"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𤊀 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𤒎"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𤳄 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𤳸"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𥐯 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𥖅"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𥐰 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𥕥"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𥭉 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𥵊"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𥮋 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𥸠"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𥱔 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𥵃"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𥹥 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𥼽"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𥺇 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𥽖"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𦟗 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𦣎"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𨀱 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𨄣"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𨅫 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𨇞"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𨤰 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𨤻"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𨱆 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"龯"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𨸊 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𨶏"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𩠠 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𩠴"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𩧶 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𩣏"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𩨎 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"龭"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𩬣 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𩭙"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𩽿 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𩶰"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𪎍 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𪋿"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𪔭 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𪔵"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𪚐 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"𪘯"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𫖸 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"願"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 𫚭 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"S"[39m, aka: [32m"鱲"[39m, english: [2mundefined[22m, source: [32m"BB"[39m }
+Hanzi 㜢 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𡞱"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 䊷 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䌶"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 䱽 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䲝"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 龭 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𩨎"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 龯 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𨱆"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 鿁 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䜤"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 鿐 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䲤"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 鿒 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"鿓"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𠌥 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𠆿"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𡅏 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𠲥"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𡑭 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𡋗"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𡓾 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𡋀"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𡞵 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"㛟"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𡢃 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"㛠"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𡮉 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𡭜"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𡮣 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𡭬"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𢣭 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𢘞"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𢶫 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𢫞"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𢷮 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𢫊"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𢹿 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𢬦"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𣙎 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"㭣"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𣞻 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𣘓"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𣠲 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𣑶"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𣾷 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"㳢"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𤒎 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𤊀"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𤪺 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"㻘"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𤳸 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𤳄"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𥕥 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𥐰"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𥖅 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𥐯"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𥵃 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𥱔"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𥵊 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𥭉"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𥸠 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𥮋"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𥼽 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𥹥"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𥽖 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𥺇"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𦢈 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𣍨"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𦣎 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𦟗"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𧜗 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䘞"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𧝞 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䘛"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𧩙 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䜥"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𧶧 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䞎"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𨄣 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𨀱"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𨇞 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𨅫"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𨋢 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䢂"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𨤻 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𨤰"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𨦫 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䦀"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𨧜 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䦁"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𨯅 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䥿"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𨶏 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𨸊"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𩠴 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𩠠"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𩣏 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𩧶"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𩣑 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"䯃"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𩭙 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𩬣"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𩶰 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𩽿"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𪋿 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𪎍"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𪔵 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𪔭"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+Hanzi 𪘯 don't have any pinyin.
+{ hsk: [2mundefined[22m, type: [32m"T"[39m, aka: [32m"𪚐"[39m, english: [2mundefined[22m, source: [32m"CC"[39m }
+[33m315257[39m
+hey
+does not matched!
+    害人之心不可有，防人之心不可无
+    hài rén zhī xīn bù kě yǒu , fáng rén zhī xīn bù kě wú
+    hài rén_zhī_xīn_bù kě_yǒu_,_fáng_rén_zhī_xīn bù_kě
