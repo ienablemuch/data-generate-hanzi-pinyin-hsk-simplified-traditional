@@ -111,10 +111,10 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
 
             const cleanedPinyin = compressPinyin(firstPinyin);
 
-            if (hanzi === "允許安裝來自未知來源的應用") {
-                console.log("cleanedPinyin");
-                console.log(cleanedPinyin);
-            }
+            // if (hanzi === "允許安裝來自未知來源的應用") {
+            //     console.log("cleanedPinyin");
+            //     console.log(cleanedPinyin);
+            // }
 
             hphlt[hanzi] = {};
             const hl = hphlt[hanzi];

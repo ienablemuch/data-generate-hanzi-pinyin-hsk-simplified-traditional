@@ -905,11 +905,7 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
 }
 
 export function generateSpacing(hzlSource: IHanziLookup): IHanziLookup {
-    console.log("hey");
-
     let hzl = { ...hzlSource };
-
-    console.log("continue generating");
 
     // @ts-ignore
     for (const [hanzi, { source, pinyin: pinyinArray }] of Object.entries(
@@ -926,13 +922,13 @@ export function generateSpacing(hzlSource: IHanziLookup): IHanziLookup {
             continue;
         }
 
-        const toTest = [
-            // "俄克拉荷马",
-            // "阿克达拉",
-            // "高速公路",
-            // "金窝银窝不如自己的狗窝",
-            "害人之心不可有，防人之心不可无",
-        ];
+        // const toTest = [
+        //     // "俄克拉荷马",
+        //     // "阿克达拉",
+        //     // "高速公路",
+        //     // "金窝银窝不如自己的狗窝",
+        //     "害人之心不可有，防人之心不可无",
+        // ];
 
         // if (!toTest.includes(hanzi)) {
         //     continue;
@@ -940,11 +936,15 @@ export function generateSpacing(hzlSource: IHanziLookup): IHanziLookup {
 
         const firstPinyin = pinyinArray[0];
 
-        // /g is not needed for test, but it is for replace
-        const nameMarker = / · /g;
-        if (nameMarker.test(firstPinyin)) {
-            console.log("matched person name");
-            console.log(hanzi);
+        // This dot is used in hanzi
+        const nameMarker = "・";
+
+        // these two dots are the same. but different from hanzi marker above
+        const nameMarkerTypicalWebsite = "·";
+        const namePinyinMarker = "·";
+        if (hanzi.includes(nameMarker)) {
+            // console.log("matched person name");
+            // console.log(hanzi);
 
             // we should not modify the hzlSource directly, change other parts of code
             const matchedHanzi = hzl[hanzi];
@@ -968,15 +968,42 @@ export function generateSpacing(hzlSource: IHanziLookup): IHanziLookup {
             // };
 
             // mutate it directly
-            hzl[hanzi] = {
+
+            const hanziNewObject = {
                 ...matchedHanzi,
                 pinyin: [
-                    firstPinyin.replace(nameMarker, "_"),
+                    firstPinyin.replaceAll(" " + namePinyinMarker + " ", "_"),
                     ...(matchedHanzi.pinyin ?? []),
                 ],
                 // @ts-ignore
                 source: matchedHanzi.source + "$",
             };
+
+            hzl[hanzi] = hanziNewObject;
+
+            const typicalWebsiteName = hanzi.replaceAll(
+                nameMarker,
+                nameMarkerTypicalWebsite
+            );
+
+            // console.log("typical website name");
+            // console.log(typicalWebsiteName);
+            // console.log("database name");
+            // console.log(hanzi);
+
+            const typicalObject = (hzl[typicalWebsiteName] = {
+                ...hanziNewObject,
+            });
+
+            if (typicalObject.aka) {
+                typicalObject.aka = typicalObject.aka.replaceAll(
+                    nameMarker,
+                    nameMarkerTypicalWebsite
+                );
+            }
+
+            // console.log("typical object");
+            // console.log(typicalObject);
 
             continue;
         }
