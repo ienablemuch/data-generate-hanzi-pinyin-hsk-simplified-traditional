@@ -1002,6 +1002,18 @@ export function generateSpacing(hzlSource: IHanziLookup): IHanziLookup {
                 );
             }
 
+            const sansSpaceName = hanzi.replaceAll(nameMarker, "");
+            const sansSpaceObject = (hzl[sansSpaceName] = {
+                ...hanziNewObject,
+            });
+
+            if (sansSpaceObject.aka) {
+                sansSpaceObject.aka = sansSpaceObject.aka.replaceAll(
+                    nameMarker,
+                    ""
+                );
+            }
+
             // console.log("typical object");
             // console.log(typicalObject);
 
