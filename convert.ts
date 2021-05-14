@@ -43,7 +43,8 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
         hzl
     );
 
-    const toGenerateFiles = true;
+    const toGenerateFiles = false;
+
 
     console.log(Object.keys(hzl).length);
     // Before 2021-05-09: 217,258
@@ -55,6 +56,13 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     // process that extracts tone from pinyin can be done.
     // 2021-05-10 283,726
     // 2021-05-13 315,257 - 319,419
+
+    const longestWord = Object.keys(hzl).reduce((a, b) => a.length > b.length ? a : b);
+
+    console.log('longest')
+    console.log(longestWord);
+
+    return;
 
     if (toGenerateFiles) {
         // Generate file
