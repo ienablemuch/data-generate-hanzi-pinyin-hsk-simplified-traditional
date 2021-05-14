@@ -43,8 +43,7 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
         hzl
     );
 
-    const toGenerateFiles = false;
-
+    const toGenerateFiles = true;
 
     console.log(Object.keys(hzl).length);
     // Before 2021-05-09: 217,258
@@ -57,12 +56,14 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     // 2021-05-10 283,726
     // 2021-05-13 315,257 - 319,419
 
-    const longestWord = Object.keys(hzl).reduce((a, b) => a.length > b.length ? a : b);
+    const longestWord = Object.keys(hzl).reduce((a, b) =>
+        a.length > b.length ? a : b
+    );
 
-    console.log('longest')
-    console.log(longestWord);
+    // console.log('longest')
+    // console.log(longestWord);
 
-    return;
+    // return;
 
     if (toGenerateFiles) {
         // Generate file
