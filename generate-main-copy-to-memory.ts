@@ -184,7 +184,6 @@ export async function generateMainCopyToMemory(
             "ZZ"
         );
     }
-    // We will use this later to extract hanzi that is not in the main IHskLookup, if a hanzi is already existing, skip it and maintain the IHskLookup's version
 
     return hzl;
 
