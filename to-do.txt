@@ -1,3 +1,20 @@
+315,257
+320,133
+
+3,616,263
+
+changes:
+
+304,153
+309,084
+3,449,446
+
+
+
+
+----
+
+
 exclude the pinyin with numbers
 does not matched!
     害人之心不可有，防人之心不可无

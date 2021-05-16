@@ -50,6 +50,8 @@ export interface IHanziLookup {
         type?: "S" | "T" | "B" | "X"; // simplified, traditional, both, unknown
         aka?: string; // also known as. hanzi,
         english?: string[];
+
+        pinyinEnglish: [{ pinyin: string; english: string[] }];
     };
 }
 
