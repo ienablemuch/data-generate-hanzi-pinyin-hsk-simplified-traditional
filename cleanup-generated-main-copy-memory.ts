@@ -97,3 +97,40 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
 
     return newHzl;
 }
+
+export function keepOnePinyinOnSpaceGenerated(hzl: IHanziLookup): IHanziLookup {
+    const newHzl: IHanziLookup = {};
+
+    // prettier-ignore
+    for (const [
+        hanzi,
+        {
+            hsk, type, aka, pinyin, english, 
+            // @ts-ignore
+            source 
+        },
+    ] of Object.entries(hzl)) {
+
+        newHzl[hanzi] = {
+            hsk,
+            type,
+            aka,
+            english,
+            // @ts-ignore
+            source,
+        };
+
+
+        if (source.endsWith("$") && (pinyin?.length ?? 0) > 2) {
+            console.log(`${hanzi} has generated space but with more than 2 pinyins`);
+            console.log(pinyin);
+        }
+
+
+        if (pinyin) {            
+            newHzl[hanzi].pinyin = source.endsWith("$") ? [pinyin[0]] : pinyin;
+        } 
+    }
+
+    return newHzl;
+}

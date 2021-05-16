@@ -6,7 +6,10 @@ import {
     generateSpacing,
 } from "./generate-main-copy-to-memory.ts";
 
-import { postCleanup } from "./cleanup-generated-main-copy-memory.ts";
+import {
+    postCleanup,
+    keepOnePinyinOnSpaceGenerated,
+} from "./cleanup-generated-main-copy-memory.ts";
 
 import {
     applyUnifiedCorrection,
@@ -36,7 +39,9 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
         hanziTypeList
     );
 
-    const hzl = generateSpacing(hzlCedPane);
+    const hzlSpaced = generateSpacing(hzlCedPane);
+
+    const hzl = keepOnePinyinOnSpaceGenerated(hzlSpaced);
 
     const unifiedMappingCorrection = await applyUnifiedCorrection(hzl);
     const compatibilityMappingCorrection = await applyCompatibilityCorrection(
