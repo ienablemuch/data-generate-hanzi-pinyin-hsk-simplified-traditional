@@ -169,18 +169,21 @@ export async function generateMainCopyToMemory(
     }
 
     // Removed this, to avoid inconsistencies in pinyin
-    // // This puts 不了 as bu le5 as first entry, instead of bu4 liao3
-    // for await (const {
-    //     simplified,
-    //     traditional,
-    //     pinyin,
-    //     english,
-    // } of cleanZhongwenMasterWithEnglish()) {
-    //     processSimplifiedTraditional(
-    //         { simplified, traditional, pinyin, english },
-    //         "ZZ"
-    //     );
-    // }
+    for await (const {
+        simplified,
+        traditional,
+        pinyin,
+        english,
+    } of cleanZhongwenMasterWithEnglish()) {
+        // To avoid inconsistencies in pinyin
+        if (hzl[simplified] || hzl[traditional]) {
+            continue;
+        }
+        processSimplifiedTraditional(
+            { simplified, traditional, pinyin, english },
+            "ZZ"
+        );
+    }
     // We will use this later to extract hanzi that is not in the main IHskLookup, if a hanzi is already existing, skip it and maintain the IHskLookup's version
 
     return hzl;
