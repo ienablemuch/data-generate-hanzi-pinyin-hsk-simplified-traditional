@@ -46,6 +46,25 @@ export async function generateMainCopyToMemory(
         );
     }
 
+    for await (const {
+        simplified,
+        traditional,
+        pinyin,
+        english,
+    } of cleanCEDictJSONWithEnglish()) {
+        if (
+            // @ts-ignore
+            // prettier-ignore
+            hzl[simplified]?.source === "AAs" || hzl[traditional]?.source === "AAt"
+        ) {
+            continue;
+        }
+        processSimplifiedTraditional(
+            { simplified, traditional, pinyin, english },
+            "BB"
+        );
+    }
+
     for await (const { from, to } of cleanSimplifiedToTraditional()) {
         // existing simplified
         const eSim = hzl[from];
@@ -57,7 +76,7 @@ export async function generateMainCopyToMemory(
         };
 
         // @ts-ignore
-        hzl[from].source = (hzl[from].source ?? "") + "BB";
+        hzl[from].source = (hzl[from].source ?? "") + "CC";
     }
 
     for await (const { from, to } of cleanTraditionalToSimplified()) {
@@ -71,7 +90,7 @@ export async function generateMainCopyToMemory(
         };
 
         // @ts-ignore
-        hzl[from].source = (hzl[from].source ?? "") + "CC";
+        hzl[from].source = (hzl[from].source ?? "") + "DD";
     }
 
     for await (const {
@@ -95,7 +114,7 @@ export async function generateMainCopyToMemory(
         };
 
         // @ts-ignore
-        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "DD";
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "EE";
     }
 
     for await (const { hanzi, pinyin } of cleanHanziPinyinFromUnihan()) {
@@ -107,7 +126,7 @@ export async function generateMainCopyToMemory(
         };
 
         // @ts-ignore
-        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "EE";
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "FF";
     }
 
     for await (const { hanzi, hsk } of cleanHanziHskFromUnihan()) {
@@ -125,7 +144,7 @@ export async function generateMainCopyToMemory(
         };
 
         // @ts-ignore
-        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "FF";
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "GG";
     }
 
     // Let's do this last, this is the dirtiest database
@@ -144,21 +163,6 @@ export async function generateMainCopyToMemory(
                 );
         }
     }*/
-
-    for await (const {
-        simplified,
-        traditional,
-        pinyin,
-        english,
-    } of cleanCEDictJSONWithEnglish()) {
-        if (hzl[simplified] || hzl[traditional]) {
-            continue;
-        }
-        processSimplifiedTraditional(
-            { simplified, traditional, pinyin, english },
-            "XX"
-        );
-    }
 
     for await (const {
         simplified,
@@ -223,7 +227,7 @@ export async function generateMainCopyToMemory(
             }
 
             // @ts-ignore
-            hzl[simIndex].source = (eSim?.source ?? "") + source + "x";
+            hzl[simIndex].source = (eSim?.source ?? "") + source + "s";
         }
 
         {
@@ -250,7 +254,7 @@ export async function generateMainCopyToMemory(
             }
 
             // @ts-ignore
-            hzl[traIndex].source = (eTra?.source ?? "") + source + "y";
+            hzl[traIndex].source = (eTra?.source ?? "") + source + "t";
         }
     } // function processSimplifiedTraditional
 } // function generateMainCopyToMemory
