@@ -46,6 +46,8 @@ export async function generateMainCopyToMemory(
         );
     }
 
+    // return hzl;
+
     for await (const {
         simplified,
         traditional,
@@ -55,7 +57,7 @@ export async function generateMainCopyToMemory(
         if (
             // @ts-ignore
             // prettier-ignore
-            hzl[simplified]?.source === "AAs" || hzl[traditional]?.source === "AAt"
+            hzl[simplified] && hzl[traditional]
         ) {
             continue;
         }
@@ -884,6 +886,9 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
     const lines = text.split("\n").slice(6);
     let count = 0;
     for (const line of lines) {
+        if (line.length === 0) {
+            return;
+        }
         // prettier-ignore
         const r = line.match(/(\p{Script=Han}+) (\p{Script=Han}+) \[([^\]]+)\] \/(.*)\//u);
         const {
@@ -899,13 +904,18 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
 
         const english = englishRaw.split("/");
 
-        if (simplified === "允許安裝來自未知來源的應用") {
+        if (simplified === "干净") {
+            console.log("clean");
             console.log(line);
-            console.log(simplified);
-            console.log(traditional);
-            console.log(pinyin);
-            console.log(english);
         }
+
+        // if (simplified === "允許安裝來自未知來源的應用") {
+        //     console.log(line);
+        //     console.log(simplified);
+        //     console.log(traditional);
+        //     console.log(pinyin);
+        //     console.log(english);
+        // }
 
         yield {
             simplified,
