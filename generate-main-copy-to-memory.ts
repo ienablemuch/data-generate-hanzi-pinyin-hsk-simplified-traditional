@@ -57,7 +57,7 @@ export async function generateMainCopyToMemory(
         if (
             // @ts-ignore
             // prettier-ignore
-            hzl[simplified] && hzl[traditional]
+            hzl[simplified]?.source === 'AAs' && hzl[traditional]?.source === 'AAt'
         ) {
             continue;
         }
@@ -185,7 +185,7 @@ export async function generateMainCopyToMemory(
         english,
     } of cleanZhongwenMasterWithEnglish()) {
         // To avoid inconsistencies in pinyin
-        if (hzl[simplified] || hzl[traditional]) {
+        if (hzl[simplified] && hzl[traditional]) {
             continue;
         }
         processSimplifiedTraditional(
