@@ -151,6 +151,9 @@ export async function generateMainCopyToMemory(
         pinyin,
         english,
     } of cleanCEDictJSONWithEnglish()) {
+        if (hzl[simplified] || hzl[traditional]) {
+            continue;
+        }
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english },
             "XX"
