@@ -384,9 +384,10 @@ async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskW
     )) as IHsk[];
 
     for (const { hanzi, pinyin, HSK: hsk, translations } of json) {
+        // removed this, too many translations already from CedPane and CEDICT
         // don't allow symbols
-        const english = translations.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
-        yield { hanzi, pinyin, hsk, english };
+        // const english = translations.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
+        yield { hanzi, pinyin, hsk, english: [] };
     }
 }
 
