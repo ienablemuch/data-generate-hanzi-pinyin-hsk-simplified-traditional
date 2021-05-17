@@ -69,6 +69,7 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
         hsk,
         type,
         aka,
+        pinyinEnglish,
         english,
         uniquePinyins,
         // @ts-ignore
@@ -82,6 +83,7 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
             hsk,
             type,
             aka,
+            pinyinEnglish,
             english,
             // @ts-ignore
             source,
@@ -105,7 +107,7 @@ export function keepOnePinyinOnSpaceGenerated(hzl: IHanziLookup): IHanziLookup {
     for (const [
         hanzi,
         {
-            hsk, type, aka, pinyin, english, 
+            hsk, type, aka, pinyin, english,  pinyinEnglish,
             // @ts-ignore
             source 
         },
@@ -115,6 +117,7 @@ export function keepOnePinyinOnSpaceGenerated(hzl: IHanziLookup): IHanziLookup {
             hsk,
             type,
             aka,
+            pinyinEnglish,
             english,
             // @ts-ignore
             source,

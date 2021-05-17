@@ -200,11 +200,13 @@ export async function generateMainCopyToMemory(
         {
             simplified,
             traditional,
-            pinyin,
+            pinyin: pinyinRaw,
             english,
         }: ISimplifiedTraditionalWithEnglish,
         source: string
     ) {
+        const pinyin = pinyinRaw.replaceAll(" · ", "_");
+
         {
             const simIndex = simplified;
             // existing simplified
@@ -217,6 +219,15 @@ export async function generateMainCopyToMemory(
                 type:
                     hanziTypeList[simIndex] ??
                     (type === "T" ? "B" : type ?? "S"),
+                pinyinEnglish: {
+                    ...eSim?.pinyinEnglish,
+                    [pinyin]: [
+                        ...new Set([
+                            ...(eSim?.pinyinEnglish?.[pinyin] ?? []),
+                            ...english,
+                        ]),
+                    ],
+                },
                 english: [...new Set([...(eSim?.english ?? []), ...english])],
             };
 
@@ -244,6 +255,15 @@ export async function generateMainCopyToMemory(
                 type:
                     hanziTypeList[traIndex] ??
                     (type === "S" ? "B" : type ?? "T"),
+                pinyinEnglish: {
+                    ...eTra?.pinyinEnglish,
+                    [pinyin]: [
+                        ...new Set([
+                            ...(eTra?.pinyinEnglish?.[pinyin] ?? []),
+                            ...english,
+                        ]),
+                    ],
+                },
                 english: [...new Set([...(eTra?.english ?? []), ...english])],
             };
 
@@ -904,10 +924,10 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
 
         const english = englishRaw.split("/");
 
-        if (simplified === "干净") {
-            console.log("clean");
-            console.log(line);
-        }
+        // if (simplified === "干净") {
+        //     console.log("clean");
+        //     console.log(line);
+        // }
 
         // if (simplified === "允許安裝來自未知來源的應用") {
         //     console.log(line);

@@ -3,6 +3,9 @@
 // assume that there are duplicates.
 // handle in the code accordingly.
 
+type Hanzi = string;
+type English = string;
+
 export interface ISimplifiedTraditional {
     simplified: string;
     traditional: string;
@@ -45,16 +48,28 @@ export interface IHanziTypeList {
 // master source to generate from
 export interface IHanziLookup {
     [hanzi: string]: {
-        pinyin?: string[];
         hsk?: number;
         type?: "S" | "T" | "B" | "X"; // simplified, traditional, both, unknown
         aka?: string; // also known as. hanzi,
-        english?: string[];
+        pinyinEnglish?: {
+            [pinyin: string]: English[];
+        };
 
-        pinyinEnglish: [{ pinyin: string; english: string[] }];
+        pinyin?: string[];
+        english?: string[];
     };
 }
 
 export interface ICorrection {
-    [hanzi: string]: string;
+    [hanzi: string]: Hanzi;
+}
+
+// Examples:
+// "了-le": 【"modal particle intensifying preceding clause"】
+// "了-liǎo": 【"to finish"】
+// "会-huì"： ["can","to be possible","to be able to","will"】
+// "会-kuài"： ["to balance an account"]
+
+export interface IHanziPinyinEnglishLookup {
+    [hanziPinyin: string]: English[];
 }
