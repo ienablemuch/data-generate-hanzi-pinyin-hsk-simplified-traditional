@@ -2,7 +2,7 @@ import { generateHanziTypeToMemory } from "./generate-hanzi-type-to-memory.ts";
 import {
     generateMainCopyToMemory,
     generateLongHanziFromChineseSentenceMiner,
-    generateLongHanziFromCedPane,
+    // generateLongHanziFromCedPane,
     generateSpacing,
 } from "./generate-main-copy-to-memory.ts";
 
@@ -31,16 +31,17 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
 
     console.log(Object.keys(cleanedUpHzl).length);
 
-    const hzlSentenceMiner = await generateLongHanziFromChineseSentenceMiner(
-        cleanedUpHzl,
-        hanziTypeList
-    );
-    const hzlCedPane = await generateLongHanziFromCedPane(
-        hzlSentenceMiner,
-        hanziTypeList
-    );
+    // const hzlSentenceMiner = await generateLongHanziFromChineseSentenceMiner(
+    //     cleanedUpHzl,
+    //     hanziTypeList
+    // );
 
-    const hzlSpaced = generateSpacing(hzlCedPane);
+    // const hzlCedPane = await generateLongHanziFromCedPane(
+    //     hzlSentenceMiner,
+    //     hanziTypeList
+    // );
+
+    const hzlSpaced = generateSpacing(cleanedUpHzl);
 
     // space = underscore
     const hzlKeepOne = keepOnePinyinOnSpaceGenerated(hzlSpaced);
