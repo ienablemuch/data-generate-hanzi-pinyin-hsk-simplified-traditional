@@ -275,7 +275,7 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
         ] of hzlArray) {
             ++i;
 
-            if (!(type && ["S", "B"].includes(type) && pinyinEnglish)) {
+            if (!(type && pinyinEnglish)) {
                 continue;
             }
 
@@ -323,8 +323,12 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
 
             d.index[hanzi] = meanings;
 
-            if (type === "S" && aka) {
-                d.index[aka] = meanings;
+            if (aka !== hanzi) {
+                if (["S", "T"].includes(type) && aka) {
+                    if (!d.index[aka]) {
+                        d.index[aka] = meanings;
+                    }
+                }
             }
 
             d.entries.push(pinyinMeaningList);
