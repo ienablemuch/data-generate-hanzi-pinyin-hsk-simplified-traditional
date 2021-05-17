@@ -164,9 +164,9 @@ export function useUnderscoreOnPinyinEnglish(hzl: IHanziLookup): IHanziLookup {
 
 
        if (pinyin?.length  === 1 && pinyin[0].includes('_') && pinyinEnglish) {
-           console.log('has space');
-           console.log(hanzi);
-           console.log(pinyin[0]);
+        //    console.log('has space');
+        //    console.log(hanzi);
+        //    console.log(pinyin[0]);
 
            newHzl[hanzi].pinyinEnglish = {
                [pinyin[0]]: Object.values(pinyinEnglish)[0]

@@ -957,7 +957,7 @@ export function generateSpacing(hzlSource: IHanziLookup): IHanziLookup {
         // console.log(hanzi);
         if (
             /\d/.test(hanzi) ||
-            hanzi.length <= 3 ||
+            hanzi.length <= 2 ||
             source.startsWith("AA") ||
             !pinyinArray
         ) {
