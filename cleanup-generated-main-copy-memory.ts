@@ -137,3 +137,42 @@ export function keepOnePinyinOnSpaceGenerated(hzl: IHanziLookup): IHanziLookup {
 
     return newHzl;
 }
+
+export function useUnderscoreOnPinyinEnglish(hzl: IHanziLookup): IHanziLookup {
+    const newHzl: IHanziLookup = {};
+
+    // prettier-ignore
+    for (const [
+        hanzi,
+        {
+            hsk, type, aka, pinyin, english,  pinyinEnglish,
+            // @ts-ignore
+            source 
+        },
+    ] of Object.entries(hzl)) {
+
+        newHzl[hanzi] = {
+            hsk,
+            type,
+            aka,
+            pinyinEnglish,
+            pinyin,
+            english,
+            // @ts-ignore
+            source,
+        };
+
+
+       if (pinyin?.length  === 1 && pinyin[0].includes('_') && pinyinEnglish) {
+           console.log('has space');
+           console.log(hanzi);
+           console.log(pinyin[0]);
+
+           newHzl[hanzi].pinyinEnglish = {
+               [pinyin[0]]: Object.values(pinyinEnglish)[0]
+           }
+       }
+    }
+
+    return newHzl;
+}

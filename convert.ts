@@ -9,6 +9,7 @@ import {
 import {
     postCleanup,
     keepOnePinyinOnSpaceGenerated,
+    useUnderscoreOnPinyinEnglish,
 } from "./cleanup-generated-main-copy-memory.ts";
 
 import {
@@ -41,7 +42,10 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
 
     const hzlSpaced = generateSpacing(hzlCedPane);
 
-    const hzl = keepOnePinyinOnSpaceGenerated(hzlSpaced);
+    // space = underscore
+    const hzlKeepOne = keepOnePinyinOnSpaceGenerated(hzlSpaced);
+
+    const hzl = useUnderscoreOnPinyinEnglish(hzlKeepOne);
 
     const unifiedMappingCorrection = await applyUnifiedCorrection(hzl);
     const compatibilityMappingCorrection = await applyCompatibilityCorrection(
