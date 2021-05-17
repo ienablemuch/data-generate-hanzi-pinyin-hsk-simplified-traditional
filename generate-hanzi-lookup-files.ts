@@ -1,6 +1,6 @@
 import { writeJson } from "https://deno.land/x/jsonfile/mod.ts";
 
-import { IHanziLookup } from "./interfaces.ts";
+import { IHanziLookup, PinyinMeaning, Dictionary } from "./interfaces.ts";
 
 import { getToneNumber, removeTone } from "./3rd-party-code/pinyin-utils.ts";
 
@@ -16,6 +16,8 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     await createHanziEnglishLookupFile();
 
     await createHanziPinyinEnglishLookupFile();
+
+    await createDictionaryFile();
 
     return;
 
@@ -248,6 +250,96 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
         // console.log(hpl);
 
         await writeJson("./lookup-hanzi-pinyin-english.json", hpel);
+    }
+
+    async function createDictionaryFile() {
+        const d: Dictionary = {
+            index: {},
+            entries: [[]],
+        };
+
+        const hzlArray = Object.entries(hzl);
+        const hzlCount = hzlArray.length;
+
+        let i = 1;
+
+        for (const [
+            hanzi,
+            {
+                type,
+                aka,
+                pinyinEnglish,
+                // @ts-ignore
+                source,
+            },
+        ] of hzlArray) {
+            ++i;
+
+            if (!(type && ["S", "B"].includes(type) && pinyinEnglish)) {
+                continue;
+            }
+
+            console.log(
+                `${i} of ${hzlCount}. ${Math.ceil(
+                    (i / hzlCount) * 100
+                )}% ${hanzi}`
+            );
+
+            const meanings = d.entries.length;
+
+            const pinyinMeaningList: PinyinMeaning[] = [];
+
+            for (const [pinyin, englishList] of Object.entries(pinyinEnglish)) {
+                const cp = compressPinyin(pinyin);
+
+                if (!cp) {
+                    console.error(`Hanzi ${hanzi} has no pinyin`);
+                    throw Error(`Unusual: ${hanzi} has no pinyin`);
+                }
+
+                const pinyinMeaning: PinyinMeaning = {
+                    p: cp,
+                    e: englishList
+                        .slice(
+                            0,
+                            source.startsWith("AA") ? 1 : englishList.length + 1
+                        )
+                        .reduce(
+                            (acc, item, i) =>
+                                i > 0 ? acc + ". " + item : item,
+                            ""
+                        ),
+                    // @ts-ignore
+                    l: meanings,
+                };
+
+                pinyinMeaningList.push(pinyinMeaning);
+            }
+
+            // d.index = {
+            //     ...d.index,
+            //     [hanzi]: meanings,
+            // };
+
+            d.index[hanzi] = meanings;
+
+            if (type === "S" && aka) {
+                d.index[aka] = meanings;
+            }
+
+            d.entries.push(pinyinMeaningList);
+        }
+
+        await writeJson("./lookup-dictionary-debug.json", d, { spaces: 2 });
+
+        for (const entry of d.entries) {
+            for (const pe of entry) {
+                // @ts-ignore
+                delete pe.l;
+            }
+        }
+
+        await writeJson("./lookup-dictionary.json", d);
     }
 }
 

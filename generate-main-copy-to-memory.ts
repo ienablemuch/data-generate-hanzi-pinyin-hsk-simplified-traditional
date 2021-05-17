@@ -910,13 +910,18 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
             return;
         }
         // prettier-ignore
-        const r = line.match(/(\p{Script=Han}+) (\p{Script=Han}+) \[([^\]]+)\] \/(.*)\//u);
+        const r = line.match(/([\p{Script=Han}\p{Script=Latin}]+) ([\p{Script=Han}\p{Script=Latin}]+) \[([^\]]+)\] \/(.*)\//u);
         const {
             $1: traditional,
             $2: simplified,
             $3: pinyinRaw,
             $4: englishRaw,
         } = RegExp;
+
+        if (!(traditional && simplified)) {
+            throw Error(`Error on this line:\n` + line);
+            continue;
+        }
 
         const pinyin = pinyinRaw.replace(/[\p{Script=Latin}\d]+/gu, (match) =>
             numberToMark(match)

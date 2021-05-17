@@ -163,19 +163,23 @@ Index:
     [
         {p: "liǎo", "(of eyes) bright. clear-sighted. to understand clearly },
         {p: "liào": "to watch from a height or distance. to survey"}  
-    ]
+    ],
 
     // line 1314
     [
         {p: "le", e: "(modal particle intensifying preceding clause). (completed action marker)"},
         {p: "liǎo", e: "to finish. to achieve. to understand clearly",
-    ]
+    ],
 ]*/
 
-interface IDictionaryIndex {
-    [pinyin: string]: number; // array line number
+export type PinyinMeaning = { p: string; e: string };
+
+// prettier-ignore
+export type Dictionary = {
+    index: {
+        [hanzi: string]: number; // array index on entries
+    },
+    entries: [
+        PinyinMeaning[]
+    ]
 }
-
-type PinyinMeaning = { p: string; e: string };
-
-type Dictionary = [PinyinMeaning[]];
