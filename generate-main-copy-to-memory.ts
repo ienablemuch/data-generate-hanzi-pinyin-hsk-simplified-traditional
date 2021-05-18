@@ -35,6 +35,30 @@ export async function generateMainCopyToMemory(
     const hzl: IHanziLookup = {};
 
     for await (const {
+        hanzi,
+        pinyin,
+        hsk,
+        english,
+    } of cleanHanziPinyinHskWithEnglish()) {
+        const eHanzi = hzl[hanzi];
+
+        hzl[hanzi] = {
+            ...eHanzi,
+            pinyin: [
+                ...new Set([
+                    ...(eHanzi?.pinyin ?? []),
+                    ...(typeof pinyin === "string" ? [pinyin] : pinyin),
+                ]),
+            ],
+            hsk: eHanzi?.hsk ?? hsk,
+            english: [...new Set([...(eHanzi?.english ?? []), ...english])],
+        };
+
+        // @ts-ignore
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "EE";
+    }
+
+    for await (const {
         simplified,
         traditional,
         pinyin,
@@ -57,7 +81,7 @@ export async function generateMainCopyToMemory(
         if (
             // @ts-ignore
             // prettier-ignore
-            hzl[simplified]?.source === 'AAs' && hzl[traditional]?.source === 'AAt'
+            hzl[simplified]?.source?.includes('AAs') && hzl[traditional]?.source?.includes('AAt')
         ) {
             continue;
         }
@@ -93,30 +117,6 @@ export async function generateMainCopyToMemory(
 
         // @ts-ignore
         hzl[from].source = (hzl[from].source ?? "") + "DD";
-    }
-
-    for await (const {
-        hanzi,
-        pinyin,
-        hsk,
-        english,
-    } of cleanHanziPinyinHskWithEnglish()) {
-        const eHanzi = hzl[hanzi];
-
-        hzl[hanzi] = {
-            ...eHanzi,
-            pinyin: [
-                ...new Set([
-                    ...(eHanzi?.pinyin ?? []),
-                    ...(typeof pinyin === "string" ? [pinyin] : pinyin),
-                ]),
-            ],
-            hsk: eHanzi?.hsk ?? hsk,
-            english: [...new Set([...(eHanzi?.english ?? []), ...english])],
-        };
-
-        // @ts-ignore
-        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "EE";
     }
 
     for await (const { hanzi, pinyin } of cleanHanziPinyinFromUnihan()) {
@@ -166,16 +166,16 @@ export async function generateMainCopyToMemory(
         }
     }*/
 
-    for await (const {
-        simplified,
-        traditional,
-        pinyin,
-    } of cleanHanziPinyinFromDictionary()) {
-        processSimplifiedTraditional(
-            { simplified, traditional, pinyin, english: [] },
-            "YY"
-        );
-    }
+    // for await (const {
+    //     simplified,
+    //     traditional,
+    //     pinyin,
+    // } of cleanHanziPinyinFromDictionary()) {
+    //     processSimplifiedTraditional(
+    //         { simplified, traditional, pinyin, english: [] },
+    //         "YY"
+    //     );
+    // }
 
     // Removed this, to avoid inconsistencies in pinyin
     for await (const {
@@ -413,7 +413,7 @@ async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskW
     }
 }
 
-async function* cleanHanziPinyinFromDictionary(): AsyncIterable<ISimplifiedTraditional> {
+async function* x_cleanHanziPinyinFromDictionary(): AsyncIterable<ISimplifiedTraditional> {
     interface IDictionary {
         word: string;
         oldword: string;

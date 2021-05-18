@@ -261,8 +261,8 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
         const hzlArray = Object.entries(hzl);
         const hzlCount = hzlArray.length;
 
-        let i = 1;
-
+        console.log("");
+        let i = 0;
         for (const [
             hanzi,
             {
@@ -279,10 +279,10 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
                 continue;
             }
 
-            console.log(
+            await log(
                 `${i} of ${hzlCount}. ${Math.ceil(
                     (i / hzlCount) * 100
-                )}% ${hanzi}`
+                )}% ${hanzi}\r`
             );
 
             const meanings = d.entries.length;
@@ -381,3 +381,12 @@ yǔn xǔ_ān zhuāng_lái zì_wèi zhī_lái yuán_de_yìng yòng
 ]
 
 */
+
+// https://stackoverflow.com/questions/64398431/how-to-console-log-without-a-newline-in-deno
+// https://www.danvega.dev/blog/2020/06/03/deno-stdin-stdout/
+async function log(s: string) {
+    const text = new TextEncoder().encode(s);
+    await Deno.writeAll(Deno.stdout, text);
+
+    // await Deno.stdout.write(new TextEncoder().encode("Post Title: "));
+}
