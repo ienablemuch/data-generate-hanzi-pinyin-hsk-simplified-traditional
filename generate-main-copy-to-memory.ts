@@ -7,8 +7,11 @@ import {
     ISimplifiedTraditional,
     IHanziPinyinHskWithEnglish,
     IHanziPinyin,
+    IHanziPinyinEnglish,
     IHanziHsk,
     IConversion,
+    English,
+    Pinyin,
 } from "./interfaces.ts";
 
 // import "./interfaces.ts";
@@ -37,13 +40,30 @@ export async function generateMainCopyToMemory(
     const hzl: IHanziLookup = {};
 
     // this will not put single hanzi surnames as the first pinyin in the generated lookups
-    for await (const { hanzi, pinyin } of cleanHanziPinyinFromUnihan()) {
+    for await (const {
+        hanzi,
+        pinyin,
+        english,
+    } of cleanHanziPinyinFromUnihan()) {
         const eHanzi = hzl[hanzi];
 
         hzl[hanzi] = {
             ...eHanzi,
+            english: [...new Set([...(eHanzi?.english ?? []), ...english])],
             pinyin: [...new Set([...(eHanzi?.pinyin ?? []), ...pinyin])],
         };
+
+        for (const eachPinyin of pinyin) {
+            hzl[hanzi].pinyinEnglish = {
+                ...eHanzi?.pinyinEnglish,
+                [eachPinyin]: [
+                    ...new Set([
+                        ...(eHanzi?.pinyinEnglish?.[eachPinyin] ?? []),
+                        ...english,
+                    ]),
+                ],
+            };
+        }
 
         // @ts-ignore
         hzl[hanzi].source = (hzl[hanzi].source ?? "") + "FF";
@@ -454,17 +474,28 @@ async function* x_cleanHanziPinyinFromDictionary(): AsyncIterable<ISimplifiedTra
     }
 }
 
-async function* cleanHanziPinyinFromUnihan(): AsyncIterable<IHanziPinyin> {
+async function* cleanHanziPinyinFromUnihan(): AsyncIterable<IHanziPinyinEnglish> {
+    interface IEnglishCollection {
+        [hanzi: string]: English;
+    }
+
     interface IHanziCollection {
-        [hanzi: string]: string; // pinyin
+        [hanzi: string]: Pinyin;
     }
 
     const json = (await readJson(
         "unihan-json/kMandarin.json"
     )) as IHanziCollection;
 
+    const englishJson = (await readJson(
+        "unihan-json/kDefinition.json"
+    )) as IHanziCollection;
+
     for (const [hanzi, pinyin] of Object.entries(json)) {
-        yield { hanzi, pinyin: pinyin.split(" ") };
+        if (!englishJson[hanzi]) {
+            continue;
+        }
+        yield { hanzi, pinyin: pinyin.split(" "), english: englishJson[hanzi] };
     }
 }
 

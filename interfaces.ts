@@ -3,8 +3,9 @@
 // assume that there are duplicates.
 // handle in the code accordingly.
 
-type Hanzi = string;
-type English = string;
+export type Hanzi = string;
+export type English = string;
+export type Pinyin = string;
 
 export interface ISimplifiedTraditional {
     simplified: string;
@@ -20,6 +21,10 @@ export interface ISimplifiedTraditionalWithEnglish
 export interface IHanziPinyin {
     hanzi: string;
     pinyin: string | string[];
+}
+
+export interface IHanziPinyinEnglish extends IHanziPinyin {
+    english: string;
 }
 
 export interface IHanziPinyinHskWithEnglish extends IHanziPinyin {
