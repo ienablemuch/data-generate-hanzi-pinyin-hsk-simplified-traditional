@@ -17,6 +17,8 @@ import { pinyinify } from "./pinyinify.ts";
 
 import { removeTone, numberToMark } from "./3rd-party-code/pinyin-utils.ts";
 
+import { normalizePinyin } from "./common.ts";
+
 // tests..
 // for await (const word of cleanSimplifiedTraditional()) console.log(word);
 // for await (const word of cleanSimplifiedToTraditional()) console.log(word);
@@ -33,6 +35,19 @@ export async function generateMainCopyToMemory(
     hanziTypeList: IHanziTypeList
 ): Promise<IHanziLookup> {
     const hzl: IHanziLookup = {};
+
+    // this will not put single hanzi surnames as the first pinyin in the generated lookups
+    for await (const { hanzi, pinyin } of cleanHanziPinyinFromUnihan()) {
+        const eHanzi = hzl[hanzi];
+
+        hzl[hanzi] = {
+            ...eHanzi,
+            pinyin: [...new Set([...(eHanzi?.pinyin ?? []), ...pinyin])],
+        };
+
+        // @ts-ignore
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "FF";
+    }
 
     for await (const {
         hanzi,
@@ -119,18 +134,6 @@ export async function generateMainCopyToMemory(
         hzl[from].source = (hzl[from].source ?? "") + "DD";
     }
 
-    for await (const { hanzi, pinyin } of cleanHanziPinyinFromUnihan()) {
-        const eHanzi = hzl[hanzi];
-
-        hzl[hanzi] = {
-            ...eHanzi,
-            pinyin: [...new Set([...(eHanzi?.pinyin ?? []), ...pinyin])],
-        };
-
-        // @ts-ignore
-        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "FF";
-    }
-
     for await (const { hanzi, hsk } of cleanHanziHskFromUnihan()) {
         const eHanzi = hzl[hanzi];
 
@@ -205,7 +208,8 @@ export async function generateMainCopyToMemory(
         }: ISimplifiedTraditionalWithEnglish,
         source: string
     ) {
-        const pinyin = pinyinRaw.replaceAll(" · ", "_");
+        // const pinyin = pinyinRaw.replaceAll(" · ", "_");
+        const pinyin = normalizePinyin(pinyinRaw);
 
         {
             const simIndex = simplified;
