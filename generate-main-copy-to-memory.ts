@@ -49,7 +49,7 @@ export async function generateMainCopyToMemory(
 
         hzl[hanzi] = {
             ...eHanzi,
-            english: [...new Set([...(eHanzi?.english ?? []), ...english])],
+            english: [...new Set([...(eHanzi?.english ?? []), english])],
             pinyin: [...new Set([...(eHanzi?.pinyin ?? []), ...pinyin])],
         };
 
@@ -59,7 +59,7 @@ export async function generateMainCopyToMemory(
                 [eachPinyin]: [
                     ...new Set([
                         ...(eHanzi?.pinyinEnglish?.[eachPinyin] ?? []),
-                        ...english,
+                        english,
                     ]),
                 ],
             };
@@ -75,6 +75,8 @@ export async function generateMainCopyToMemory(
         hsk,
         english,
     } of cleanHanziPinyinHskWithEnglish()) {
+        // cleanHanziPinyinHskWithEnglish don't have array of pinyin.
+        // this is just to suppress the errors from compiler
         if (Array.isArray(pinyin)) {
             continue;
         }
