@@ -275,7 +275,9 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
         ] of hzlArray) {
             ++i;
 
-            if (!(type && pinyinEnglish)) {
+            //  "chinese-sentence-miner-master/data/hsk.json" has no type. so we commented out the code that checks for presence of type
+            // if (!(type && pinyinEnglish)) {
+            if (!pinyinEnglish) {
                 continue;
             }
 
@@ -324,7 +326,7 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
             d.index[hanzi] = meanings;
 
             if (aka !== hanzi) {
-                if (["S", "T"].includes(type) && aka) {
+                if (type && ["S", "T"].includes(type) && aka) {
                     if (!d.index[aka]) {
                         d.index[aka] = meanings;
                     }

@@ -55,17 +55,30 @@ export async function generateMainCopyToMemory(
         hsk,
         english,
     } of cleanHanziPinyinHskWithEnglish()) {
+        if (Array.isArray(pinyin)) {
+            continue;
+        }
+
         const eHanzi = hzl[hanzi];
 
         hzl[hanzi] = {
             ...eHanzi,
+            hsk: eHanzi?.hsk ?? hsk,
+            pinyinEnglish: {
+                ...eHanzi?.pinyinEnglish,
+                [pinyin]: [
+                    ...new Set([
+                        ...(eHanzi?.pinyinEnglish?.[pinyin] ?? []),
+                        ...english,
+                    ]),
+                ],
+            },
             pinyin: [
                 ...new Set([
                     ...(eHanzi?.pinyin ?? []),
                     ...(typeof pinyin === "string" ? [pinyin] : pinyin),
                 ]),
             ],
-            hsk: eHanzi?.hsk ?? hsk,
             english: [...new Set([...(eHanzi?.english ?? []), ...english])],
         };
 
@@ -409,11 +422,15 @@ async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskW
         "chinese-sentence-miner-master/data/hsk.json"
     )) as IHsk[];
 
-    for (const { hanzi, pinyin, HSK: hsk, translations } of json) {
-        // removed this, too many translations already from CedPane and CEDICT
+    for (const { hanzi, pinyin: pinyinRaw, HSK: hsk, translations } of json) {
+        // May 18:
+        // removed this, too many translations already from CedPane and CEDICT.
+        // May 19:
+        // need to restore this, we have hanzi that don't have supporting translation
         // don't allow symbols
-        // const english = translations.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
-        yield { hanzi, pinyin, hsk, english: [] };
+        const english = translations.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
+        const pinyin = normalizePinyin(pinyinRaw);
+        yield { hanzi, pinyin, hsk, english };
     }
 }
 
