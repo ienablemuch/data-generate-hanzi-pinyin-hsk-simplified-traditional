@@ -494,10 +494,11 @@ async function* cleanHanziPinyinFromUnihan(): AsyncIterable<IHanziPinyinEnglish>
     )) as IHanziCollection;
 
     for (const [hanzi, pinyin] of Object.entries(json)) {
-        if (!englishJson[hanzi]) {
-            continue;
-        }
-        yield { hanzi, pinyin: pinyin.split(" "), english: englishJson[hanzi] };
+        yield {
+            hanzi,
+            pinyin: pinyin.split(" "),
+            english: englishJson[hanzi] ?? pinyin, // TODO: Find master list of hanzi database. for the meantime, show pinyin for English
+        };
     }
 }
 
