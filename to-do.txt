@@ -1,3 +1,12 @@
+There are some words that even Google and Bing don't have a translation, e.g.,
+
+裻
+
+DeepL has a translation for the above, that is, scroll
+
+
+----
+
 
 make 菲律宾 one word
 

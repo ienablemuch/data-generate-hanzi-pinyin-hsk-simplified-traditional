@@ -518,7 +518,7 @@ async function* cleanHanziPinyinFromUnihan(): AsyncIterable<IHanziPinyinEnglish>
     }
 }
 
-async function getHanziEnglishLookup(): Promise<IHanziEnglishLookup> {
+export async function getHanziEnglishLookup(): Promise<IHanziEnglishLookup> {
     const text = await Deno.readTextFile(
         "CedPane-master/PD-English-Definitions.txt"
     );
@@ -1046,7 +1046,10 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
     }
 }
 
-export function generateSpacing(hzlSource: IHanziLookup): IHanziLookup {
+export function generateSpacing(
+    hzlSource: IHanziLookup,
+    oneWordPhraseLookup: IHanziEnglishLookup
+): IHanziLookup {
     let hzl = { ...hzlSource };
 
     // @ts-ignore
@@ -1167,86 +1170,101 @@ export function generateSpacing(hzlSource: IHanziLookup): IHanziLookup {
         // console.log(firstPinyin);
 
         const words: string[] = [];
+        const isCompoundWord = oneWordPhraseLookup[hanzi];
 
-        for (let i = 0; i < hanzi.length; ) {
-            let hasMatch = false;
-            // @ts-ignore
-            for (let upTo = hanzi.length - ((i === 0) + 0); upTo > i; --upTo) {
-                const word = hanzi.slice(i, upTo);
+        let pinyinWithWordBoundary = "";
 
-                const matched = hzl[word];
+        if (!isCompoundWord) {
+            for (let i = 0; i < hanzi.length; ) {
+                let hasMatch = false;
+                // @ts-ignore
+                for (
+                    // @ts-ignore
+                    let upTo = hanzi.length - ((i === 0) + 0);
+                    upTo > i;
+                    --upTo
+                ) {
+                    const word = hanzi.slice(i, upTo);
 
-                if (matched) {
-                    words.push(word);
-                    i += word.length;
-                    hasMatch = true;
-                    break;
+                    const matched = hzl[word];
+
+                    if (matched) {
+                        words.push(word);
+                        i += word.length;
+                        hasMatch = true;
+                        break;
+                    }
+                }
+                if (!hasMatch) {
+                    const toPush = hanzi.slice(i, i + 1);
+                    // console.log(toPush);
+                    words.push(toPush);
+                    ++i;
+                    continue;
                 }
             }
-            if (!hasMatch) {
-                const toPush = hanzi.slice(i, i + 1);
-                // console.log(toPush);
-                words.push(toPush);
-                ++i;
+
+            const pinyinSyllables = firstPinyin.split(" ");
+
+            // const pinyinLetters = firstPinyin.replaceAll(" ", "").split("");
+
+            const pinyinWords: string[] = [];
+            for (const word of words) {
+                const obtainedSyllables = pinyinSyllables.splice(
+                    0,
+                    word.length
+                );
+                pinyinWords.push(obtainedSyllables.join(" "));
+
+                // const obtainedPinyinSyllableList = [];
+
+                // for (const hanziSyllable of word) {
+                //     // will break on 乐。 yue = 3, le = 2
+                //     const hanziSyllableLength =
+                //         hzl[hanziSyllable]?.pinyin?.[0]?.length ?? 0;
+
+                //     const obtainedPinyinSyllable = pinyinLetters.splice(
+                //         0,
+                //         hanziSyllableLength
+                //     );
+
+                //     obtainedPinyinSyllableList.push(
+                //         obtainedPinyinSyllable.join("")
+                //     );
+                // }
+
+                // pinyinWords.push(obtainedPinyinSyllableList.join(" "));
+            }
+
+            const hasEqualHanziPinyin = words.every(
+                (word, i) => pinyinWords[i].split(" ").length === word.length
+            );
+
+            // console.log(hanzi);
+            // console.log(firstPinyin);
+            // //
+            // console.log(words);
+            // console.log(pinyinWords);
+            pinyinWithWordBoundary = pinyinWords.join("_");
+            // console.log(pinyinWithWordBoundary);
+
+            if (
+                !hasEqualHanziPinyin ||
+                pinyinWithWordBoundary.length !== firstPinyin.length
+            ) {
+                console.log("does not matched!");
+                console.group();
+                console.log(hanzi);
+                console.log(firstPinyin);
+                console.log(words);
+                console.log(pinyinWords);
+                console.log(pinyinWithWordBoundary);
+                console.groupEnd();
+                // Deno.exit(1);
                 continue;
             }
-        }
-
-        const pinyinSyllables = firstPinyin.split(" ");
-
-        // const pinyinLetters = firstPinyin.replaceAll(" ", "").split("");
-
-        const pinyinWords: string[] = [];
-        for (const word of words) {
-            const obtainedSyllables = pinyinSyllables.splice(0, word.length);
-            pinyinWords.push(obtainedSyllables.join(" "));
-
-            // const obtainedPinyinSyllableList = [];
-
-            // for (const hanziSyllable of word) {
-            //     // will break on 乐。 yue = 3, le = 2
-            //     const hanziSyllableLength =
-            //         hzl[hanziSyllable]?.pinyin?.[0]?.length ?? 0;
-
-            //     const obtainedPinyinSyllable = pinyinLetters.splice(
-            //         0,
-            //         hanziSyllableLength
-            //     );
-
-            //     obtainedPinyinSyllableList.push(
-            //         obtainedPinyinSyllable.join("")
-            //     );
-            // }
-
-            // pinyinWords.push(obtainedPinyinSyllableList.join(" "));
-        }
-
-        const hasEqualHanziPinyin = words.every(
-            (word, i) => pinyinWords[i].split(" ").length === word.length
-        );
-
-        // console.log(hanzi);
-        // console.log(firstPinyin);
-        // //
-        // console.log(words);
-        // console.log(pinyinWords);
-        const pinyinWithWordBoundary = pinyinWords.join("_");
-        // console.log(pinyinWithWordBoundary);
-
-        if (
-            !hasEqualHanziPinyin ||
-            pinyinWithWordBoundary.length !== firstPinyin.length
-        ) {
-            console.log("does not matched!");
-            console.group();
-            console.log(hanzi);
-            console.log(firstPinyin);
-            console.log(words);
-            console.log(pinyinWords);
-            console.log(pinyinWithWordBoundary);
-            console.groupEnd();
-            // Deno.exit(1);
-            continue;
+        } else {
+            pinyinWithWordBoundary = firstPinyin;
         }
 
         const matchedHanzi = hzl[hanzi];

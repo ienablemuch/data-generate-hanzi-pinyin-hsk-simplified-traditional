@@ -3,6 +3,7 @@ import {
     generateMainCopyToMemory,
     generateLongHanziFromChineseSentenceMiner,
     // generateLongHanziFromCedPane,
+    getHanziEnglishLookup,
     generateSpacing,
 } from "./generate-main-copy-to-memory.ts";
 
@@ -41,7 +42,8 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     //     hanziTypeList
     // );
 
-    const hzlSpaced = generateSpacing(cleanedUpHzl);
+    const pdEnglishLookup = await getHanziEnglishLookup();
+    const hzlSpaced = generateSpacing(cleanedUpHzl, pdEnglishLookup);
 
     // space = underscore
     const hzlKeepOne = keepOnePinyinOnSpaceGenerated(hzlSpaced);
