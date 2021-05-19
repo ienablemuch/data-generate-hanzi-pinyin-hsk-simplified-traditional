@@ -68,6 +68,16 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
             console.log(`Hanzi ${hanzi} don't have any pinyin.`);
             console.log(newHzl[hanzi]);
         }
+
+        const hanziObject = newHzl[hanzi];
+        // There are some words that even Google and Bing don't have a translation, e.g., 裻
+        // For hanzi without English, just use the pinyin
+        if (hanziObject.pinyin && !hanziObject.pinyinEnglish) {
+            hanziObject.pinyinEnglish = hanziObject.pinyin.reduce(
+                (acc, eachPinyin) => ({ ...acc, [eachPinyin]: [eachPinyin] }),
+                {}
+            );
+        }
     }
 
     return newHzl;
