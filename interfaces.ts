@@ -68,16 +68,19 @@ export interface IHanziLookup {
 export interface ICorrection {
     [hanzi: string]: Hanzi;
 }
-
-// Examples:
-// "了-le": 【"modal particle intensifying preceding clause"】
-// "了-liǎo": 【"to finish"】
-// "会-huì"： ["can","to be possible","to be able to","will"】
-// "会-kuài"： ["to balance an account"]
-
-export interface IHanziPinyinEnglishLookup {
-    [hanziPinyin: string]: English[];
+export interface IHanziEnglishLookup {
+    [hanzi: string]: English;
 }
+
+// // Examples:
+// // "了-le": 【"modal particle intensifying preceding clause"】
+// // "了-liǎo": 【"to finish"】
+// // "会-huì"： ["can","to be possible","to be able to","will"】
+// // "会-kuài"： ["to balance an account"]
+
+// export interface IHanziPinyinEnglishLookup {
+//     [hanziPinyin: string]: English[];
+// }
 
 // pinyin should already be processed, that is this..
 // Mài kè ěr_Qiáo dān

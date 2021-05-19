@@ -10,6 +10,7 @@ import {
     IHanziPinyinEnglish,
     IHanziHsk,
     IConversion,
+    IHanziEnglishLookup,
     English,
     Pinyin,
 } from "./interfaces.ts";
@@ -49,11 +50,20 @@ export async function generateMainCopyToMemory(
 
         hzl[hanzi] = {
             ...eHanzi,
-            english: [...new Set([...(eHanzi?.english ?? []), english])],
             pinyin: [...new Set([...(eHanzi?.pinyin ?? []), ...pinyin])],
         };
 
+        if (english) {
+            hzl[hanzi].english = [
+                ...(eHanzi?.english ?? []),
+                ...new Set([...(eHanzi?.english ?? []), english]),
+            ];
+        }
+
         for (const eachPinyin of pinyin) {
+            if (!english) {
+                continue;
+            }
             hzl[hanzi].pinyinEnglish = {
                 ...eHanzi?.pinyinEnglish,
                 [eachPinyin]: [
@@ -169,24 +179,6 @@ export async function generateMainCopyToMemory(
         hzl[from].source = (hzl[from].source ?? "") + "DD";
     }
 
-    for await (const { hanzi, hsk } of cleanHanziHskFromUnihan()) {
-        const eHanzi = hzl[hanzi];
-
-        // if already has HSK, but the existing's HSK is different from
-        // one we are iterating, why?
-        if (eHanzi.hsk && hsk !== eHanzi.hsk) {
-            // throw Error(`Hanzi: ${hanzi}. HSK-a: ${eHanzi.hsk} HSK-b: ${hsk}`);
-        }
-
-        hzl[hanzi] = {
-            ...eHanzi,
-            hsk: Math.max(eHanzi.hsk ?? 0, hsk),
-        };
-
-        // @ts-ignore
-        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "GG";
-    }
-
     // Let's do this last, this is the dirtiest database
 
     // let's not use x_x_cleanSimplifiedTraditional(). looks like this is more comprehensive: chinese-pinyin-JSON-master/cedictJSON.json
@@ -222,14 +214,35 @@ export async function generateMainCopyToMemory(
         pinyin,
         english,
     } of cleanZhongwenMasterWithEnglish()) {
-        // To avoid inconsistencies in pinyin
-        if (hzl[simplified] && hzl[traditional]) {
+        // To avoid inconsistencies in pinyin. if it's already a complete entry, don't add to it
+        if (hzl[simplified]?.english && hzl[traditional]?.english) {
             continue;
         }
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english },
             "ZZ"
         );
+    }
+
+    for await (const { hanzi, hsk } of cleanHanziHskFromUnihan()) {
+        const eHanzi = hzl[hanzi];
+
+        // console.log("for cleanHanziHskFromUnihan");
+        // console.log(hanzi);
+
+        // if already has HSK, but the existing's HSK is different from
+        // one we are iterating, why?
+        if (eHanzi.hsk && hsk !== eHanzi.hsk) {
+            // throw Error(`Hanzi: ${hanzi}. HSK-a: ${eHanzi.hsk} HSK-b: ${hsk}`);
+        }
+
+        hzl[hanzi] = {
+            ...eHanzi,
+            hsk: Math.min(eHanzi.hsk ?? 0, hsk),
+        };
+
+        // @ts-ignore
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "GG";
     }
 
     return hzl;
@@ -493,13 +506,40 @@ async function* cleanHanziPinyinFromUnihan(): AsyncIterable<IHanziPinyinEnglish>
         "unihan-json/kDefinition.json"
     )) as IHanziCollection;
 
+    const hanziEnglish = await getHanziEnglishLookup();
+
     for (const [hanzi, pinyin] of Object.entries(json)) {
+        const english = englishJson[hanzi] ?? hanziEnglish[hanzi];
         yield {
             hanzi,
             pinyin: pinyin.split(" "),
-            english: englishJson[hanzi] ?? pinyin, // TODO: Find master list of hanzi database. for the meantime, show pinyin for English
+            english, // TODO: Find master list of hanzi database. for the meantime, show pinyin for English
         };
     }
+}
+
+async function getHanziEnglishLookup(): Promise<IHanziEnglishLookup> {
+    const text = await Deno.readTextFile(
+        "CedPane-master/PD-English-Definitions.txt"
+    );
+
+    const englishLookUp: IHanziEnglishLookup = {};
+
+    const lines = text.split("\n");
+
+    for (const line of lines) {
+        const tokens = line.split("\t");
+        const hanzi = tokens[0];
+        const english = tokens.slice(-1)[0].trim();
+        // console.log("line");
+        // console.log(tokens);
+        // console.log(`${hanzi}: ${english}`);
+        if (tokens.length >= 2) {
+            englishLookUp[hanzi] = english;
+        }
+    }
+
+    return englishLookUp;
 }
 
 async function* cleanHanziHskFromUnihan(): AsyncIterable<IHanziHsk> {
