@@ -4,6 +4,8 @@ import { numberToMark } from "./3rd-party-code/pinyin-utils.ts";
 
 import { normalizePinyin } from "./common.ts";
 
+import { Pinyin, English } from "./interfaces.ts";
+
 // import "./interfaces.ts";
 
 export function postCleanup(hzl: IHanziLookup): IHanziLookup {
@@ -78,9 +80,46 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                 {}
             );
         }
+
+        // hanziObject.english = hanziObject.english?.filter(
+        //     (toExclude, _index, arr) =>
+        //         !arr?.some(
+        //             (other) =>
+        //                 other !== toExclude &&
+        //                 other.includes("'") &&
+        //                 other.replace("'", "") === toExclude
+        //         )
+        // );
+
+        if (hanziObject.english) {
+            hanziObject.english = hanziObject.english.filter(excluder);
+        }
+
+        if (hanziObject.pinyinEnglish) {
+            hanziObject.pinyinEnglish = Object.entries(
+                hanziObject.pinyinEnglish
+            )
+                .reduce<{ p: Pinyin; e: English[] }[]>(
+                    (list, [pinyinKey, englishList]) => [
+                        ...list,
+                        { p: pinyinKey, e: englishList.filter(excluder) },
+                    ],
+                    []
+                )
+                .reduce((accObj, pe) => ({ ...accObj, [pe.p]: pe.e }), {});
+        }
     }
 
     return newHzl;
+
+    function excluder(toExclude: string, _index: number, arr: string[]) {
+        return !arr?.some(
+            (other) =>
+                other !== toExclude &&
+                other.includes("'") &&
+                other.replace("'", "") === toExclude
+        );
+    }
 }
 
 export function keepOnePinyinOnSpaceGenerated(hzl: IHanziLookup): IHanziLookup {

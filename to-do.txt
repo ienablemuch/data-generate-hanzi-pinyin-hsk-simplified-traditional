@@ -1,3 +1,59 @@
+Remove duplicate English
+
+
+  "鋮": {
+    "type": "T",
+    "aka": "铖",
+    "pinyinEnglish": {
+      "chéng": [
+        "person's name",
+        "persons name"
+      ]
+    },
+    "pinyin": [
+      "chéng"
+    ],
+    "english": [
+      "person's name",
+      "persons name"
+    ],
+    "source": "FFBBtDD"
+  },
+
+
+  "酒曲": {
+    "type": "B",
+    "aka": "酒麴",
+    "pinyinEnglish": {
+      "jiǔ qū": [
+        "brewers yeast",
+        "brewer's yeast"
+      ]
+    },
+    "pinyin": [
+      "jiǔ qū"
+    ],
+    "english": [
+      "brewers yeast",
+      "brewer's yeast"
+    ],
+    "source": "BBsBBtZZs"
+  },
+
+
+
+叔 father's younger brother
+
+    "english": [
+      "father's younger brother",
+      "uncle",
+      "fathers younger brother",
+      "husbands younger brother",
+      "Taiwan pr. [shu2]"
+    ],
+
+----
+
 There are some words that even Google and Bing don't have a translation, e.g.,
 
 裻
