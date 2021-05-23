@@ -1,3 +1,19 @@
+declare global {
+    interface String {
+        splitKeep(tokens: string): string[];
+    }
+}
+
+// https://medium.com/@shemar.gordon32/how-to-split-and-keep-the-delimiter-s-d433fb697c65
+String.prototype.splitKeep = function (tokens: string): string[] {
+    const escaped = escapeRegExp(tokens);
+    return this.split(new RegExp(`(?=[${escaped}])|(?<=[${escaped}])`, "g"));
+};
+
+function escapeRegExp(text: string): string {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 export function hasChineseCharacter(text: string) {
     return /\p{Script=Han}/u.test(text);
 }

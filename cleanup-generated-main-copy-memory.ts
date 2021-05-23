@@ -114,10 +114,18 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
 
     function excluder(toExclude: string, _index: number, arr: string[]) {
         return !arr?.some(
+            // prettier-ignore
             (other) =>
-                other !== toExclude &&
-                other.includes("'") &&
-                other.replace("'", "") === toExclude
+                other !== toExclude 
+                &&
+                (
+                    (
+                        other.includes("'") &&
+                        other.replace("'", "") === toExclude
+                    )
+                    ||
+                    other.splitKeep(',;?!').map(each => each.trim()).includes(toExclude)                     
+                )
         );
     }
 }

@@ -1,4 +1,68 @@
+lookup-all lines: 
+5,279,520 prior to cleaning up duplicate english 
+5,268,919 after cleaning
+5,268,886 included question and exclamation marks as separator
+
+lookup-dictionary-debug.json 47.3MB 47.2MB
+lookup-dictionary.json 24.8MB 24.7MB
+lookup-all.json 95.9MB 95.7MB
+
+
+
+Remove duplicates. Examples:
+
+不 bù no, not; un-; negative prefix. not. no. (negative prefix)
+
+火 huǒ fire, flame; burn; anger, rage. fire. urgent. ammunition. fiery or flaming. internal heat (Chinese medicine). hot (popular). classifier for military units (old) Huǒ surname Huo
+
+是 shì indeed, yes, right; to be; demonstrative pronoun, this, that. is. are. am. yes. to be. variant of 是[shi4]. (used in given names)
+
+声 shēng sound, voice, noise; tone; music. sound. voice. tone. noise. classifier for sounds
+
+音 yīn sound, tone, pitch, pronunciation. sound. noise. note (of musical scale). tone. news. syllable. reading (phonetic value of a character)
+
+谁 shéi who? whom? whose? anyone?. who. also pr. [shui2]
+
+还 hái still, yet, also, besides. still. still in progress. still more. yet. even more. in addition. fairly. as early as. even. also. else. passably (good) huán to pay back. to return Huán surname Huan
+
+太 tài very, too, much; big; extreme. highest. greatest. very. extremely. too (much)
+
+
+我 wǒ our, us, i, me, my, we. I. me. my
+
+很 hěn very, quite, much. quite. very. awfully. (adverb of degree)
+
+这 zhè this, the, here. this. these. (commonly pr. [zhei4] before a classifier, esp. in Beijing)
+
+蓝 lán blue; indigo plant; surname. blue. indigo plant Lán surname Lan
+
+等 děng rank, grade; wait; equal; 'etc.'. class. rank. grade. equal to. same as. to wait for. to await. et cetera. and so on. after. as soon as. once. et al. (and other authors)
+
+首 shǒu head; first; leader, chief; a poem. head. chief. first (occasion, thing etc). classifier for poems, songs etc
+
+错 cuò error, blunder, mistake; wrong. mistake. wrong. bad. interlocking. complex. to grind. to polish. to alternate. to stagger. to miss. to let slip. to evade. to inlay with gold or silver Cuò surname Cuo
+
+双 shuāng set of two, pair, couple; both. two. double. pair. both. even (number) Shuāng surname Shuang
+
+自 zì self, private, personal; from. from. self. oneself. since
+
+用 yòng use, employ, apply, operate; use. to use. to employ. to have to. to eat or drink. expense or outlay. usefulness. hence. therefore
+
+颈 jǐng neck, throat. neck
+
+又 yòu and, also, again, in addition. also. and yet. (once) again. both... and.... (used for emphasis) anyway
+
+模 mó model, standard, pattern; copy. to imitate. model. norm. pattern mú mold. die. matrix. pattern
+
+前 qián in front, forward; preceding. front. forward. ahead. first. top (followed by a number). future. ago. before. BC (e.g. 前293年). former. formerly
+
+天 tiān sky, heaven; god, celestial. day. sky. heaven
+
+---
+
 Remove duplicate English
+
+Update: DONE
 
 
   "鋮": {
