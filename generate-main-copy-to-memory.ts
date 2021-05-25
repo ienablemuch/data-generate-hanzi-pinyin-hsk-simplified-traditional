@@ -94,10 +94,10 @@ export async function generateMainCopyToMemory(
                 };
             }
 
-            if (hanzi === "都") {
-                console.log(hzl[hanzi]);
-                console.log(english);
-            }
+            // if (hanzi === "都") {
+            //     console.log(hzl[hanzi]);
+            //     console.log(english);
+            // }
         }
 
         // @ts-ignore
@@ -1245,30 +1245,28 @@ export function generateSpacing(
                     0,
                     word.length
                 );
-                pinyinWords.push(obtainedSyllables.join(" "));
 
-                // const obtainedPinyinSyllableList = [];
+                let pinyinWord = obtainedSyllables.join(" ");
+                const pinyinEnglish = hzl[word]?.pinyinEnglish ?? {};
+                if (Object.keys(pinyinEnglish).length === 1) {
+                    const pinyinWordMayHaveUnderscoreAlready =
+                        Object.keys(pinyinEnglish)[0];
 
-                // for (const hanziSyllable of word) {
-                //     // will break on 乐。 yue = 3, le = 2
-                //     const hanziSyllableLength =
-                //         hzl[hanziSyllable]?.pinyin?.[0]?.length ?? 0;
+                    if (
+                        pinyinWordMayHaveUnderscoreAlready.replace("_", " ") ===
+                        pinyinWord
+                    ) {
+                        pinyinWord = pinyinWordMayHaveUnderscoreAlready;
+                    }
+                }
 
-                //     const obtainedPinyinSyllable = pinyinLetters.splice(
-                //         0,
-                //         hanziSyllableLength
-                //     );
-
-                //     obtainedPinyinSyllableList.push(
-                //         obtainedPinyinSyllable.join("")
-                //     );
-                // }
-
-                // pinyinWords.push(obtainedPinyinSyllableList.join(" "));
-            }
+                pinyinWords.push(pinyinWord);
+            } // for (const word of words) {
 
             const hasEqualHanziPinyin = words.every(
-                (word, i) => pinyinWords[i].split(" ").length === word.length
+                (word, i) =>
+                    pinyinWords[i].replace("_", " ").split(" ").length ===
+                    word.length
             );
 
             // console.log(hanzi);
@@ -1286,6 +1284,7 @@ export function generateSpacing(
                 console.log("does not matched!");
                 console.group();
                 console.log(hanzi);
+                console.log(hasEqualHanziPinyin);
                 console.log(firstPinyin);
                 console.log(words);
                 console.log(pinyinWords);

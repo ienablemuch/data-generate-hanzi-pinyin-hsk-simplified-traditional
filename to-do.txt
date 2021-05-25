@@ -1,3 +1,30 @@
+why this don't have underscore?
+
+國際日期變更線
+
+guó jì rì qī biàn gēng xiàn
+
+should be:
+
+guó jì_rì qī_biàn gēng_xiàn
+
+
+while this do?
+
+國際文傳通訊社國際文傳通訊社
+
+Guó jì_wén_chuán_tōng xùn shè"
+
+
+Looks like this can be easily have underscore, use regex for space-capital, then change it to underscore-capital
+
+国际标准化组织
+
+Guó jì Biāo zhǔn huà Zǔ zhī
+
+
+----
+
 * arranged pinyinEnglish by most used
 * eliminates ambiguous english definition for hanzi with multiple pinyin
 

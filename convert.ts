@@ -42,8 +42,17 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     //     hanziTypeList
     // );
 
-    const pdEnglishLookup = await getHanziEnglishLookup();
-    const hzlSpaced = generateSpacing(cleanedUpHzl, pdEnglishLookup);
+    // We can't treat each English word here as one word:
+    // const pdEnglishLookup = await getHanziEnglishLookup();
+    // This is too long to be one word
+    // 国际日期变更线
+    // guó jì rì qī biàn gēng xiàn"
+    // words should be separated (guoji riqi biangeng xian)
+    // guó jì_rì qī_biàn gēng_xiàn"
+    // so we can't use this anymore:
+    // const hzlSpaced = generateSpacing(cleanedUpHzl, pdEnglishLookup);
+    // just do this:
+    const hzlSpaced = generateSpacing(cleanedUpHzl, {});
 
     // space = underscore
     const hzlKeepOne = keepOnePinyinOnSpaceGenerated(hzlSpaced);
