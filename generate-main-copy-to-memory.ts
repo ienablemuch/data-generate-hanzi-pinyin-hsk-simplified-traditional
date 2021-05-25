@@ -1089,6 +1089,7 @@ export function generateSpacing(
     )) {
         // console.log("hanzi");
         // console.log(hanzi);
+
         if (
             /\d/.test(hanzi) ||
             hanzi.length <= 2 ||

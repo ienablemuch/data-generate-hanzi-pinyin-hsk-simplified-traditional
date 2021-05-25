@@ -46,6 +46,6 @@ export function normalizePinyin(pSentence: string): string {
         )
         .join("_")
         .replaceAll(" · ", "_")
-        .replace(/ (?=[A-ZÄ-Ÿ])/g, "_");
-    // https://stackoverflow.com/questions/20690499/concrete-javascript-regex-for-accented-characters-diacritics
+        .replace(/ (?=[A-Z\u00C0-\u00DC])/g, "_");
+    // https://stackoverflow.com/questions/29730964/javascript-regex-for-capitalized-letters-with-accents/29731070
 }
