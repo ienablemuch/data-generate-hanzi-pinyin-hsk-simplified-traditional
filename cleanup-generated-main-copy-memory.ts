@@ -113,6 +113,9 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
     return newHzl;
 
     function excluder(toExclude: string, _index: number, arr: string[]) {
+        // console.log("toExclude");
+        // console.log(toExclude);
+        // console.log(arr);
         return !arr?.some(
             // prettier-ignore
             (other) =>

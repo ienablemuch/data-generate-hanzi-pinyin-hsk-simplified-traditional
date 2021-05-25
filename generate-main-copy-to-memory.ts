@@ -53,31 +53,61 @@ export async function generateMainCopyToMemory(
             pinyin: [...new Set([...(eHanzi?.pinyin ?? []), ...pinyin])],
         };
 
+        // pinyin is array of string, not string
+
         if (english) {
-            hzl[hanzi].english = [
-                ...(eHanzi?.english ?? []),
-                ...new Set([...(eHanzi?.english ?? []), english]),
-            ];
+            if (pinyin.length === 1) {
+                hzl[hanzi].english = [
+                    ...(eHanzi?.english ?? []),
+                    ...new Set([...(eHanzi?.english ?? []), english]),
+                ];
+            } else {
+                hzl[hanzi].english = [];
+            }
         }
 
         for (const eachPinyin of pinyin) {
+            // if (hanzi === "都") {
+            //     console.log(eachPinyin);
+            //     console.log(english);
+            // }
+
             if (!english) {
                 continue;
             }
-            hzl[hanzi].pinyinEnglish = {
-                ...eHanzi?.pinyinEnglish,
-                [eachPinyin]: [
-                    ...new Set([
-                        ...(eHanzi?.pinyinEnglish?.[eachPinyin] ?? []),
-                        english,
-                    ]),
-                ],
-            };
+
+            if (pinyin.length === 1) {
+                hzl[hanzi].pinyinEnglish = {
+                    ...hzl[hanzi]?.pinyinEnglish,
+                    [eachPinyin]: [
+                        ...new Set([
+                            ...(hzl[hanzi]?.pinyinEnglish?.[eachPinyin] ?? []),
+                            english,
+                        ]),
+                    ],
+                };
+            } else {
+                // we need to make an entry to keep the pinyin order in pinyinEnglish object
+                hzl[hanzi].pinyinEnglish = {
+                    ...hzl[hanzi]?.pinyinEnglish,
+                    [eachPinyin]: [],
+                };
+            }
+
+            if (hanzi === "都") {
+                console.log(hzl[hanzi]);
+                console.log(english);
+            }
         }
 
         // @ts-ignore
         hzl[hanzi].source = (hzl[hanzi].source ?? "") + "FF";
     }
+
+    // if (hzl["都"]) {
+    //     console.log(hzl["都"]);
+    //     // Deno.exit(1);
+    // }
 
     for await (const {
         hanzi,
@@ -506,6 +536,7 @@ async function* cleanHanziPinyinFromUnihan(): AsyncIterable<IHanziPinyinEnglish>
         "unihan-json/kDefinition.json"
     )) as IHanziCollection;
 
+    // We can't make this first
     const hanziEnglish = await getHanziEnglishLookup();
 
     for (const [hanzi, pinyin] of Object.entries(json)) {

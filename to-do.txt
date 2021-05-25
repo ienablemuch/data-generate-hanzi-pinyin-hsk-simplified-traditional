@@ -1,3 +1,10 @@
+* arranged pinyinEnglish by most used
+* eliminates ambiguous english definition for hanzi with multiple pinyin
+
+lookup-all lines: 5,268,828
+
+---
+
 lookup-all lines: 
 5,279,520 prior to cleaning up duplicate english 
 5,268,919 after cleaning
