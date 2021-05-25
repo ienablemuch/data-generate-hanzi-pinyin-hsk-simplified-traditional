@@ -1093,7 +1093,8 @@ export function generateSpacing(
             /\d/.test(hanzi) ||
             hanzi.length <= 2 ||
             source.startsWith("AA") ||
-            !pinyinArray
+            !pinyinArray ||
+            pinyinArray[0].includes("_")
         ) {
             continue;
         }

@@ -45,5 +45,7 @@ export function normalizePinyin(pSentence: string): string {
                 .replace("v", "ü")
         )
         .join("_")
-        .replaceAll(" · ", "_");
+        .replaceAll(" · ", "_")
+        .replace(/ (?=[A-ZÄ-Ÿ])/g, "_");
+    // https://stackoverflow.com/questions/20690499/concrete-javascript-regex-for-accented-characters-diacritics
 }

@@ -1,3 +1,11 @@
+lookup-all.json lines: 5,257,282
+
+lookup-all.json: 95.4MB
+lookup-dictionary-debug.json: 47.1MB
+lookup-dictionary.json: 24.6MB
+
+
+
 why this don't have underscore?
 
 國際日期變更線
@@ -11,9 +19,15 @@ guó jì_rì qī_biàn gēng_xiàn
 
 while this do?
 
-國際文傳通訊社國際文傳通訊社
+國際文傳通訊社
 
 Guó jì_wén_chuán_tōng xùn shè"
+
+国际文传电讯社
+
+currently: guó jì_wén chuán_diàn xùn shè
+
+corrected: Guó jì_Wén chuán_Diàn xùn shè
 
 
 Looks like this can be easily have underscore, use regex for space-capital, then change it to underscore-capital
@@ -22,6 +36,7 @@ Looks like this can be easily have underscore, use regex for space-capital, then
 
 Guó jì Biāo zhǔn huà Zǔ zhī
 
+should be: Guó jì_Biāo zhǔn huà_Zǔ zhī
 
 ----
 
