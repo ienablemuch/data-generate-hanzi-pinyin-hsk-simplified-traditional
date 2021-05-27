@@ -1234,14 +1234,14 @@ export function generateSpacing(
 
         let pinyinWithWordBoundary = "";
 
-        if (hanzi === "电脑网络") {
-            console.log("电脑网络");
-            console.log(isCompoundWord);
-        }
+        // if (hanzi === "电脑网络") {
+        //     console.log("电脑网络");
+        //     console.log(isCompoundWord);
+        // }
 
         if (!isCompoundWord) {
             // let's not use this, better to use the built-in Intl.Segmenter.
-            // the old code produces odd phrase, e.g., 
+            // the old code produces odd phrase, e.g.,
             // 电脑网络 becomes 电脑网 络, this is due to existing 电脑网
             /*
             for (let i = 0; i < hanzi.length; ) {
@@ -1273,12 +1273,15 @@ export function generateSpacing(
                 }
             }
             */
+
+            // this uses Intl.segmenter
             const words = tokenizeZH(hanzi);
-            if (hanzi === "电脑网络") {
-                console.log("collected words");
-                console.log(words);
-                // Deno.exit(1);
-            }
+
+            // if (hanzi === "电脑网络") {
+            //     console.log("collected words");
+            //     console.log(words);
+            //     // Deno.exit(1);
+            // }
 
             const pinyinSyllables = firstPinyin.split(" ");
 
@@ -1286,11 +1289,11 @@ export function generateSpacing(
 
             const pinyinWords: string[] = [];
             for (const word of words) {
-                if (hanzi === "电脑网络") {
-                    console.log("words");
-                    console.log(words);
-                    console.log(hzl[word]);
-                }
+                // if (hanzi === "电脑网络") {
+                //     console.log("words");
+                //     console.log(words);
+                //     console.log(hzl[word]);
+                // }
 
                 const obtainedSyllables = pinyinSyllables.splice(
                     0,
@@ -1308,10 +1311,10 @@ export function generateSpacing(
                         : 
                             Object.keys(pinyinEnglish)[0];
 
-                    if (hanzi === "电脑网络") {
-                        console.log("pinyinWordMayHaveUnderscoreAlready");
-                        console.log(pinyinWordMayHaveUnderscoreAlready);
-                    }
+                    // if (hanzi === "电脑网络") {
+                    //     console.log("pinyinWordMayHaveUnderscoreAlready");
+                    //     console.log(pinyinWordMayHaveUnderscoreAlready);
+                    // }
 
                     if (
                         pinyinWordMayHaveUnderscoreAlready.replace("_", " ") ===
