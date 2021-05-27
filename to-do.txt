@@ -1,3 +1,5 @@
+5,257,333 lines lookup-all.json
+
 Correct the number 4, it should become tone: Fēi lü4 bīn yǔ
 
 5,257,245
