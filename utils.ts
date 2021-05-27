@@ -161,18 +161,27 @@ export function retokenizeZH({
 }
 
 export function correctlyRetokenizeZH(text: string, hanziList: IHanziLookup) {
+    // text = "物理学博士";
     const tokenizedZH = tokenizeZH(text);
+
+    // console.log(tokenizedZH);
+    // tokenizedZH: [ "物", "理学博士" ]
 
     const firstPass = retokenizeZH({
         nodeSentence: tokenizedZH,
         hanziList,
         except: text,
     });
+    // console.log(firstPass);
+    // firstPass: [ "物", "理学", "博士" ]
 
     const secondPass = retokenizeZH({
         nodeSentence: firstPass,
         hanziList,
         except: text,
     });
+    // console.log(secondPass);
+    // secondPass: [ "物理学", "博士" ]
+
     return secondPass;
 }
