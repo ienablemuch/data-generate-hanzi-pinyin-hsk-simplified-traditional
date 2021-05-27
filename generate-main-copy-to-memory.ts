@@ -21,7 +21,7 @@ import { pinyinify } from "./pinyinify.ts";
 
 import { removeTone, numberToMark } from "./3rd-party-code/pinyin-utils.ts";
 
-import { normalizePinyin } from "./common.ts";
+import { normalizePinyin, tokenizeZH } from "./common.ts";
 
 // tests..
 // for await (const word of cleanSimplifiedTraditional()) console.log(word);
@@ -1240,6 +1240,10 @@ export function generateSpacing(
         }
 
         if (!isCompoundWord) {
+            // let's not use this, better to use the built-in Intl.Segmenter.
+            // the old code produces odd phrase, e.g., 
+            // 电脑网络 becomes 电脑网 络, this is due to existing 电脑网
+            /*
             for (let i = 0; i < hanzi.length; ) {
                 let hasMatch = false;
                 // @ts-ignore
@@ -1267,6 +1271,13 @@ export function generateSpacing(
                     ++i;
                     continue;
                 }
+            }
+            */
+            const words = tokenizeZH(hanzi);
+            if (hanzi === "电脑网络") {
+                console.log("collected words");
+                console.log(words);
+                // Deno.exit(1);
             }
 
             const pinyinSyllables = firstPinyin.split(" ");
@@ -1327,12 +1338,12 @@ export function generateSpacing(
             pinyinWithWordBoundary = pinyinWords.join("_");
             // console.log(pinyinWithWordBoundary);
 
-            if (hanzi === "电脑网络") {
-                console.log("pinyinWithWordBoundary");
-                console.log(pinyinWords);
-                console.log(pinyinWithWordBoundary);
-                // Deno.exit(1);
-            }
+            // if (hanzi === "电脑网络") {
+            //     console.log("pinyinWithWordBoundary");
+            //     console.log(pinyinWords);
+            //     console.log(pinyinWithWordBoundary);
+            //     // Deno.exit(1);
+            // }
 
             if (
                 !hasEqualHanziPinyin ||

@@ -49,3 +49,25 @@ export function normalizePinyin(pSentence: string): string {
         .replace(/ (?=[A-Z\u00C0-\u00DC])/g, "_");
     // https://stackoverflow.com/questions/29730964/javascript-regex-for-capitalized-letters-with-accents/29731070
 }
+
+export function tokenizeZH(text: string) {
+    // @ts-ignore
+    const segmenter = new Intl.Segmenter(["zh"], {
+        granularity: "word",
+    });
+    const segments = segmenter.segment(text);
+
+    const words = [];
+    for (const { segment /* , index, isWordLike */ } of segments) {
+        words.push(segment);
+    }
+
+    // it looks ok when on jsfiddle
+    // https://jsfiddle.net/12a0f6g9/
+    // but when on Chrome's dev tools, the last character is just displayed as square
+    // if (text === '⼪尢尣尢') {
+    //     console.log(words);
+    // }
+
+    return words;
+}
