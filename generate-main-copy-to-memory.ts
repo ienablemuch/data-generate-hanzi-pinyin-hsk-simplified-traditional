@@ -1110,10 +1110,10 @@ export function generateSpacing(
     let hzl = { ...hzlSource };
 
     // @ts-ignore
-    // .sort(([hanziA], [hanziB]) => hanziA.length - hanziB.length)
+    //
     for (const [hanzi, { source, pinyin: pinyinArray }] of Object.entries(
         hzl
-    )) {
+    ).sort(([hanziA], [hanziB]) => hanziA.length - hanziB.length)) {
         // console.log("hanzi");
         // console.log(hanzi);
 
@@ -1234,6 +1234,11 @@ export function generateSpacing(
 
         let pinyinWithWordBoundary = "";
 
+        if (hanzi === "电脑网络") {
+            console.log("电脑网络");
+            console.log(isCompoundWord);
+        }
+
         if (!isCompoundWord) {
             for (let i = 0; i < hanzi.length; ) {
                 let hasMatch = false;
@@ -1270,6 +1275,12 @@ export function generateSpacing(
 
             const pinyinWords: string[] = [];
             for (const word of words) {
+                if (hanzi === "电脑网络") {
+                    console.log("words");
+                    console.log(words);
+                    console.log(hzl[word]);
+                }
+
                 const obtainedSyllables = pinyinSyllables.splice(
                     0,
                     word.length
@@ -1278,8 +1289,18 @@ export function generateSpacing(
                 let pinyinWord = obtainedSyllables.join(" ");
                 const pinyinEnglish = hzl[word]?.pinyinEnglish ?? {};
                 if (Object.keys(pinyinEnglish).length === 1) {
-                    const pinyinWordMayHaveUnderscoreAlready =
-                        Object.keys(pinyinEnglish)[0];
+                    // prettier-ignore
+                    const pinyinWordMayHaveUnderscoreAlready = 
+                        // @ts-ignore
+                        hzl[word].source.endsWith("$")  ?
+                            (hzl[word]?.pinyin?.[0] ?? Object.keys(pinyinEnglish)[0])
+                        : 
+                            Object.keys(pinyinEnglish)[0];
+
+                    if (hanzi === "电脑网络") {
+                        console.log("pinyinWordMayHaveUnderscoreAlready");
+                        console.log(pinyinWordMayHaveUnderscoreAlready);
+                    }
 
                     if (
                         pinyinWordMayHaveUnderscoreAlready.replace("_", " ") ===
@@ -1305,6 +1326,13 @@ export function generateSpacing(
             // console.log(pinyinWords);
             pinyinWithWordBoundary = pinyinWords.join("_");
             // console.log(pinyinWithWordBoundary);
+
+            if (hanzi === "电脑网络") {
+                console.log("pinyinWithWordBoundary");
+                console.log(pinyinWords);
+                console.log(pinyinWithWordBoundary);
+                // Deno.exit(1);
+            }
 
             if (
                 !hasEqualHanziPinyin ||
@@ -1349,6 +1377,8 @@ export function generateSpacing(
             // @ts-ignore
             source: matchedHanzi.source + "$",
         };
+
+        // $ means space-generated
 
         // let newPinyin = [];
     }
