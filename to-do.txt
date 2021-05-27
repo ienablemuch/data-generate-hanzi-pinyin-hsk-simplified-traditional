@@ -1,3 +1,27 @@
+Correct the number 4, it should become tone: Fēi lü4 bīn yǔ
+
+5,257,245
+
+"菲律宾语": {
+    "type": "S",
+    "aka": "菲律賓語",
+    "pinyinEnglish": {
+      "Fēi lü4 bīn yǔ": [
+        "Filipino (language)"
+      ]
+    },
+    "pinyin": [
+      "Fēi lǜ bīn yǔ"
+    ],
+    "english": [
+      "Filipino (language)"
+    ],
+    "source": "AAs"
+  },
+
+
+---
+
 lookup-all.json lines: 5,257,252
 
 ---

@@ -22,7 +22,21 @@ console.log(numberToMark(toTest.split(" ")));
 // const normalized = "lu:4".replace("u:", "ü");
 // console.log(numberToMark(normalized));
 
-console.log("test number to mark: lu:4");
-console.log(numberToMark("lu:4"));
-console.log("test tone: lu:4");
-console.log(getToneNumber("lu:4"));
+for (const toTestPinyin of [
+    "lu:4",
+    "LU:4",
+    "u:4",
+    "U:4",
+    "lu:3",
+    "LU:3",
+    "u:3",
+    "U:3",
+    "u:5",
+    "U:5",
+]) {
+    console.log(toTestPinyin);
+    console.group();
+    console.log(getToneNumber(toTestPinyin));
+    console.log(numberToMark(toTestPinyin));
+    console.groupEnd();
+}

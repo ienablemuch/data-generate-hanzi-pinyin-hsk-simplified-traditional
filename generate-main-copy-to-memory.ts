@@ -1049,9 +1049,15 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
             continue;
         }
 
-        const pinyin = pinyinRaw.replace(/[\p{Script=Latin}\d]+/gu, (match) =>
+        const pinyin = pinyinRaw.replace(/[\p{Script=Latin}:\d]+/gu, (match) =>
             numberToMark(match)
         );
+
+        // if (simplified === "菲律宾语") {
+        //     console.log(pinyinRaw);
+        //     console.log(pinyin);
+        //     Deno.exit(1);
+        // }
 
         const english = englishRaw.split("/");
 
