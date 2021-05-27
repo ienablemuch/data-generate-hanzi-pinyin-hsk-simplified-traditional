@@ -549,7 +549,9 @@ async function* cleanHanziPinyinFromUnihan(): AsyncIterable<IHanziPinyinEnglish>
     }
 }
 
-export async function getHanziEnglishLookup(): Promise<IHanziEnglishLookup> {
+export async function getHanziEnglishLookup(
+    { useSingleWordProperNounsOnly } = { useSingleWordProperNounsOnly: false }
+): Promise<IHanziEnglishLookup> {
     const text = await Deno.readTextFile(
         "CedPane-master/PD-English-Definitions.txt"
     );
@@ -566,6 +568,24 @@ export async function getHanziEnglishLookup(): Promise<IHanziEnglishLookup> {
         // console.log(tokens);
         // console.log(`${hanzi}: ${english}`);
         if (tokens.length >= 2) {
+            if (useSingleWordProperNounsOnly) {
+                if (
+                    // if Chinese characters is more than 3, it's likely a phrase
+                    hanzi.length > 3 ||
+                    /[a-z]/.test(english[0]) ||
+                    english.endsWith("ism") ||
+                    english.endsWith("ist") ||
+                    // Don't include multiple English words. Turns out symbols like space, splash, semicolon, etc, are not considered Latin
+                    // España, the ñ is a latin character
+                    !/\p{Script=Latin}/u.test(english)
+                ) {
+                    continue;
+                }
+
+                // Should start with capital letter
+                // Some single words that are -ism and -ist are multi-word in Chinese
+                // Don't include multiple English words
+            }
             englishLookUp[hanzi] = english;
         }
     }
@@ -1090,6 +1110,7 @@ export function generateSpacing(
     let hzl = { ...hzlSource };
 
     // @ts-ignore
+    // .sort(([hanziA], [hanziB]) => hanziA.length - hanziB.length)
     for (const [hanzi, { source, pinyin: pinyinArray }] of Object.entries(
         hzl
     )) {

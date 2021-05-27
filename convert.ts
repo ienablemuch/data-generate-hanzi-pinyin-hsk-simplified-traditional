@@ -52,7 +52,13 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
     // so we can't use this anymore:
     // const hzlSpaced = generateSpacing(cleanedUpHzl, pdEnglishLookup);
     // just do this:
-    const hzlSpaced = generateSpacing(cleanedUpHzl, {});
+    // const hzlSpaced = generateSpacing(cleanedUpHzl, {});
+
+    const properNouns = await getHanziEnglishLookup({
+        useSingleWordProperNounsOnly: true,
+    });
+
+    const hzlSpaced = generateSpacing(cleanedUpHzl, properNouns);
 
     // space = underscore
     const hzlKeepOne = keepOnePinyinOnSpaceGenerated(hzlSpaced);
