@@ -23,6 +23,8 @@ import { removeTone, numberToMark } from "./3rd-party-code/pinyin-utils.ts";
 
 import { normalizePinyin, tokenizeZH } from "./common.ts";
 
+import { correctlyRetokenizeZH } from "./utils.ts";
+
 // tests..
 // for await (const word of cleanSimplifiedTraditional()) console.log(word);
 // for await (const word of cleanSimplifiedToTraditional()) console.log(word);
@@ -1275,7 +1277,17 @@ export function generateSpacing(
             */
 
             // this uses Intl.segmenter
-            const words = tokenizeZH(hanzi);
+
+            const words = correctlyRetokenizeZH(hanzi, hzlSource);
+
+            // const toTestTokenize = "无一事而不学，无一时而不学，无一处而不得";
+            // console.log("token");
+            // console.log(tokenizeZH(toTestTokenize));
+            // console.log(correctlyRetokenizeZH(toTestTokenize, hzlSource));
+
+            // if (words.length !== 77777) {
+            //     Deno.exit(1);
+            // }
 
             // if (hanzi === "电脑网络") {
             //     console.log("collected words");
