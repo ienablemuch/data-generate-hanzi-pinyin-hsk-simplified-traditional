@@ -2,7 +2,7 @@ import { IHanziLookup } from "./interfaces.ts";
 
 import { numberToMark } from "./3rd-party-code/pinyin-utils.ts";
 
-import { normalizePinyin } from "./common.ts";
+import { normalizePinyin, hasLatin } from "./common.ts";
 
 import { Pinyin, English } from "./interfaces.ts";
 
@@ -13,7 +13,9 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
         .map(([hanzi, obj]) => ({ hanzi, ...obj }))
         .map((c) => ({
             ...c,
-            newPinyin: c.pinyin?.map(normalizePinyin),
+            newPinyin: c.pinyin?.map((p) =>
+                normalizePinyin(p, { hasLatin: hasLatin(c.hanzi) })
+            ),
         }))
         // unusual letter g
         .map((c) => ({

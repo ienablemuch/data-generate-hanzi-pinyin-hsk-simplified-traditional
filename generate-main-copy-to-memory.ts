@@ -21,7 +21,7 @@ import { pinyinify } from "./pinyinify.ts";
 
 import { removeTone, numberToMark } from "./3rd-party-code/pinyin-utils.ts";
 
-import { normalizePinyin, tokenizeZH } from "./common.ts";
+import { normalizePinyin, tokenizeZH, hasLatin } from "./common.ts";
 
 import { correctlyRetokenizeZH } from "./utils.ts";
 
@@ -289,7 +289,16 @@ export async function generateMainCopyToMemory(
         source: string
     ) {
         // const pinyin = pinyinRaw.replaceAll(" · ", "_");
-        const pinyin = normalizePinyin(pinyinRaw);
+
+        const pinyin = normalizePinyin(pinyinRaw, {
+            hasLatin: hasLatin(simplified) || hasLatin(traditional),
+        });
+
+        // if (simplified === "AA制") {
+        //     console.log("aa zhi");
+        //     console.log(pinyin);
+        //     Deno.exit(1);
+        // }
 
         {
             const simIndex = simplified;
@@ -493,10 +502,20 @@ async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskW
         // May 18:
         // removed this, too many translations already from CedPane and CEDICT.
         // May 19:
-        // need to restore this, we have hanzi that don't have supporting translation
+        // need to restore this, we have hanzi that don't have supporting translation.
         // don't allow symbols
         const english = translations.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
-        const pinyin = normalizePinyin(pinyinRaw);
+
+        const pinyin = normalizePinyin(pinyinRaw, {
+            hasLatin: hasLatin(hanzi),
+        });
+
+        if (hanzi === " AA制") {
+            console.log("from cleanHanziPinyHskWithEnglish ");
+            console.log(pinyinRaw);
+            console.log(pinyin);
+        }
+
         yield { hanzi, pinyin, hsk, english };
     }
 }
@@ -1119,12 +1138,36 @@ export function generateSpacing(
         // console.log("hanzi");
         // console.log(hanzi);
 
+        const NAME_MARKER = "・";
+
+        // if (hanzi === "迈克尔・乔丹") {
+        //     console.log("found 23 first");
+        //     console.log(!pinyinArray);
+        //     console.log(pinyinArray);
+        //     console.log(/\d/.test(hanzi));
+        //     console.log(hzl[hanzi]);
+        //     Deno.exit(1);
+        // }
+
+        // if (hanzi === "AA制") {
+        //     console.log("aa zhi");
+        //     console.log(!pinyinArray);
+        //     console.log(pinyinArray);
+        //     console.log(/\d/.test(hanzi));
+        //     console.log(hzl[hanzi]);
+        //     Deno.exit(1);
+        // }
+
         if (
             /\d/.test(hanzi) ||
             hanzi.length <= 2 ||
             source.startsWith("AA") ||
             !pinyinArray ||
-            pinyinArray[0].includes("_")
+            (pinyinArray[0].includes("_") &&
+                // but the hanzi (proper nouns), should not have a dot
+                // let's reprocess names here.
+                // make duplicate names that matches typical website's dot for people's names
+                !hanzi.includes(NAME_MARKER))
         ) {
             continue;
         }
@@ -1144,12 +1187,23 @@ export function generateSpacing(
         const firstPinyin = pinyinArray[0];
 
         // This dot is used in hanzi
-        const nameMarker = "・";
+
+        // if (hanzi === "迈克尔・乔丹") {
+        //     console.log("found 23");
+        //     console.log(hanzi.includes(NAME_MARKER));
+        //     Deno.exit(1);
+        // }
+
+        // if (hanzi === "AA制") {
+        //     console.log("aa zhi found");
+        //     console.log(firstPinyin);
+        //     Deno.exit(1);
+        // }
 
         // these two dots are the same. but different from hanzi marker above
-        const nameMarkerTypicalWebsite = "·";
-        const namePinyinMarker = "·";
-        if (hanzi.includes(nameMarker)) {
+        const NAME_MARKER_TYPICAL_WEBSITE = "·";
+        const NAME_PINYIN_MARKER = "·";
+        if (hanzi.includes(NAME_MARKER)) {
             // console.log("matched person name");
             // console.log(hanzi);
 
@@ -1166,7 +1220,7 @@ export function generateSpacing(
             //     [hanzi]: {
             //         ...matchedHanzi,
             //         pinyin: [
-            //             firstPinyin.replace(nameMarker, " "),
+            //             firstPinyin.replace(NAME_MARKER, " "),
             //             ...(matchedHanzi.pinyin ?? []),
             //         ],
             //         // @ts-ignore
@@ -1179,7 +1233,7 @@ export function generateSpacing(
             const hanziNewObject = {
                 ...matchedHanzi,
                 pinyin: [
-                    firstPinyin.replaceAll(" " + namePinyinMarker + " ", "_"),
+                    firstPinyin.replaceAll(" " + NAME_PINYIN_MARKER + " ", "_"),
                     ...(matchedHanzi.pinyin ?? []),
                 ],
                 // @ts-ignore
@@ -1189,34 +1243,43 @@ export function generateSpacing(
             hzl[hanzi] = hanziNewObject;
 
             const typicalWebsiteName = hanzi.replaceAll(
-                nameMarker,
-                nameMarkerTypicalWebsite
+                NAME_MARKER,
+                NAME_MARKER_TYPICAL_WEBSITE
             );
+
+            // if (hanzi === "迈克尔・乔丹") {
+            //     console.log("jordan");
+            //     console.log(typicalWebsiteName);
+            //     console.log(hanzi === typicalWebsiteName);
+            //     Deno.exit(1);
+            // }
 
             // console.log("typical website name");
             // console.log(typicalWebsiteName);
             // console.log("database name");
             // console.log(hanzi);
 
-            const typicalObject = (hzl[typicalWebsiteName] = {
+            hzl[typicalWebsiteName] = {
                 ...hanziNewObject,
-            });
+            };
+
+            const typicalObject = hzl[typicalWebsiteName];
 
             if (typicalObject.aka) {
                 typicalObject.aka = typicalObject.aka.replaceAll(
-                    nameMarker,
-                    nameMarkerTypicalWebsite
+                    NAME_MARKER,
+                    NAME_MARKER_TYPICAL_WEBSITE
                 );
             }
 
-            const sansSpaceName = hanzi.replaceAll(nameMarker, "");
+            const sansSpaceName = hanzi.replaceAll(NAME_MARKER, "");
             const sansSpaceObject = (hzl[sansSpaceName] = {
                 ...hanziNewObject,
             });
 
             if (sansSpaceObject.aka) {
                 sansSpaceObject.aka = sansSpaceObject.aka.replaceAll(
-                    nameMarker,
+                    NAME_MARKER,
                     ""
                 );
             }
@@ -1279,6 +1342,12 @@ export function generateSpacing(
             // this uses Intl.segmenter
 
             const words = correctlyRetokenizeZH(hanzi, hzlSource);
+
+            // if (hanzi === "AA制") {
+            //     console.log("aa zhi");
+            //     console.log(words);
+            //     Deno.exit(1);
+            // }
 
             // const toTestTokenize = "无一事而不学，无一时而不学，无一处而不得";
             // console.log("token");

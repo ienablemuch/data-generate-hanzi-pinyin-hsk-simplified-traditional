@@ -1,3 +1,94 @@
+add to test: 
+
+  "国际标准化组织": {
+    "type": "S",
+    "aka": "國際標準化組織",
+    "pinyinEnglish": {
+      "Guó jì_Biāo zhǔn huà_Zǔ zhī": [
+        "International Organization for Standardization (ISO)"
+      ]
+    },
+    "pinyin": [
+      "Guó jì_Biāo zhǔn huà_Zǔ zhī"
+    ],
+
+  "迈克尔·乔丹": {
+    "type": "S",
+    "aka": "邁克爾·喬丹",
+    "pinyinEnglish": {
+      "Mài kè ěr_Qiáo dān": [
+        "Michael Jordan (1963-) US basketball player"
+      ]
+    },
+    "pinyin": [
+      "Mài kè ěr_Qiáo dān"
+    ],
+
+  "3C": {
+    "type": "B",
+    "pinyinEnglish": {
+      "sān_C": [
+        "abbr. for computers, communications, and consumer electronics",
+        "China Compulsory Certificate (CCC)"
+      ]
+    },
+    "pinyin": [
+      "sān_C"
+    ],
+
+  "AA制": {
+    "type": "B",
+    "pinyinEnglish": {
+      "A A_zhì": [
+        "to split the bill",
+        "to go Dutch"
+      ]
+    },
+    "pinyin": [
+      "A A_zhì"
+    ],
+
+
+  "美国51区": {
+    "type": "S",
+    "aka": "美國51區",
+    "pinyinEnglish": {
+      "Měi guó_Wǔ shí yī_Qū": [
+        "Area 51, USA"
+      ]
+    },
+    "pinyin": [
+      "Měi guó_Wǔ shí yī_Qū"
+    ],
+
+
+Fix this:
+
+  "C盘": {
+    "type": "S",
+    "aka": "C盤",
+    "pinyinEnglish": {
+      "C pán": [
+        "C drive or default startup drive (computing)"
+      ]
+    },
+    "pinyin": [
+      "C pán"
+    ],
+
+
+  "3C": {
+    "type": "B",
+    "pinyinEnglish": {
+      "sān C": [
+        "abbr. for computers, communications, and consumer electronics",
+        "China Compulsory Certificate (CCC)"
+      ]
+    },
+
+----
+
+
 5,257,333 lines lookup-all.json
 
 Correct the number 4, it should become tone: Fēi lü4 bīn yǔ

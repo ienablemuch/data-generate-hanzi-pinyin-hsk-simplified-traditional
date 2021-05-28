@@ -8,6 +8,7 @@
         "Hanzi",
         "Retokenize",
         "detoned",
-        "hphlt"
+        "hphlt",
+        "pinyinify"
     ],
 }
