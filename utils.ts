@@ -160,28 +160,76 @@ export function retokenizeZH({
     return newSentence;
 }
 
-export function correctlyRetokenizeZH(text: string, hanziList: IHanziLookup) {
+export function correctlyRetokenizeZH(
+    hanzi: string,
+    hzl: IHanziLookup
+): string[] {
     // text = "物理学博士";
-    const tokenizedZH = tokenizeZH(text);
+    const tokenizedZH = tokenizeZH(hanzi);
 
     // console.log(tokenizedZH);
     // tokenizedZH: [ "物", "理学博士" ]
 
     const firstPass = retokenizeZH({
         nodeSentence: tokenizedZH,
-        hanziList,
-        except: text,
+        hanziList: hzl,
+        except: hanzi,
     });
     // console.log(firstPass);
     // firstPass: [ "物", "理学", "博士" ]
 
     const secondPass = retokenizeZH({
         nodeSentence: firstPass,
-        hanziList,
-        except: text,
+        hanziList: hzl,
+        except: hanzi,
     });
     // console.log(secondPass);
     // secondPass: [ "物理学", "博士" ]
 
     return secondPass;
+}
+
+export function customTokenizeZH(hanzi: string, hzl: IHanziLookup): string[] {
+    // let's not use this first, better to use the
+    //  correctlyRetokenize(uses the built-in Intl.Segmenter) first.
+
+    // the code below produces odd phrase, e.g.,
+    // 电脑网络 becomes 电脑网 络, this is due to existing 电脑网
+
+    // just use this if the correctlyRetokenize does not do a good job of retokenizing.
+    // e.g., 一路平安, is still 一路平安 on correctlyRetokenize
+    // it should be 一路 平安
+
+    const words: string[] = [];
+
+    for (let i = 0; i < hanzi.length; ) {
+        let hasMatch = false;
+        // @ts-ignore
+        for (
+            // @ts-ignore
+            let upTo = hanzi.length - ((i === 0) + 0);
+            upTo > i;
+            --upTo
+        ) {
+            const word = hanzi.slice(i, upTo);
+
+            const matched = hzl[word];
+
+            if (matched) {
+                words.push(word);
+                i += word.length;
+                hasMatch = true;
+                break;
+            }
+        }
+        if (!hasMatch) {
+            const toPush = hanzi.slice(i, i + 1);
+            // console.log(toPush);
+            words.push(toPush);
+            ++i;
+            continue;
+        }
+    }
+
+    return words;
 }

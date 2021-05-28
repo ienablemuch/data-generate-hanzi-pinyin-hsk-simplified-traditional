@@ -11,16 +11,21 @@ export function performTests(
     testPinyin("AA制", "A A_zhì");
     testPinyin("美国51区", "Měi guó_Wǔ shí yī_Qū");
     testPinyin("DNA鑒定", "D N A_jiàn_dìng");
-    testPinyin("C盘", "C pán");
+    testPinyin("C盘", "C_pán");
     testPinyin("3C", "sān_C");
+    testPinyin("电脑网", "diàn nǎo_wǎng");
+    testPinyin("电脑网路", "diàn nǎo_wǎng lù");
+    testPinyin("一路平安", "yī lù_píng ān");
+    testPinyin("物理学博士", "wù lǐ xué_bó shì");
+    testPinyin("金窝银窝不如自己的狗窝", "jīn_wō_yín_wō_bù rú_zì jǐ_de_gǒu wō");
 
     testExists(`迈克尔${NAME_MARKER}乔丹`);
     // this is created from above
     testExists(`迈克尔${NAME_MARKER_TYPICAL_WEBSITE}乔丹`);
 
     testCompressPinyin("平安", "píng'ān");
-    testCompressPinyin("平板电脑", "píngbǎn diànnǎo");
     testCompressPinyin("一路平安", "yīlù píng'ān");
+    testCompressPinyin("平板电脑", "píngbǎn diànnǎo");
 
     return;
 

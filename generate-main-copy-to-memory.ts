@@ -31,7 +31,7 @@ import {
     NAME_MARKER_TYPICAL_WEBSITE,
 } from "./common.ts";
 
-import { correctlyRetokenizeZH } from "./utils.ts";
+import { correctlyRetokenizeZH, customTokenizeZH } from "./utils.ts";
 
 // tests..
 // for await (const word of cleanSimplifiedTraditional()) console.log(word);
@@ -1180,9 +1180,8 @@ export function generateSpacing(
             // when we remove the digit testing.
             // The above pinyin: èr shí yī sān tǐ zōng hé zhèng. Still rendered the same.
             // So for the meantime, keep the digit testing
-
             /\d/.test(hanzi) ||
-            // looks like it's safe to remove this now, we can at reliably depend on
+            // looks like it's safe to remove this now, we can at least depend on
             // Intl.Segmenter (we used on correctlyRetokenize)
             // having good amount of two syllable words..
             //      hanzi.length <= 2 ||
@@ -1364,8 +1363,26 @@ export function generateSpacing(
             */
 
             // this uses Intl.segmenter
+            let words = correctlyRetokenizeZH(hanzi, hzl);
 
-            const words = correctlyRetokenizeZH(hanzi, hzlSource);
+            if (hanzi === "一路平安") {
+                console.log(hanzi);
+                console.log(words);
+                // Deno.exit(1);
+
+                // Unfortunately, 一路平安 does not get correctly segmented.
+                // We need to use customTokenize
+                // 一路平安
+            }
+
+            // let's trust that Intl.Segmenter has a good collection of
+            // words with two character hanzi
+
+            if (hanzi.length >= 3) {
+                if (words.length === 1 && words[0] === hanzi) {
+                    words = customTokenizeZH(hanzi, hzl);
+                }
+            }
 
             // if (hanzi === "AA制") {
             //     console.log("aa zhi");
