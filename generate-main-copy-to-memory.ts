@@ -1160,7 +1160,12 @@ export function generateSpacing(
 
         if (
             /\d/.test(hanzi) ||
-            hanzi.length <= 2 ||
+            // looks like it's safe to remove this now, we can at reliably depend on
+            // Intl.Segmenter (we used on correctlyRetokenize)
+            // having good amount of two syllable words..
+            //      hanzi.length <= 2 ||
+            // .. so just do this:
+            hanzi.length === 1 ||
             source.startsWith("AA") ||
             !pinyinArray ||
             (pinyinArray[0].includes("_") &&
