@@ -357,10 +357,19 @@ function compressPinyin(pinyin: string | undefined): string | undefined {
     // prettier-ignore
     const result = pinyin?.split('_')?.map(word =>
         word.split(" ")?.reduce((acc, syllable) => acc + (
+
             // put single quote if the first letter is a vowel
             // 迈克尔 
             // Màikè'ěr
-            (['a','e','i','o','u'].includes(removeTone(syllable[0].toLowerCase())) ? 
+
+            // These are wrongi:
+            // DNA鉴定 DN'A jiàndìng DNA test. DNA testing
+            // AA制 A'A zhì to split the bill. to go Dutch
+
+            // Should exclude capital letter. Why we even do toLowerCase before?
+            // (['a','e','i','o','u'].includes(removeTone(syllable[0].toLowerCase())) ? 
+
+            (['a','e','i','o','u'].includes(removeTone(syllable[0])) ? 
                 '\'' 
             : 
                 ''

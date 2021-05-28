@@ -62,6 +62,20 @@ add to test:
     ],
 
 
+ "DNA鑒定": {
+    "type": "T",
+    "aka": "DNA鉴定",
+    "pinyinEnglish": {
+      "D N A_jiàn_dìng": [
+        "DNA test",
+        "DNA testing"
+      ]
+    },
+    "pinyin": [
+      "D N A_jiàn_dìng"
+    ],
+
+
 Fix this:
 
   "C盘": {
@@ -85,6 +99,8 @@ Fix this:
         "China Compulsory Certificate (CCC)"
       ]
     },
+
+    DNA鉴定 DN'A jiàndìng DNA test. DNA testing
 
 ----
 
