@@ -186,8 +186,10 @@ export function correctlyRetokenizeZH(
     // console.log(secondPass);
     // secondPass: [ "物理学", "博士" ]
 
+    // 一路平安, 电脑
+    // const toTest = "电脑";
     // if (hanzi === "一路平安") {
-    //     // Unfortunately, all have same output.
+    //     // Unfortunately, all have same output on 一路平安
     //     // retokenizeZH does not work on character-by-character basis.
     //     // So we still have to use customTokenizeZH (see the function below)
     //     // when the tokenization yields the same as the original.
@@ -196,6 +198,12 @@ export function correctlyRetokenizeZH(
     //     console.log(tokenizedZH);
     //     console.log(firstPass);
     //     console.log(secondPass);
+
+    //     // on customTokenizeZH,
+    //     // 电脑 becomes 电 脑
+    //     // 一路平安 becomes 一路 平安
+    //     const ct = customTokenizeZH(hanzi, hzl);
+    //     console.log(ct);
     //     Deno.exit(1);
     // }
 

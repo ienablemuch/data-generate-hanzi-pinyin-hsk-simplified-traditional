@@ -606,12 +606,17 @@ export async function getHanziEnglishLookup(
                 if (
                     // if Chinese characters is more than 3, it's likely a phrase
                     hanzi.length > 3 ||
+                    // If we include common nouns like 生產企業 (manufacturer),
+                    // its two words will not get separated by space.
+                    // 生產 shēngchǎn to produce. to manufacture. to give birth to a child
+                    // 企業 qǐyè company. firm. enterprise. corporation.
+                    // So let's skip common nouns
                     /[a-z]/.test(english[0]) ||
                     english.endsWith("ism") ||
                     english.endsWith("ist") ||
                     // Don't include multiple English words. Turns out symbols like space, splash, semicolon, etc, are not considered Latin
                     // España, the ñ is a latin character
-                    !/\p{Script=Latin}/u.test(english)
+                    !hasLatinCharacter(english)
                 ) {
                     continue;
                 }
@@ -1311,7 +1316,7 @@ export function generateSpacing(
             // console.log(typicalObject);
 
             continue;
-        }
+        } // if (hanzi.includes(NAME_MARKER)) {
 
         // console.log("to generate");
         // console.log(hanzi);
@@ -1328,52 +1333,18 @@ export function generateSpacing(
         // }
 
         if (!isCompoundWord) {
-            // let's not use this, better to use the built-in Intl.Segmenter.
-            // the old code produces odd phrase, e.g.,
-            // 电脑网络 becomes 电脑网 络, this is due to existing 电脑网
-            /*
-            for (let i = 0; i < hanzi.length; ) {
-                let hasMatch = false;
-                // @ts-ignore
-                for (
-                    // @ts-ignore
-                    let upTo = hanzi.length - ((i === 0) + 0);
-                    upTo > i;
-                    --upTo
-                ) {
-                    const word = hanzi.slice(i, upTo);
-
-                    const matched = hzl[word];
-
-                    if (matched) {
-                        words.push(word);
-                        i += word.length;
-                        hasMatch = true;
-                        break;
-                    }
-                }
-                if (!hasMatch) {
-                    const toPush = hanzi.slice(i, i + 1);
-                    // console.log(toPush);
-                    words.push(toPush);
-                    ++i;
-                    continue;
-                }
-            }
-            */
-
             // this uses Intl.segmenter
             let words = correctlyRetokenizeZH(hanzi, hzl);
 
-            if (hanzi === "一路平安") {
-                console.log(hanzi);
-                console.log(words);
-                // Deno.exit(1);
+            // if (hanzi === "一路平安") {
+            //     console.log(hanzi);
+            //     console.log(words);
+            //     // Deno.exit(1);
 
-                // Unfortunately, 一路平安 does not get correctly segmented.
-                // We need to use customTokenize
-                // 一路平安
-            }
+            //     // Unfortunately, 一路平安 does not get correctly segmented.
+            //     // We need to use customTokenize
+            //     // 一路平安
+            // }
 
             // let's trust that Intl.Segmenter has a good collection of
             // words with two character hanzi

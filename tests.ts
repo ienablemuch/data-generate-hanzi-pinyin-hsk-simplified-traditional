@@ -13,6 +13,7 @@ export function performTests(
     testPinyin("DNA鑒定", "D N A_jiàn_dìng");
     testPinyin("C盘", "C_pán");
     testPinyin("3C", "sān_C");
+    testPinyin("电脑", "diàn nǎo");
     testPinyin("电脑网", "diàn nǎo_wǎng");
     testPinyin("电脑网路", "diàn nǎo_wǎng lù");
     testPinyin("一路平安", "yī lù_píng ān");
