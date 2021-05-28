@@ -1169,6 +1169,17 @@ export function generateSpacing(
         // }
 
         if (
+            // 21三體綜合症
+            // "èr shí yī sān tǐ zōng hé zhèng"
+            // "美国51区"
+            // "Měi guó_Wǔ shí yī_Qū"
+
+            // Looks like it's safe to remove the \d testing,
+            // but we need find something that will be correctly split with underscore
+            // when we remove the digit testing.
+            // The above pinyin: èr shí yī sān tǐ zōng hé zhèng. Still rendered the same.
+            // So for the meantime, keep the digit testing
+
             /\d/.test(hanzi) ||
             // looks like it's safe to remove this now, we can at reliably depend on
             // Intl.Segmenter (we used on correctlyRetokenize)
