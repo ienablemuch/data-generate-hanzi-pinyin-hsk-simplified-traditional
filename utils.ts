@@ -186,6 +186,16 @@ export function correctlyRetokenizeZH(
     // console.log(secondPass);
     // secondPass: [ "物理学", "博士" ]
 
+    // if (hanzi === "一路平安") {
+    //     // unfortunately, all have same output.
+    //     // retokenizeZH does not work on character-by-character basis
+    //     console.log(hanzi);
+    //     console.log(tokenizedZH);
+    //     console.log(firstPass);
+    //     console.log(secondPass);
+    //     Deno.exit(1);
+    // }
+
     return secondPass;
 }
 
