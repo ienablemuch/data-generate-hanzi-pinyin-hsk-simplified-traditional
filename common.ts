@@ -18,7 +18,7 @@ export function hasChineseCharacter(text: string) {
     return /\p{Script=Han}/u.test(text);
 }
 
-export function hasLatin(text: string) {
+export function hasLatinCharacter(text: string) {
     return /\p{Script=Latin}/u.test(text);
 }
 
@@ -32,9 +32,16 @@ the pinyin normalization should be handled on generateSpacing function
     "pinyinEnglish": {
       "A_A zhì": [
 */
+interface IHasCharacter {
+    hasLatin: boolean;
+    hasChinese: boolean;
+}
 export function normalizePinyin(
     pSentence: string,
-    { hasLatin }: { hasLatin: boolean } = { hasLatin: false }
+    { hasLatin, hasChinese }: IHasCharacter = {
+        hasLatin: false,
+        hasChinese: true,
+    }
 ): string {
     const UMLAUT_MAPPER: { [umlautCharacter: string]: string } = {
         ū: "ǖ",
@@ -66,13 +73,53 @@ export function normalizePinyin(
                 .replace("v", "ü")
         )
         .join("_")
-        // have one mismatch  A A zhi should be rendered as AA zhi. need to fix this
-        // {"traditional": "AA制", "simplified": "AA制","pinyinRead": "A A zhì", "pinyinType": "A A zhi4", "definition": ["to split the bill","to go Dutch"]},
         .replaceAll(" · ", "_");
 
-    if (!hasLatin) {
+    // have one mismatch  A A zhi should be rendered as AA zhi. need to fix this
+    // {"traditional": "AA制", "simplified": "AA制","pinyinRead": "A A zhì", "pinyinType": "A A zhi4", "definition": ["to split the bill","to go Dutch"]},
+    // Fixed. Just leaving the comment
+
+    // SCENARIO 1
+    // This should become sān_C
+    //   "3C": {
+    // "type": "B",
+    // "pinyinEnglish": {
+    //   "sān C": [
+    //     "abbr. for computers, communications, and consumer electronics",
+    //     "China Compulsory Certificate (CCC)"
+    //   ]
+    // },
+    // "pinyin": [
+    //   "sān C"
+    // ],
+    // should be split with underscore, sān C should become:
+    // sān_C
+
+    // SCENARIO 2
+    // "AA制": {
+    // "type": "B",
+    // "pinyinEnglish": {
+    //   "A A zhì": [
+    //     "to split the bill",
+    //     "to go Dutch"
+    //   ]
+    // },
+    // "pinyin": [
+    //   "A A zhì"
+    // ],
+
+    // SCENARIO 3
+    // 国际标准化组织. original pinyin: Guó jì Biāo zhǔn huà Zǔ zhī
+    // should be split with underscore:
+    // Guó jì_Biāo zhǔn huà_Zǔ zhī
+
+    if (!(hasLatin && hasChinese)) {
+        // Only SCENARIO 1 and 3 should be split with underscore here
         pSentence = pSentence.replace(/ (?=[A-Z\u00C0-\u00DC])/g, "_");
         // https://stackoverflow.com/questions/29730964/javascript-regex-for-capitalized-letters-with-accents/29731070
+
+        // 3C will not be rendered, since we only capture words that has at least one chinese character
+        // but for some chinese phrases that has 3C in it, the 3C's pinyin will correctly rendered
     }
 
     // if (isAAZhi) {

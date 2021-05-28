@@ -21,7 +21,12 @@ import { pinyinify } from "./pinyinify.ts";
 
 import { removeTone, numberToMark } from "./3rd-party-code/pinyin-utils.ts";
 
-import { normalizePinyin, tokenizeZH, hasLatin } from "./common.ts";
+import {
+    normalizePinyin,
+    tokenizeZH,
+    hasLatinCharacter,
+    hasChineseCharacter,
+} from "./common.ts";
 
 import { correctlyRetokenizeZH } from "./utils.ts";
 
@@ -291,7 +296,11 @@ export async function generateMainCopyToMemory(
         // const pinyin = pinyinRaw.replaceAll(" · ", "_");
 
         const pinyin = normalizePinyin(pinyinRaw, {
-            hasLatin: hasLatin(simplified) || hasLatin(traditional),
+            hasLatin:
+                hasLatinCharacter(simplified) || hasLatinCharacter(traditional),
+            hasChinese:
+                hasChineseCharacter(simplified) ||
+                hasChineseCharacter(traditional),
         });
 
         // if (simplified === "AA制") {
@@ -507,7 +516,8 @@ async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskW
         const english = translations.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
 
         const pinyin = normalizePinyin(pinyinRaw, {
-            hasLatin: hasLatin(hanzi),
+            hasLatin: hasLatinCharacter(hanzi),
+            hasChinese: hasChineseCharacter(hanzi),
         });
 
         if (hanzi === " AA制") {
