@@ -191,3 +191,13 @@ export type Dictionary = {
         PinyinMeaning[]
     ]
 }
+
+// this gets generated
+
+export interface IHanziPinyinHskToneLookup {
+    [hanzi: string]: {
+        p?: string; // pinyin
+        l?: number; // hsk level
+        t?: string; // tone
+    };
+}

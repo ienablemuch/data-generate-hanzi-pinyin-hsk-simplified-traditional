@@ -4,6 +4,12 @@ declare global {
     }
 }
 
+// the dot used in the dictionary source
+export const NAME_MARKER = "・";
+// these two dots are the same. but different from hanzi marker above
+export const NAME_MARKER_TYPICAL_WEBSITE = "·";
+export const NAME_PINYIN_MARKER = "·";
+
 // https://medium.com/@shemar.gordon32/how-to-split-and-keep-the-delimiter-s-d433fb697c65
 String.prototype.splitKeep = function (tokens: string): string[] {
     const escaped = escapeRegExp(tokens);

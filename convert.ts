@@ -21,6 +21,12 @@ import {
 import { generateHanziLookupFiles } from "./generate-hanzi-lookup-files.ts";
 import { generateCorrectionFile } from "./generate-correction-to-file.ts";
 
+import { performTests } from "./tests.ts";
+
+import { IHanziPinyinHskToneLookup } from "./interfaces.ts";
+
+import { readJson } from "https://deno.land/x/jsonfile/mod.ts";
+
 (async () => {
     const hanziTypeList = await generateHanziTypeToMemory();
 
@@ -108,6 +114,17 @@ import { generateCorrectionFile } from "./generate-correction-to-file.ts";
             ...unifiedMappingCorrection,
         });
     }
+
+    // tests
+    {
+        const hpHskTL = (await readJson(
+            "./lookup-hanzi-pinyin-hsk-tone.json"
+        )) as IHanziPinyinHskToneLookup;
+
+        performTests(hzl, hpHskTL);
+    }
+
+    return;
 
     function cleanupSource() {
         for (const [key, value] of Object.entries(hzl)) {

@@ -1,6 +1,12 @@
 import { writeJson } from "https://deno.land/x/jsonfile/mod.ts";
 
-import { IHanziLookup, PinyinMeaning, Dictionary } from "./interfaces.ts";
+import {
+    IHanziLookup,
+    PinyinMeaning,
+    Dictionary,
+    //
+    IHanziPinyinHskToneLookup,
+} from "./interfaces.ts";
 
 import { getToneNumber, removeTone } from "./3rd-party-code/pinyin-utils.ts";
 
@@ -86,14 +92,6 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     }
 
     async function createHanziPinyinHskToneLookupFile() {
-        interface IHanziPinyinHskToneLookup {
-            [hanzi: string]: {
-                p?: string; // pinyin
-                l?: number; // hsk level
-                t?: string; // tone
-            };
-        }
-
         const hphlt: IHanziPinyinHskToneLookup = {};
 
         for (const [hanzi, { pinyin, hsk }] of Object.entries(hzl)) {

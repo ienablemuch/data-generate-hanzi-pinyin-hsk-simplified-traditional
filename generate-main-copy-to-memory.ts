@@ -26,6 +26,9 @@ import {
     tokenizeZH,
     hasLatinCharacter,
     hasChineseCharacter,
+    NAME_MARKER,
+    NAME_PINYIN_MARKER,
+    NAME_MARKER_TYPICAL_WEBSITE,
 } from "./common.ts";
 
 import { correctlyRetokenizeZH } from "./utils.ts";
@@ -1148,8 +1151,6 @@ export function generateSpacing(
         // console.log("hanzi");
         // console.log(hanzi);
 
-        const NAME_MARKER = "・";
-
         // if (hanzi === "迈克尔・乔丹") {
         //     console.log("found 23 first");
         //     console.log(!pinyinArray);
@@ -1226,9 +1227,6 @@ export function generateSpacing(
         //     Deno.exit(1);
         // }
 
-        // these two dots are the same. but different from hanzi marker above
-        const NAME_MARKER_TYPICAL_WEBSITE = "·";
-        const NAME_PINYIN_MARKER = "·";
         if (hanzi.includes(NAME_MARKER)) {
             // console.log("matched person name");
             // console.log(hanzi);
