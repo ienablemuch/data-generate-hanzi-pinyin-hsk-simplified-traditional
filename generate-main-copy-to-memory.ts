@@ -523,11 +523,11 @@ async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskW
             hasChinese: hasChineseCharacter(hanzi),
         });
 
-        if (hanzi === " AA制") {
-            console.log("from cleanHanziPinyHskWithEnglish ");
-            console.log(pinyinRaw);
-            console.log(pinyin);
-        }
+        // if (hanzi === " AA制") {
+        //     console.log("from cleanHanziPinyHskWithEnglish ");
+        //     console.log(pinyinRaw);
+        //     console.log(pinyin);
+        // }
 
         yield { hanzi, pinyin, hsk, english };
     }
