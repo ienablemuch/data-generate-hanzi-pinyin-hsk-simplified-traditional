@@ -187,8 +187,11 @@ export function correctlyRetokenizeZH(
     // secondPass: [ "物理学", "博士" ]
 
     // if (hanzi === "一路平安") {
-    //     // unfortunately, all have same output.
-    //     // retokenizeZH does not work on character-by-character basis
+    //     // Unfortunately, all have same output.
+    //     // retokenizeZH does not work on character-by-character basis.
+    //     // So we still have to use customTokenizeZH (see the function below)
+    //     // when the tokenization yields the same as the original.
+    //     // The function customTokenizeZH works on character-by-character basis
     //     console.log(hanzi);
     //     console.log(tokenizedZH);
     //     console.log(firstPass);
