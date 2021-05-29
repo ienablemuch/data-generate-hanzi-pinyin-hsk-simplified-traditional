@@ -1,0 +1,84 @@
+
+
+    // remove pinyin that has no definition, examples:
+    /*
+        "国务院": {
+            "hsk": 6,
+            "type": "S",
+            "aka": "國務院",
+            "pinyinEnglish": {
+                "Guó_Wù_Yuàn": [],
+                "Guó wù yuàn": [
+                    "State Council (PRC)",
+                    "State Department (USA)"
+                ]
+            },
+            "pinyin": [
+                "Guó_Wù_Yuàn",
+                "Guó wù yuàn"
+            ],
+            "english": [
+                "State Council (PRC)",
+                "State Department (USA)"
+            ],
+            "source": "EEBBs"
+        },
+
+
+        "醱": {
+            "type": "T",
+            "aka": "酦",
+            "pinyinEnglish": {
+            "fā": [
+                "see 醱酵|酦酵[fa1 jiao4]"
+            ],
+            "pò": [],
+            "pō": [
+                "to ferment alcohol",
+                "Taiwan pr. [po4]"
+            ]
+            },
+            "pinyin": [
+                "fā",
+                "pò",
+                "pō"
+            ],
+            "english": [
+                "see 醱酵|酦酵[fa1 jiao4]",
+                "to ferment alcohol",
+                "Taiwan pr. [po4]"
+            ],
+            "source": "FFBBtBBtDD"
+        },
+    */
+
+    /*
+    for (const [hanzi, { pinyinEnglish }] of Object.entries(hzl)) {
+        if (!pinyinEnglish) {
+            continue;
+        }
+        for (const pinyin of Object.keys(pinyinEnglish)) {
+            if (pinyinEnglish[pinyin].length === 0) {
+                delete pinyinEnglish[pinyin];
+            }
+        }
+
+        // keep the pinyin if it is existing in pinyinEnglish's keys (pinyin).
+        // it will not be existing if it is deleted. it will be deleted when it has empty array.
+        // see above loop
+
+        const hanziPinyin = newHzl[hanzi].pinyin;
+        if (!hanziPinyin) {
+            continue;
+        }
+
+        newHzl[hanzi].pinyin = hanziPinyin.filter(
+            (eachPinyin) => pinyinEnglish[eachPinyin]
+        );
+
+        // // there's a pinyin property, but it has empty array, just delete it
+        // if (newHzl[hanzi].pinyin?.length === 0) {
+        //     delete newHzl[hanzi].pinyin;
+        // }
+    }
+    */

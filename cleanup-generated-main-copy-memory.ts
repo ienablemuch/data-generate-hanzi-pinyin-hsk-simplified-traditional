@@ -119,6 +119,56 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
         }
     }
 
+    for (const [hanzi, { pinyinEnglish }] of Object.entries(hzl)) {
+        if (!pinyinEnglish) {
+            continue;
+        }
+
+        for (const pinyin of Object.keys(pinyinEnglish)) {
+            // leave at least one pinyin.
+            // We will only delete the pinyin with no definition
+            // if the Chinese words has multiple pinyin
+            if (
+                pinyinEnglish[pinyin].length === 0 &&
+                Object.keys(pinyinEnglish).length > 1
+            ) {
+                if (newHzl[hanzi].pinyinEnglish?.[pinyin]) {
+                    delete newHzl[hanzi].pinyinEnglish?.[pinyin];
+                }
+                // @ts-ignore
+                newHzl[hanzi].source += "-";
+            }
+        }
+
+        // keep the pinyin if it is existing in pinyinEnglish's keys (pinyin).
+        // it will not be existing if it is deleted. it will be deleted when it has empty array.
+        // see above loop
+
+        // .pinyin is array, in case I forgot :)
+        const hanziPinyin = newHzl[hanzi].pinyin;
+        if (!hanziPinyin) {
+            continue;
+        }
+
+        const oldLength = hanziPinyin.length;
+
+        newHzl[hanzi].pinyin = hanziPinyin.filter(
+            (eachPinyin) => newHzl[hanzi].pinyinEnglish?.[eachPinyin]
+        );
+
+        const newLength = newHzl[hanzi].pinyin?.length;
+
+        if (newLength !== oldLength) {
+            // @ts-ignore
+            newHzl[hanzi].source += "^"; // deleted/cut, looks like scissor :)
+        }
+
+        // // there's a pinyin property, but it has empty array, just delete it
+        // if (newHzl[hanzi].pinyin?.length === 0) {
+        //     delete newHzl[hanzi].pinyin;
+        // }
+    }
+
     return newHzl;
 
     function excluder(toExclude: string, _index: number, arr: string[]) {

@@ -1,4 +1,448 @@
-5,267,5000 lookup-all.json lines
+lookup-all lines: 5,267,336
+
+----
+
+Add to test:
+
+"醱": {
+    "type": "T",
+    "aka": "酦",
+    "pinyinEnglish": {
+      "fā": [
+        "see 醱酵|酦酵[fa1 jiao4]"
+      ],
+      "pō": [
+        "to ferment alcohol",
+        "Taiwan pr. [po4]"
+      ]
+    },
+    "pinyin": [
+      "fā",
+      "pō"
+    ],
+    "english": [
+      "see 醱酵|酦酵[fa1 jiao4]",
+      "to ferment alcohol",
+      "Taiwan pr. [po4]"
+    ],
+    "source": "FFBBtBBtDD-^"
+},
+
+"酦": {
+    "type": "S",
+    "aka": "醱",
+    "pinyinEnglish": {
+      "pò": [
+        "fermentation, brewing"
+      ],
+      "fā": [
+        "see 醱酵|酦酵[fa1 jiao4]"
+      ],
+      "pō": [
+        "to ferment alcohol",
+        "Taiwan pr. [po4]"
+      ]
+    },
+    "pinyin": [
+      "pò",
+      "fā",
+      "pō"
+    ],
+    "english": [
+      "fermentation, brewing",
+      "see 醱酵|酦酵[fa1 jiao4]",
+      "to ferment alcohol",
+      "Taiwan pr. [po4]"
+    ],
+    "source": "FFBBsBBsCC"
+  },
+
+ "乧": {
+    "type": "B",
+    "pinyinEnglish": {
+      "xx": [
+        "archaic Korean hanja pronounced dul, phonetic 斗 du plus 乙 ul"
+      ]
+    },
+    "pinyin": [
+      "xx"
+    ],
+    "english": [
+      "archaic Korean hanja pronounced dul, phonetic 斗 du plus 乙 ul"
+    ],
+    "source": "FFBBsBBt^"
+  },
+
+"呣": {
+    "type": "B",
+    "pinyinEnglish": {
+      "ḿ": [
+        "interjection expressing a question"
+      ],
+      "m̀": [
+        "interjection expressing consent",
+        "um"
+      ]
+    },
+    "pinyin": [
+      "ḿ",
+      "m̀"
+    ],
+    "english": [
+      "interjection expressing a question",
+      "interjection expressing consent",
+      "um"
+    ],
+    "source": "FFBBsBBtBBsBBt"
+},
+
+"国务院": {
+    "hsk": 6,
+    "type": "S",
+    "aka": "國務院",
+    "pinyinEnglish": {
+      "Guó wù yuàn": [
+        "State Council (PRC)",
+        "State Department (USA)"
+      ]
+    },
+    "pinyin": [
+      "Guó wù yuàn"
+    ],
+    "english": [
+      "State Council (PRC)",
+      "State Department (USA)"
+    ],
+    "source": "EEBBs-^$"
+},
+
+
+"国务院": {
+    "hsk": 6,
+    "type": "S",
+    "aka": "國務院",
+    "pinyinEnglish": {
+        "Guó_Wù_Yuàn": [],
+        "Guó wù yuàn": [
+            "State Council (PRC)",
+            "State Department (USA)"
+        ]
+    },
+    "pinyin": [
+        "Guó_Wù_Yuàn",
+        "Guó wù yuàn"
+    ],
+    "english": [
+        "State Council (PRC)",
+        "State Department (USA)"
+    ],
+    "source": "EEBBs"
+},
+
+
+"涐": {
+    "type": "B",
+    "pinyinEnglish": {
+      "É": [
+        "old name for the Dadu River 大渡河[Da4 du4 He2] in Sichuan"
+      ]
+    },
+    "pinyin": [
+      "É"
+    ],
+    "english": [
+      "old name for the Dadu River 大渡河[Da4 du4 He2] in Sichuan"
+    ],
+    "source": "FFBBsBBt^"
+  },
+
+"系领带": {
+    "hsk": 5,
+    "pinyinEnglish": {
+      "jì_lǐng dài": [
+        "to tie one's necktie"
+      ]
+    },
+    "pinyin": [
+      "jì_lǐng dài"
+    ],
+    "english": [
+      "to tie one's necktie"
+    ],
+    "source": "EEEE$"
+  },
+
+...add to test
+----
+
+Data issues...
+
+Traditional 醱 
+
+    FF:
+        kMandarin.json: 
+            "醱":"fā pò",
+
+        kDefinition.json:
+            "醱":"to brew for the second time",
+
+        No getHanziEnglishLookup
+
+    BB:
+        cedictJSON.json:
+
+            {"traditional": "醱", "simplified": "酦","pinyinRead": "fā", "pinyinType": "fa1", "definition": ["see 醱酵|酦酵[fa1 jiao4]"]},
+            {"traditional": "醱", "simplified": "酦","pinyinRead": "pō", "pinyinType": "po1", "definition": ["to ferment alcohol","Taiwan pr. [po4]"]},
+
+    DD:
+        kSimplifiedVariant.json:
+
+        	"醱":["酦"],
+
+
+
+ "醱": {
+    "type": "T",
+    "aka": "酦",
+    "pinyinEnglish": {
+      "fā": [
+        "see 醱酵|酦酵[fa1 jiao4]"
+      ],
+      "pò": [],
+      "pō": [
+        "to ferment alcohol",
+        "Taiwan pr. [po4]"
+      ]
+    },
+    "pinyin": [
+      "fā",
+      "pò",
+      "pō"
+    ],
+    "english": [
+      "see 醱酵|酦酵[fa1 jiao4]",
+      "to ferment alcohol",
+      "Taiwan pr. [po4]"
+    ],
+    "source": "FFBBtBBtDD"
+},
+
+Simplified: 酦
+
+    FF:
+        kMandarin.json
+        	"酦":"pò",
+
+        kDefinition.json
+        	"酦":"fermentation, brewing",
+
+        No getHanziEnglishLookup
+
+    BB:
+        cedictJSON.json:
+            {"traditional": "醱", "simplified": "酦","pinyinRead": "fā", "pinyinType": "fa1", "definition": ["see 醱酵|酦酵[fa1 jiao4]"]},
+            {"traditional": "醱", "simplified": "酦","pinyinRead": "pō", "pinyinType": "po1", "definition": ["to ferment alcohol","Taiwan pr. [po4]"]},
+    CC:
+        kTraditionalVariant.json
+        	"酦":["醱"],
+        
+
+ "酦": {
+    "type": "S",
+    "aka": "醱",
+    "pinyinEnglish": {
+      "pò": [
+        "fermentation, brewing"
+      ],
+      "fā": [
+        "see 醱酵|酦酵[fa1 jiao4]"
+      ],
+      "pō": [
+        "to ferment alcohol",
+        "Taiwan pr. [po4]"
+      ]
+    },
+    "pinyin": [
+      "pò",
+      "fā",
+      "pō"
+    ],
+    "english": [
+      "fermentation, brewing",
+      "see 醱酵|酦酵[fa1 jiao4]",
+      "to ferment alcohol",
+      "Taiwan pr. [po4]"
+    ],
+    "source": "FFBBsBBsCC"
+},
+
+
+"乧": {
+    "type": "B",
+    "pinyinEnglish": {
+      "xx5": [
+        "archaic Korean hanja pronounced dul, phonetic 斗 du plus 乙 ul"
+      ]
+    },
+    "pinyin": [
+      "dǒu",
+      "xx"
+    ],
+    "english": [
+      "archaic Korean hanja pronounced dul, phonetic 斗 du plus 乙 ul"
+    ],
+    "source": "FFBBsBBt"
+},
+
+
+"呣": {
+    "type": "B",
+    "pinyinEnglish": {
+      "m2": [
+        "interjection expressing a question"
+      ],
+      "m4": [
+        "interjection expressing consent",
+        "um"
+      ]
+    },
+    "pinyin": [
+      "ḿ",
+      "m̀"
+    ],
+    "english": [
+      "interjection expressing a question",
+      "interjection expressing consent",
+      "um"
+    ],
+    "source": "FFBBsBBtBBsBBt"
+},
+
+
+--
+
+Traditional 國務院
+    BB:
+        cedictJSON.json
+            {"traditional": "國務院", "simplified": "国务院","pinyinRead": "Guó wù yuàn", "pinyinType": "Guo2 wu4 yuan4", "definition": ["State Council (PRC)","State Department (USA)"]},
+
+"國務院": {
+    "type": "T",
+    "aka": "国务院",
+    "pinyinEnglish": {
+    "Guó wù yuàn": [
+        "State Council (PRC)",
+        "State Department (USA)"
+    ]
+    },
+    "pinyin": [
+        "Guó wù yuàn"
+    ],
+    "english": [
+        "State Council (PRC)",
+        "State Department (USA)"
+    ],
+    "source": "BBt$"
+},
+
+
+Simplified 国务院
+    EE:
+        hsk.json
+            {
+                "id": 3240,
+                "hanzi": "国务院",
+                "pinyin": "Guó Wù Yuàn",
+                "translations": [
+                    "State Council (PRC)",
+                    "State Department (USA)"
+                ],
+                "HSK": 6
+            },
+
+    BB:
+        {"traditional": "國務院", "simplified": "国务院","pinyinRead": "Guó wù yuàn", "pinyinType": "Guo2 wu4 yuan4", "definition": ["State Council (PRC)","State Department (USA)"]},
+
+
+
+"国务院": {
+    "hsk": 6,
+    "type": "S",
+    "aka": "國務院",
+    "pinyinEnglish": {
+        "Guó_Wù_Yuàn": [],
+        "Guó wù yuàn": [
+            "State Council (PRC)",
+            "State Department (USA)"
+        ]
+    },
+    "pinyin": [
+        "Guó_Wù_Yuàn",
+        "Guó wù yuàn"
+    ],
+    "english": [
+        "State Council (PRC)",
+        "State Department (USA)"
+    ],
+    "source": "EEBBs"
+},
+
+
+"涐": {
+    "type": "B",
+    "pinyinEnglish": {
+      "E2": [
+        "old name for the Dadu River 大渡河[Da4 du4 He2] in Sichuan"
+      ]
+    },
+    "pinyin": [
+      "é",
+      "É"
+    ],
+    "english": [
+      "old name for the Dadu River 大渡河[Da4 du4 He2] in Sichuan"
+    ],
+    "source": "FFBBsBBt"
+},
+
+
+㛟
+{
+  hsk: undefined,
+  type: "S",
+  aka: "𡞵",
+  pinyinEnglish: undefined,
+  english: undefined,
+  source: "CC"
+}
+
+系领带
+{
+  hsk: 5,
+  type: undefined,
+  aka: undefined,
+  pinyinEnglish: { "jì lǐng dài": [] },
+  english: [],
+  source: "EE",
+  pinyin: []
+}
+
+    {
+        "id": 1654,
+        "hanzi": "系领带",
+        "pinyin": "jì lǐng dài",
+        "translations": [
+            "to tie one's necktie"
+        ],
+        "HSK": 5
+    },
+
+
+...data issues
+------------
+
+
+5,267,500 lookup-all.json lines
 
 5,267,571 lookup-all.json lines
 

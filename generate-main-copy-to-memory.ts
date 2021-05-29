@@ -114,49 +114,7 @@ export async function generateMainCopyToMemory(
         hzl[hanzi].source = (hzl[hanzi].source ?? "") + "FF";
     }
 
-    // if (hzl["都"]) {
-    //     console.log(hzl["都"]);
-    //     // Deno.exit(1);
-    // }
-
-    for await (const {
-        hanzi,
-        pinyin,
-        hsk,
-        english,
-    } of cleanHanziPinyinHskWithEnglish()) {
-        // cleanHanziPinyinHskWithEnglish don't have array of pinyin.
-        // this is just to suppress the errors from compiler
-        if (Array.isArray(pinyin)) {
-            continue;
-        }
-
-        const eHanzi = hzl[hanzi];
-
-        hzl[hanzi] = {
-            ...eHanzi,
-            hsk: eHanzi?.hsk ?? hsk,
-            pinyinEnglish: {
-                ...eHanzi?.pinyinEnglish,
-                [pinyin]: [
-                    ...new Set([
-                        ...(eHanzi?.pinyinEnglish?.[pinyin] ?? []),
-                        ...english,
-                    ]),
-                ],
-            },
-            pinyin: [
-                ...new Set([
-                    ...(eHanzi?.pinyin ?? []),
-                    ...(typeof pinyin === "string" ? [pinyin] : pinyin),
-                ]),
-            ],
-            english: [...new Set([...(eHanzi?.english ?? []), ...english])],
-        };
-
-        // @ts-ignore
-        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "EE";
-    }
+    await processCleanHanziPinyinHskWithEnglish();
 
     for await (const {
         simplified,
@@ -285,7 +243,65 @@ export async function generateMainCopyToMemory(
         hzl[hanzi].source = (hzl[hanzi].source ?? "") + "GG";
     }
 
+    await processCleanHanziPinyinHskWithEnglish({ secondPass: true });
+
     return hzl;
+
+    async function processCleanHanziPinyinHskWithEnglish(
+        { secondPass }: { secondPass: boolean } = { secondPass: false }
+    ) {
+        for await (const {
+            hanzi,
+            pinyin,
+            hsk,
+            english,
+        } of cleanHanziPinyinHskWithEnglish({ secondPass })) {
+            // cleanHanziPinyinHskWithEnglish don't have array of pinyin.
+            // this is just to suppress the errors from compiler
+            if (Array.isArray(pinyin)) {
+                continue;
+            }
+
+            if (secondPass) {
+                if ((hzl[hanzi].english?.length ?? 0) > 0) {
+                    continue;
+                }
+            }
+
+            // if (hanzi === "系领带") {
+            //     console.log("系领带");
+            //     console.log(english);
+            // }
+
+            const eHanzi = hzl[hanzi];
+
+            hzl[hanzi] = {
+                ...eHanzi,
+                hsk: eHanzi?.hsk ?? hsk,
+                pinyinEnglish: {
+                    ...hzl[hanzi]?.pinyinEnglish,
+                    [pinyin]: [
+                        ...new Set([
+                            ...(hzl[hanzi]?.pinyinEnglish?.[pinyin] ?? []),
+                            ...english,
+                        ]),
+                    ],
+                },
+                pinyin: [
+                    ...new Set([
+                        ...(hzl[hanzi]?.pinyin ?? []),
+                        ...(typeof pinyin === "string" ? [pinyin] : pinyin),
+                    ]),
+                ],
+                english: [
+                    ...new Set([...(hzl[hanzi]?.english ?? []), ...english]),
+                ],
+            };
+
+            // @ts-ignore
+            hzl[hanzi].source = (hzl[hanzi].source ?? "") + "EE";
+        }
+    }
 
     function processSimplifiedTraditional(
         {
@@ -497,7 +513,11 @@ async function* x_cleanSimplifiedTraditional(): AsyncIterable<ISimplifiedTraditi
     } // async function* getSimplifiedTraditional
 }
 
-async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskWithEnglish> {
+async function* cleanHanziPinyinHskWithEnglish({
+    secondPass,
+}: {
+    secondPass: boolean;
+}): AsyncIterable<IHanziPinyinHskWithEnglish> {
     interface IHsk {
         id: number;
         hanzi: string;
@@ -516,7 +536,51 @@ async function* cleanHanziPinyinHskWithEnglish(): AsyncIterable<IHanziPinyinHskW
         // May 19:
         // need to restore this, we have hanzi that don't have supporting translation.
         // don't allow symbols
-        const english = translations.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
+
+        let english: string[] = translations;
+        if (!secondPass) {
+            english = english.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
+        }
+        // A month ago, we do the above filter above so we only get the one word English translation
+        // of some Chinese words.
+        // But this also affects Chinese phrases that are existing in hsk.json dictionary but
+        // are not existing in other dictionaries. Resulting to not having a translation
+        // for a given phrase.
+        //
+        // See sample data below:
+
+        /*
+        generated on lookup-all.json
+        系领带
+        {
+        hsk: 5,
+        type: undefined,
+        aka: undefined,
+        pinyinEnglish: { "jì lǐng dài": [] },
+        english: [],
+        source: "EE",
+        pinyin: []
+        }
+
+        source data (hsk.json):
+            {
+                "id": 1654,
+                "hanzi": "系领带",
+                "pinyin": "jì lǐng dài",
+                "translations": [
+                    "to tie one's necktie"
+                ],
+                "HSK": 5
+            },
+    */
+
+        // if (hanzi === "系领带") {
+        //     console.log("系领带");
+        //     console.log("translations");
+        //     console.log(translations);
+        //     console.log(english);
+        //     Deno.exit(1);
+        // }
 
         const pinyin = normalizePinyin(pinyinRaw, {
             hasLatin: hasLatinCharacter(hanzi),
@@ -1173,6 +1237,13 @@ export function generateSpacing(
         //     console.log(hzl[hanzi]);
         //     Deno.exit(1);
         // }
+
+        if (pinyinArray?.length === 0) {
+            console.log("empty array");
+            console.log(hanzi);
+            console.log(hzl[hanzi]);
+            Deno.exit(1);
+        }
 
         if (
             // 21三體綜合症

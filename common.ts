@@ -1,3 +1,5 @@
+import { numberToMark } from "./3rd-party-code/pinyin-utils.ts";
+
 declare global {
     interface String {
         splitKeep(tokens: string): string[];
@@ -57,7 +59,7 @@ export function normalizePinyin(
         u: "ü",
     };
 
-    const isAAZhi = pSentence === "A A zhì";
+    // const isAAZhi = pSentence === "A A zhì";
 
     pSentence = pSentence
         .split("_")
@@ -75,6 +77,7 @@ export function normalizePinyin(
                                 }`
                         ) ?? ps
                 )
+                .map((ps) => numberToMark(ps))
                 .join(" ")
                 .replace("v", "ü")
         )

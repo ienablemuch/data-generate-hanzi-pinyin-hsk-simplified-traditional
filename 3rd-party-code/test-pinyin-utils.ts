@@ -33,6 +33,10 @@ for (const toTestPinyin of [
     "U:3",
     "u:5",
     "U:5",
+    "m2",
+    "m4",
+    "E2",
+    "xx5",
 ]) {
     console.log(toTestPinyin);
     console.group();
