@@ -213,9 +213,26 @@ export async function generateMainCopyToMemory(
         english,
     } of cleanZhongwenMasterWithEnglish()) {
         // To avoid inconsistencies in pinyin. if it's already a complete entry, don't add to it
-        if (hzl[simplified]?.english && hzl[traditional]?.english) {
+        // if (hzl[simplified]?.english && hzl[traditional]?.english) {
+        //     continue;
+        // }
+
+        // The comment above is two weeks ago.
+        // We only skip the updated cc-cedict if cedpane (denoted by source: AAs AAt)
+        // already have definition for it.
+        // Turns out, cedictJSON.json has missing definition, e.g.,
+        // 系列 is just 'series' on cedictJSON.json, looks like it's due to it
+        // not being updated (2015)
+        // On cedict_ts.u8, 系列 is 'series/set'
+
+        if (
+            // @ts-ignore
+            // prettier-ignore
+            hzl[simplified]?.source?.includes('AAs') && hzl[traditional]?.source?.includes('AAt')
+        ) {
             continue;
         }
+
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english },
             "ZZ"

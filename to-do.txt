@@ -1,3 +1,12 @@
+made definition complete, used the updated cc-cedict
+
+with duplicates:
+lookup-all lines: 5,361,330
+
+without duplicates:
+lookup-all lines: 5,311,042
+---
+
 lookup-all lines: 5,267,336
 
 ----
