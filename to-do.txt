@@ -1,10 +1,16 @@
 made definition complete, used the updated cc-cedict
 
 with duplicates:
-lookup-all lines: 5,361,330
+lookup-all.json lines: 5,361,330
 
 without duplicates:
-lookup-all lines: 5,311,042
+lookup-all.json lines: 5,311,042
+
+lookup-all.json: 98.5MB
+lookup-dictionary.json: 25.7MB
+
+lookup-sim-tra.json: 2.8MB
+lookup-tra-sim.json: 2.8MB
 ---
 
 lookup-all lines: 5,267,336
