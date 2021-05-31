@@ -279,6 +279,10 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
                 continue;
             }
 
+            if (d.index[hanzi] > 0) {
+                continue;
+            }
+
             await log(
                 `${i} of ${hzlCount}. ${Math.ceil(
                     (i / hzlCount) * 100
@@ -326,7 +330,19 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
             if (aka !== hanzi) {
                 if (type && ["S", "T"].includes(type) && aka) {
                     if (!d.index[aka]) {
-                        d.index[aka] = meanings;
+                        // this is not the optimal way to do it.
+                        // but this works
+
+                        const firstMeaning = JSON.stringify(
+                            hzl[aka].pinyinEnglish
+                        );
+                        const otherMeaning = JSON.stringify(
+                            hzl[hanzi].pinyinEnglish
+                        );
+
+                        if (otherMeaning === firstMeaning) {
+                            d.index[aka] = meanings;
+                        }
                     }
                 }
             }

@@ -1,3 +1,84 @@
+Prior to de-duplicating:
+
+lookup-dictionary-debug.json: 2,548,534 lines
+lookup-dictionary.json: 25.7MB
+
+after de-duplicating:
+lookup-dictionary-debug.json: 1,828,537 lines
+lookup-dictionary.json: 19.1MB
+    
+愛 and 爱 should share same dictionary entry:
+
+ "愛": 10408,
+ "爱": 10408,
+
+{"traditional": "愛", "simplified": "爱","pinyinRead": "ài", "pinyinType": "ai4", "definition": ["to love","affection","to be fond of","to like"]},
+
+
+
+  "爱": {
+    "hsk": 1,
+    "type": "S",
+    "aka": "愛",
+    "pinyinEnglish": {
+      "ài": [
+        "love, be fond of, like",
+        "to love",
+        "affection",
+        "to be fond of",
+        "to like",
+        "to be inclined (to do sth)",
+        "to tend to (happen)"
+      ]
+    },
+    "pinyin": [
+      "ài"
+    ],
+    "english": [
+      "love, be fond of, like",
+      "to love",
+      "affection",
+      "to be fond of",
+      "to like",
+      "to be inclined (to do sth)",
+      "to tend to (happen)"
+    ],
+    "source": "FFEEBBsCCZZs"
+  },
+
+"愛": {
+    "hsk": 0,
+    "type": "T",
+    "aka": "爱",
+    "pinyinEnglish": {
+      "ài": [
+        "love, be fond of, like",
+        "to love",
+        "affection",
+        "to be fond of",
+        "to like",
+        "to be inclined (to do sth)",
+        "to tend to (happen)"
+      ]
+    },
+    "pinyin": [
+      "ài"
+    ],
+    "english": [
+      "love, be fond of, like",
+      "to love",
+      "affection",
+      "to be fond of",
+      "to like",
+      "to be inclined (to do sth)",
+      "to tend to (happen)"
+    ],
+    "source": "FFBBtDDZZtGG"
+  },  
+
+
+---
+
 made definition complete, used the updated cc-cedict
 
 with duplicates:
