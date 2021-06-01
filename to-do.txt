@@ -1,3 +1,14 @@
+什么时候 has two pinyin before:
+
+shénme shíhou and shénmeshíhou
+
+use the one with separator
+
+after using only one pinyin:
+lookup-dictionary-debug.json: 1,828,384 lines
+
+----
+
 Prior to de-duplicating:
 
 lookup-dictionary-debug.json: 2,548,534 lines
@@ -7,7 +18,7 @@ after de-duplicating:
 lookup-dictionary-debug.json: 1,828,537 lines
 lookup-dictionary.json: 19.1MB
     
-愛 and 爱 should share same dictionary entry:
+愛 and 爱 should share same dictionary entry (DONE):
 
  "愛": 10408,
  "爱": 10408,

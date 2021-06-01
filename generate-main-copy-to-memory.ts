@@ -331,7 +331,7 @@ export async function generateMainCopyToMemory(
     ) {
         // const pinyin = pinyinRaw.replaceAll(" · ", "_");
 
-        const pinyin = normalizePinyin(pinyinRaw, {
+        let pinyin = normalizePinyin(pinyinRaw, {
             hasLatin:
                 hasLatinCharacter(simplified) || hasLatinCharacter(traditional),
             hasChinese:
@@ -347,6 +347,26 @@ export async function generateMainCopyToMemory(
 
         {
             const simIndex = simplified;
+
+            // if (traditional === "甚麼時候") {
+            //     console.log(pinyin);
+            // }
+
+            const hasSimilar = hzl[simIndex]?.pinyin?.findIndex?.(
+                (ePinyin) => ePinyin.replaceAll("_", " ") === pinyin
+            );
+
+            if (hasSimilar !== void 0 && hasSimilar >= 0) {
+                pinyin = hzl[simIndex]?.pinyin?.[hasSimilar] ?? pinyin;
+            }
+
+            // if (traditional === "甚麼時候") {
+            //     console.log(hzl[simIndex]);
+            //     console.log(hasSimilar);
+            //     console.log(pinyin);
+            //     Deno.exit(1);
+            // }
+
             // existing simplified
             const eSim = hzl[simIndex];
             const type = eSim?.type;
@@ -378,11 +398,20 @@ export async function generateMainCopyToMemory(
             }
 
             // @ts-ignore
-            hzl[simIndex].source = (eSim?.source ?? "") + source + "s";
+            hzl[simIndex].source = (hzl[simIndex]?.source ?? "") + source + "s";
         }
 
         {
             const traIndex = traditional;
+
+            const hasSimilar = hzl[traIndex]?.pinyin?.findIndex?.(
+                (ePinyin) => ePinyin.replaceAll("_", " ") === pinyin
+            );
+
+            if (hasSimilar !== void 0 && hasSimilar >= 0) {
+                pinyin = hzl[traIndex]?.pinyin?.[hasSimilar] ?? pinyin;
+            }
+
             // existing traditional
             const eTra = hzl[traIndex];
             const type = eTra?.type;
@@ -414,7 +443,7 @@ export async function generateMainCopyToMemory(
             }
 
             // @ts-ignore
-            hzl[traIndex].source = (eTra?.source ?? "") + source + "t";
+            hzl[traIndex].source = (hzl[traIndex]?.source ?? "") + source + "t";
         }
     } // function processSimplifiedTraditional
 } // function generateMainCopyToMemory
