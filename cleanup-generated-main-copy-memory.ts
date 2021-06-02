@@ -182,11 +182,11 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                 &&
                 (
                     (
-                        other.includes("'") &&
-                        other.replace("'", "") === toExclude
+                        (other.includes("'") || other.includes('-')) &&
+                        other.replaceAll("'", "").replaceAll('-', ' ') === toExclude
                     )
                     ||
-                    other.splitKeep(',;?!').map(each => each.trim()).includes(toExclude)                     
+                    other.splitKeep(',;?!').map(each => each.trim()).includes(toExclude)                    
                 )
         );
     }

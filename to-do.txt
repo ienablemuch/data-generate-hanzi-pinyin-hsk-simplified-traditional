@@ -1,3 +1,12 @@
+Lookup-all.json 
+before: 5,310,981
+after: 5,310,367
+
+lookup-dictionary-debug.json 
+before: 1,828,384
+after: 1,828,377
+
+
 Remove duplicate, keep the one that looks more accurate, e.g., the one with dash
 
 Remove this:
@@ -7,7 +16,7 @@ Keep this:
 "one of the five two-hour periods into which the night was formerly divided"
 
  "更": {
-    "hsk": 2,
+    "hsk": 2,1,
     "type": "B",
     "pinyinEnglish": {
       "gèng": [
@@ -43,6 +52,90 @@ Keep this:
     ],
     "source": "FFEEBBsBBtBBsBBtZZsZZtZZsZZtGG"
 },
+
+Another duplicate, looks like we forgot to account for multiple single quotes
+
+"叔婆": {
+    "type": "B",
+    "pinyinEnglish": {
+      "shū pó": [
+        "aunt by marriage",
+        "husbands fathers younger brothers wife",
+        "husband's aunt",
+        "husband's father's younger brother's wife"
+      ]
+    },
+    "pinyin": [
+      "shū pó"
+    ],
+    "english": [
+      "aunt by marriage",
+      "husbands fathers younger brothers wife",
+      "husband's aunt",
+      "husband's father's younger brother's wife"
+    ],
+    "source": "BBsBBtZZsZZt$"
+  },
+
+
+after. no more duplicates:
+
+ "更": {
+    "hsk": 2,
+    "type": "B",
+    "pinyinEnglish": {
+      "gèng": [
+        "more, still further, much more",
+        "even more",
+        "further",
+        "still",
+        "still more"
+      ],
+      "gēng": [
+        "to change or replace",
+        "to experience",
+        "watch (e.g. of a sentry or guard)",
+        "one of the five two-hour periods into which the night was formerly divided"
+      ]
+    },
+    "pinyin": [
+      "gèng",
+      "gēng"
+    ],
+    "english": [
+      "more, still further, much more",
+      "even more",
+      "further",
+      "still",
+      "still more",
+      "to change or replace",
+      "to experience",
+      "watch (e.g. of a sentry or guard)",
+      "one of the five two-hour periods into which the night was formerly divided"
+    ],
+    "source": "FFEEBBsBBtBBsBBtZZsZZtZZsZZtGG"
+  },
+
+ "叔婆": {
+    "type": "B",
+    "pinyinEnglish": {
+      "shū pó": [
+        "aunt by marriage",
+        "husband's aunt",
+        "husband's father's younger brother's wife"
+      ]
+    },
+    "pinyin": [
+      "shū pó"
+    ],
+    "english": [
+      "aunt by marriage",
+      "husband's aunt",
+      "husband's father's younger brother's wife"
+    ],
+    "source": "BBsBBtZZsZZt$"
+  },
+
 
 
 ----
@@ -92,6 +185,8 @@ this is the simplified:
     ],
     "source": "FFBBsBBtBBsBBtBBtZZsZZtZZsZZtZZtGG"
   },
+
+there is no one-to-one mapping between traditional and simplified, hence it's not converting 
 
 ----
 
