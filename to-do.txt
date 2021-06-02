@@ -1,3 +1,101 @@
+Remove duplicate, keep the one that looks more accurate, e.g., the one with dash
+
+Remove this:
+"one of the five two hour periods into which the night was formerly divided",
+
+Keep this:
+"one of the five two-hour periods into which the night was formerly divided"
+
+ "更": {
+    "hsk": 2,
+    "type": "B",
+    "pinyinEnglish": {
+      "gèng": [
+        "more, still further, much more",
+        "even more",
+        "further",
+        "still",
+        "still more"
+      ],
+      "gēng": [
+        "to change or replace",
+        "to experience",
+        "one of the five two hour periods into which the night was formerly divided",
+        "watch (e.g. of a sentry or guard)",
+        "one of the five two-hour periods into which the night was formerly divided"
+      ]
+    },
+    "pinyin": [
+      "gèng",
+      "gēng"
+    ],
+    "english": [
+      "more, still further, much more",
+      "even more",
+      "further",
+      "still",
+      "still more",
+      "to change or replace",
+      "to experience",
+      "one of the five two hour periods into which the night was formerly divided",
+      "watch (e.g. of a sentry or guard)",
+      "one of the five two-hour periods into which the night was formerly divided"
+    ],
+    "source": "FFEEBBsBBtBBsBBtZZsZZtZZsZZtGG"
+},
+
+
+----
+
+Find out why this does not gets translated from traditional to simplified
+
+閒 
+
+this is the simplified:
+
+
+闲
+
+
+"閒": {
+    "hsk": 0,
+    "type": "B",
+    "aka": "闲",
+    "pinyinEnglish": {
+      "xián": [
+        "liesure; idle; peaceful, tranquil, calm",
+        "variant of 閑|闲, idle",
+        "unoccupied",
+        "leisure",
+        "free time"
+      ],
+      "jiān": [
+        "variant of 間|间[jian1]"
+      ],
+      "jiàn": [
+        "variant of 間|间[jian4]"
+      ]
+    },
+    "pinyin": [
+      "xián",
+      "jiān",
+      "jiàn"
+    ],
+    "english": [
+      "liesure; idle; peaceful, tranquil, calm",
+      "variant of 間|间[jian1]",
+      "variant of 間|间[jian4]",
+      "variant of 閑|闲, idle",
+      "unoccupied",
+      "leisure",
+      "free time"
+    ],
+    "source": "FFBBsBBtBBsBBtBBtZZsZZtZZsZZtZZtGG"
+  },
+
+----
+
+
 什么时候 has two pinyin before:
 
 shénme shíhou and shénmeshíhou
