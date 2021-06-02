@@ -16,7 +16,7 @@ Keep this:
 "one of the five two-hour periods into which the night was formerly divided"
 
  "更": {
-    "hsk": 2,1,
+    "hsk": 2,
     "type": "B",
     "pinyinEnglish": {
       "gèng": [
