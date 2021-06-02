@@ -36,7 +36,9 @@ import { readJson } from "https://deno.land/x/jsonfile/mod.ts";
     const hzlSemiFinal = await generateMainCopyToMemory(hanziTypeList);
     const cleanedUpHzl = await postCleanup(hzlSemiFinal); // cleaned: umlauts, r5 (儿), unusual letter g
 
+    console.log("keys before generating names dot: ");
     console.log(Object.keys(cleanedUpHzl).length);
+    prompt("press enter to continue...");
 
     // const hzlSentenceMiner = await generateLongHanziFromChineseSentenceMiner(
     //     cleanedUpHzl,
@@ -78,7 +80,9 @@ import { readJson } from "https://deno.land/x/jsonfile/mod.ts";
 
     const toGenerateFiles = true;
 
+    console.log("keys after generating names dot: ");
     console.log(Object.keys(hzl).length);
+    prompt("press enter to continue...");
     // Before 2021-05-09: 217,258
     // 2021-05-10: 217,280
     // 2021-05-10: 315,272
