@@ -1,3 +1,69 @@
+Maybe we can remove cedictJSON.json, it has many duplicates with official cedict (the cedict_ts.u8 file)
+
+Turns out we cannot, it has good collection of colloquial words, e.g., AA制
+
+Things we can do:
+* Keep the unique entries of cedictJSON.json
+* Remove its entries that are already in cedict_ts.u8
+
+We should not have this kind of data
+
+
+"开通": {
+    "type": "S",
+    "aka": "開通",
+    "pinyinEnglish": {
+      "kāi tong": [
+        "to open up (windows for air, ideas for discussion, transport routes etc)",
+        "open-minded"
+      ],
+      "kāi tōng": [
+        "to open up (windows for air, ideas for discussion, transportation routes etc)"
+      ]
+    },
+    "pinyin": [
+      "kāi tong"
+    ],
+    "english": [
+      "to open up (windows for air, ideas for discussion, transport routes etc)",
+      "open-minded",
+      "to open up (windows for air, ideas for discussion, transportation routes etc)"
+    ],
+    "source": "BBsZZsZZs$"
+  },
+  "開通": {
+    "type": "T",
+    "aka": "开通",
+    "pinyinEnglish": {
+      "kāi tong": [
+        "to open up (windows for air, ideas for discussion, transport routes etc)",
+        "open-minded"
+      ],
+      "kāi tōng": [
+        "to open up (windows for air, ideas for discussion, transportation routes etc)"
+      ]
+    },
+    "pinyin": [
+      "kāi tong"
+    ],
+    "english": [
+      "to open up (windows for air, ideas for discussion, transport routes etc)",
+      "open-minded",
+      "to open up (windows for air, ideas for discussion, transportation routes etc)"
+    ],
+    "source": "BBtZZtZZt$"
+  },
+
+----
+
+
+躯壳 
+qūqiào
+
+most translate the above as qūké
+
+----
+
 updated database
 
 315,255 - 315,974
@@ -10,7 +76,6 @@ after: 5,319,555
 lookup-dictionary-debug.json 
 before: 1,828,377
 after: 1,830,991
-
 
 ----
 
