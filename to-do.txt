@@ -9,7 +9,7 @@ after: 5,319,555
 
 lookup-dictionary-debug.json 
 before: 1,828,377
-after: 1,830,99
+after: 1,830,991
 
 
 ----
