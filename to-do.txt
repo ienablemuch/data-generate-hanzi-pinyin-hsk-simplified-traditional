@@ -1,3 +1,17 @@
+Should this be wán wán_quán quán?
+
+  "完完全全": {
+    "type": "B",
+    "pinyinEnglish": {
+      "wán_wán quán_quán": [
+        "completely"
+      ]
+    },
+
+
+
+-----
+
 Maybe we can remove cedictJSON.json, it has many duplicates with official cedict (the cedict_ts.u8 file)
 
 Turns out we cannot, it has good collection of colloquial words, e.g., AA制
