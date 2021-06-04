@@ -135,6 +135,8 @@ export async function generateMainCopyToMemory(
         cleanZhongwenMasterWithEnglish()
     );
 
+    console.log("array'd zhongwenMasterWithEnglish");
+
     for await (const {
         simplified,
         traditional,
@@ -164,6 +166,8 @@ export async function generateMainCopyToMemory(
             "BB"
         );
     }
+
+    console.log("process cleanCEDictJSONWithEnglish: done");
 
     for await (const { from, to } of cleanSimplifiedToTraditional()) {
         // existing simplified
@@ -798,18 +802,24 @@ async function* cleanConversion(source: string): AsyncIterable<IConversion> {
 }
 
 async function* cleanZhongwenMasterWithEnglish(): AsyncIterable<ISimplifiedTraditionalWithEnglish> {
-    const text = await Deno.readTextFile(
-        "zhongwen-master/data/cedict_ts.u8.txt"
-    );
+    const text = await Deno.readTextFile("zhongwen-master/data/cedict_ts.u8");
 
     const lines = text.split("\n");
 
     for (const line of lines) {
+        if (line[0] === "#") continue;
+        if (line[0] === "\n") break;
+        // console.log(line);
+
         /([^\[]+)\[([^\]]+)\] \/(.+)\//.test(line);
 
         const hanziSource = RegExp.$1;
         const pinyinSource = RegExp.$2;
         const englishSource = RegExp.$3;
+
+        // console.log(
+        //     JSON.stringify({ hanziSource, pinyinSource, englishSource })
+        // );
 
         const hanzi = hanziSource
             .split("")
@@ -836,6 +846,8 @@ async function* cleanZhongwenMasterWithEnglish(): AsyncIterable<ISimplifiedTradi
 
         yield word;
     }
+
+    // console.log("done");
 }
 
 interface IHanziPinyinSentence {

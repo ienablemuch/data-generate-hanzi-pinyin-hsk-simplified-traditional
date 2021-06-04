@@ -1,3 +1,21 @@
+Update dictionary:
+
+before: 315,783 - 316,502
+before: 316,808 - 317,527
+
+Lookup-all.json 
+before: 5,290,986
+after: 5,309,233
+
+lookup-dictionary-debug.json 
+before: 1,830,722
+after: 1,836,835
+
+
+
+----
+
+
 Should this be wán wán_quán quán?
 
   "完完全全": {
