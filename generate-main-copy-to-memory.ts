@@ -29,6 +29,7 @@ import {
     NAME_MARKER,
     NAME_PINYIN_MARKER,
     NAME_MARKER_TYPICAL_WEBSITE,
+    toArray,
 } from "./common.ts";
 
 import { correctlyRetokenizeZH, customTokenizeZH } from "./utils.ts";
@@ -130,6 +131,10 @@ export async function generateMainCopyToMemory(
 
     // return hzl;
 
+    const zhongwenMasterWithEnglish = await toArray(
+        cleanZhongwenMasterWithEnglish()
+    );
+
     for await (const {
         simplified,
         traditional,
@@ -143,6 +148,17 @@ export async function generateMainCopyToMemory(
         ) {
             continue;
         }
+
+        if (
+            zhongwenMasterWithEnglish.some(
+                (ze) =>
+                    ze.simplified === simplified &&
+                    ze.traditional === traditional
+            )
+        ) {
+            continue;
+        }
+
         processSimplifiedTraditional(
             { simplified, traditional, pinyin, english },
             "BB"
@@ -205,13 +221,18 @@ export async function generateMainCopyToMemory(
     //     );
     // }
 
-    // Removed this, to avoid inconsistencies in pinyin
-    for await (const {
+    // for await (const {
+    //     simplified,
+    //     traditional,
+    //     pinyin,
+    //     english,
+    // } of cleanZhongwenMasterWithEnglish()) {
+    for (const {
         simplified,
         traditional,
         pinyin,
         english,
-    } of cleanZhongwenMasterWithEnglish()) {
+    } of zhongwenMasterWithEnglish) {
         // To avoid inconsistencies in pinyin. if it's already a complete entry, don't add to it
         // if (hzl[simplified]?.english && hzl[traditional]?.english) {
         //     continue;

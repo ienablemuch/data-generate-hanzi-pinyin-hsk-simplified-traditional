@@ -2,11 +2,23 @@ Maybe we can remove cedictJSON.json, it has many duplicates with official cedict
 
 Turns out we cannot, it has good collection of colloquial words, e.g., AA制
 
-Things we can do:
+Things we can do: (DONE)
 * Keep the unique entries of cedictJSON.json
 * Remove its entries that are already in cedict_ts.u8
 
-We should not have this kind of data
+before: 315,783 - 316,502
+after: 315,783 - 316,502
+
+Lookup-all.json 
+before: 5,319,555
+after: 5,290,986
+
+lookup-dictionary-debug.json 
+before: 1,830,991
+after: 1,830,722
+
+
+We should not have this kind of data:
 
 
 "开通": {

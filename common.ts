@@ -160,3 +160,17 @@ export function tokenizeZH(text: string) {
 
     return words;
 }
+
+export async function toArray<T>(gen: AsyncIterable<T>): Promise<T[]> {
+    const out: T[] = [];
+    for await (const x of gen) {
+        out.push(x);
+    }
+    return out;
+}
+
+// export async function toArray(asyncIterator: any) {
+//     const arr = [];
+//     for await (const i of asyncIterator) arr.push(i);
+//     return arr;
+// }
