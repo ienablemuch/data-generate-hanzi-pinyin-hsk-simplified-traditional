@@ -164,6 +164,8 @@ export async function generateMainCopyToMemory(
 
         // We already solved this in version 2.1, but it came back
 
+        // This is the fix
+
         const match = zhongwenMasterWithEnglish.filter(
             (ze) =>
                 ze.simplified === simplified &&
