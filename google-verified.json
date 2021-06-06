@@ -1,3 +1,23 @@
 [
-{"traditional": "到了", "simplified": "到了", "pinyinType": "dao4 le5", "definition": ["arrived"]}
+    {
+        "traditional": "到了",
+        "simplified": "到了",
+        "pinyinType": "dao4 le5",
+        "definition": ["arrived"],
+        "src": "gv"
+    },
+    {
+        "traditional": "語伴",
+        "simplified": "语伴",
+        "pinyinType": "yu3_ban4",
+        "definition": ["language partner"],
+        "src": "gv"
+    },
+    {
+        "traditional": "學友",
+        "simplified": "学友",
+        "pinyinType": "xué yǒu",
+        "definition": ["alumni", "schoolmates", "fellow students"],
+        "src": "m"
+    }
 ]
