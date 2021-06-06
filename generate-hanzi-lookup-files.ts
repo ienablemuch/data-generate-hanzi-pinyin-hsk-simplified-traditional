@@ -10,7 +10,7 @@ import {
 
 import { getToneNumber, removeTone } from "./3rd-party-code/pinyin-utils.ts";
 
-import { log } from "./common.ts";
+import { log, NAME_MARKER, NAME_MARKER_TYPICAL_WEBSITE } from "./common.ts";
 
 export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     await createHanziAllJsonFile();
@@ -126,11 +126,20 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
 
                 const tones = firstPinyin
                     ?.split(/[_ ]/)
-                    .map((syllable) => getToneNumber(syllable))
-                    .join("");
+                    .map((syllable) => getToneNumber(syllable));
 
                 if (tones) {
-                    hl.t = tones;
+                    for (let i = 0; i < hanzi.length; ++i) {
+                        if (
+                            [NAME_MARKER, NAME_MARKER_TYPICAL_WEBSITE].includes(
+                                hanzi[i]
+                            )
+                        ) {
+                            tones.splice(i, 0, 5 /* neutral tone */);
+                        }
+                    }
+
+                    hl.t = tones.join("");
                 }
             }
 
