@@ -28,6 +28,9 @@ export function performTests(
     testCompressPinyin("一路平安", "yīlù píng'ān");
     testCompressPinyin("平板电脑", "píngbǎn diànnǎo");
 
+    // bù liǎo should come first than bù le
+    testPinyinFirst("不了", "bù liǎo");
+
     return;
 
     function testPinyin(hanzi: string, expectedPinyin: string): void {
@@ -59,6 +62,20 @@ export function performTests(
         const doesMatch = hpHskTL[hanzi].p === expectedPinyin;
         console.group();
         console.log(doesMatch);
+        console.groupEnd();
+    }
+
+    // this test makes it sure that most common word interpretations should comes first
+    function testPinyinFirst(hanzi: string, expectedFirstPinyin: string): void {
+        console.log(`testPinyinFirst ${hanzi} ${expectedFirstPinyin}`);
+        const matchingFirst = Object.keys(hzl[hanzi]?.pinyinEnglish ?? {})[0];
+        const doesMatchExpectedFirst = matchingFirst === expectedFirstPinyin;
+        console.group();
+        console.log(doesMatchExpectedFirst);
+        if (!doesMatchExpectedFirst) {
+            console.log("wrong first: ");
+            console.log(matchingFirst);
+        }
         console.groupEnd();
     }
 }

@@ -10,6 +10,8 @@ import {
 
 import { getToneNumber, removeTone } from "./3rd-party-code/pinyin-utils.ts";
 
+import { log } from "./common.ts";
+
 export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     await createHanziAllJsonFile();
 
@@ -406,12 +408,3 @@ yǔn xǔ_ān zhuāng_lái zì_wèi zhī_lái yuán_de_yìng yòng
 ]
 
 */
-
-// https://stackoverflow.com/questions/64398431/how-to-console-log-without-a-newline-in-deno
-// https://www.danvega.dev/blog/2020/06/03/deno-stdin-stdout/
-async function log(s: string) {
-    const text = new TextEncoder().encode(s);
-    await Deno.writeAll(Deno.stdout, text);
-
-    // await Deno.stdout.write(new TextEncoder().encode("Post Title: "));
-}

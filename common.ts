@@ -174,3 +174,12 @@ export async function toArray<T>(gen: AsyncIterable<T>): Promise<T[]> {
 //     for await (const i of asyncIterator) arr.push(i);
 //     return arr;
 // }
+
+// https://stackoverflow.com/questions/64398431/how-to-console-log-without-a-newline-in-deno
+// https://www.danvega.dev/blog/2020/06/03/deno-stdin-stdout/
+export async function log(s: string) {
+    const text = new TextEncoder().encode(s);
+    await Deno.writeAll(Deno.stdout, text);
+
+    // await Deno.stdout.write(new TextEncoder().encode("Post Title: "));
+}

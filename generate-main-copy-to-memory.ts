@@ -30,6 +30,7 @@ import {
     NAME_PINYIN_MARKER,
     NAME_MARKER_TYPICAL_WEBSITE,
     toArray,
+    log,
 } from "./common.ts";
 
 import { correctlyRetokenizeZH, customTokenizeZH } from "./utils.ts";
@@ -137,7 +138,7 @@ export async function generateMainCopyToMemory(
 
     console.log("array'd zhongwenMasterWithEnglish");
 
-    for await (const {
+    for await (let {
         simplified,
         traditional,
         pinyin,
@@ -151,14 +152,32 @@ export async function generateMainCopyToMemory(
             continue;
         }
 
-        if (
-            zhongwenMasterWithEnglish.some(
-                (ze) =>
-                    ze.simplified === simplified &&
-                    ze.traditional === traditional
-            )
-        ) {
-            continue;
+        // 我 的 手指动 不了 了
+        // wo de shouzhi bule le
+        // In cedictJSON.json, there's an entry for buliao le.
+        // We should not skip cedictJSON.json,
+        // so the most common will be processed first.
+        // buliao is more common than bule.
+        // In the official cedict_ts.u8, [bu4 le5] comes first than [bu4 liao3].
+        // Better to use the most common pinyin based on cedictJSON.json even
+        // it is already five years old
+
+        // We already solved this in version 2.1, but it came back
+
+        const match = zhongwenMasterWithEnglish.filter(
+            (ze) =>
+                ze.simplified === simplified &&
+                ze.traditional === traditional &&
+                ze.pinyin === pinyin
+        );
+
+        if (match.length === 1) {
+            const oneMatch = match[0];
+            english = oneMatch.english;
+        } else if (match.length > 1) {
+            throw new Error(
+                `Anomaly, why ${simplified} ${traditional} ${pinyin} have two rows?`
+            );
         }
 
         processSimplifiedTraditional(
@@ -486,6 +505,7 @@ async function* cleanCEDictJSONWithEnglish(): AsyncIterable<ISimplifiedTradition
         "chinese-pinyin-JSON-master/cedictJSON.json"
     )) as ICEDictEntry[];
 
+    let i = 1;
     for (const entry of json) {
         const {
             simplified,
@@ -500,6 +520,12 @@ async function* cleanCEDictJSONWithEnglish(): AsyncIterable<ISimplifiedTradition
             pinyin: pinyinify(pinyinType),
             english,
         };
+
+        await log(
+            `${i} of ${json.length}. ${Math.ceil((i / json.length) * 100)}%\r`
+        );
+
+        ++i;
     }
 }
 
