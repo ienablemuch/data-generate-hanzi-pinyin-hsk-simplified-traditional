@@ -1,3 +1,17 @@
+entries:
+same: 316,808 - 317,527
+
+Lookup-all.json 
+before: 5,312,245
+after: 5,312,249
+
+lookup-dictionary-debug.json
+before: 1,838,477
+after: 1,838,482
+
+---
+
+
 Update dictionary:
 
 before: 315,783 - 316,502
@@ -10,7 +24,6 @@ after: 5,309,233
 lookup-dictionary-debug.json 
 before: 1,830,722
 after: 1,836,835
-
 
 
 ----

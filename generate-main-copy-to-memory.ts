@@ -502,10 +502,17 @@ async function* cleanCEDictJSONWithEnglish(): AsyncIterable<ISimplifiedTradition
         pinyinType: string;
         definition: string[];
     }
-    // chinese-pinyin-JSON-master/cedictJSON.json
-    const json = (await readJson(
-        "chinese-pinyin-JSON-master/cedictJSON.json"
+
+    const googleVerifiedJson = (await readJson(
+        "./google-verified.json"
     )) as ICEDictEntry[];
+
+    // chinese-pinyin-JSON-master/cedictJSON.json
+    const json = googleVerifiedJson.concat(
+        (await readJson(
+            "chinese-pinyin-JSON-master/cedictJSON.json"
+        )) as ICEDictEntry[]
+    );
 
     let i = 1;
     for (const entry of json) {
