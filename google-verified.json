@@ -18,6 +18,13 @@
         "simplified": "学友",
         "pinyinType": "xué yǒu",
         "definition": ["alumni", "schoolmates", "fellow students"],
-        "src": "m"
+        "src": "x"
+    },
+    {
+        "traditional": "學伴",
+        "simplified": "学伴",
+        "pinyinType": "xué_bàn",
+        "definition": ["study buddy", "learning companion"],
+        "src": "x"
     }
 ]
