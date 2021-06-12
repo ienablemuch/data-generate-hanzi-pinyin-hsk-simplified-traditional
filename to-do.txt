@@ -1,3 +1,34 @@
+
+lookup-all.json
+before: 5,312,358
+after: 5,305,985
+
+lookup-dictionary-debug.json
+before: 1,838,509
+after: 1,838,434
+
+lookup-dictionary.json 
+before: 18.8MB
+after: 18.7MB
+
+lookup-hanzi-pinyin-hsk-tone.json
+before: 13.4MB
+after: 13.4MB
+
+
+entries:
+same: 316,814 - 317,533
+
+
+長毛 has generated space but with more than 2 pinyins
+[ "Cháng máo", "Cháng máo", "cháng máo", "zhǎng máo" ]
+
+重頭 has generated space but with more than 2 pinyins
+[ "chóng tóu", "chóng tóu", "zhòng tóu" ]
+
+
+--------
+
 added google-verified.json
 
 entries:
