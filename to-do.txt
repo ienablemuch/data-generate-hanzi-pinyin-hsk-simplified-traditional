@@ -1,11 +1,11 @@
 
 lookup-all.json
 before: 5,312,358
-after: 5,305,985
+after: 5,306,864
 
 lookup-dictionary-debug.json
 before: 1,838,509
-after: 1,838,434
+after: 1,838,
 
 lookup-dictionary.json 
 before: 18.8MB
