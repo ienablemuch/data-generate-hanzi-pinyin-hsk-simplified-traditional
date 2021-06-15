@@ -166,20 +166,76 @@ export async function generateMainCopyToMemory(
 
         // This is the fix
 
-        const match = zhongwenMasterWithEnglish.filter(
+        let match = zhongwenMasterWithEnglish.filter(
             (ze) =>
                 ze.simplified === simplified &&
                 ze.traditional === traditional &&
+                // Don't use toUpperCase. Some have surname version.
+                // Example
+                // 丁 丁 [Ding1] /surname Ding/
+                // 丁 丁 [ding1] /fourth of the ten Heavenly Stems 十天干[shi2 tian1 gan1]/fourth in order/letter "D"
                 ze.pinyin === pinyin
         );
 
         if (match.length === 1) {
             const oneMatch = match[0];
             english = oneMatch.english;
+            pinyin = oneMatch.pinyin;
         } else if (match.length > 1) {
             throw new Error(
-                `Anomaly, why ${simplified} ${traditional} ${pinyin} have two rows?`
+                `Anomaly, why simplified ${simplified} traditional ${traditional} ${pinyin} have two rows?`
             );
+        } else if (match.length === 0) {
+            // the old cedictJSON.json (2015), have different traditional for:
+            // 台湾关系法
+            // It has     臺灣關係法 for traditional
+            // instead of 台灣關係法
+            // Hence it did not match. So we need to do a second try
+
+            match = zhongwenMasterWithEnglish.filter(
+                (ze) =>
+                    ze.simplified === simplified &&
+                    ze.pinyin.toUpperCase() === pinyin.toUpperCase()
+            );
+
+            if (false && simplified === "台湾关系法") {
+                console.log(simplified);
+                console.log(pinyin);
+                console.log(match);
+
+                // The pinyin's case does not match,
+                // we have to use the cedict_ts.u8's version.
+                // It has correct casing compared to cedictJSON.json
+                /*
+台湾关系法12127. 16%
+Tái wān guān xì fǎ
+[
+  {
+    simplified: "台湾关系法",
+    traditional: "台灣關係法",
+    pinyin: "Tái wān Guān xì fǎ",
+    english: [ "Taiwan Relations Act (of US Congress, 1979)" ]
+  }
+]
+*/
+                Deno.exit(1);
+            }
+
+            // For now just lookup the simplified
+            if (match.length === 1) {
+                const oneMatch = match[0];
+                // let's follow the zhongwenMasterWithEnglish's definition, it's up-to-date (2021) compared
+                // to cedictJSON.json (2015)
+                english = oneMatch.english;
+                pinyin = oneMatch.pinyin;
+            }
+            // we can't do this, we have same simplified hanzi+pinyin that have two entries
+            /*else if (match.length > 1) {
+                throw new Error(
+                    `Anomaly, why simplified ${simplified} ${pinyin} have two rows?`
+                );
+            }
+            */
         }
 
         processSimplifiedTraditional(
