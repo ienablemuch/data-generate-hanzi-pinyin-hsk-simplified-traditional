@@ -1,3 +1,33 @@
+updated HSK
+
+
+lookup-all.json
+before: 5,306,738
+after: 5,308,958
+
+lookup-dictionary-debug.json
+before: 1,837,697
+after: 1,837,704
+
+lookup-dictionary.json 
+before: 18.7MB
+before: 18.7MB
+
+
+lookup-hanzi-pinyin-hsk-tone.json
+before: 13.4MB
+before: 13.4MB
+
+
+entries:
+before: 316,933 - 317,652
+after: 316,974 - 317,693
+
+
+--
+
+
+
 clean-up dictionary
 
 

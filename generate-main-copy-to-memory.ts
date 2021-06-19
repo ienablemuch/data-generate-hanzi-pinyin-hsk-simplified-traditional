@@ -355,11 +355,34 @@ Tái wān guān xì fǎ
 
         hzl[hanzi] = {
             ...eHanzi,
-            hsk: Math.min(eHanzi.hsk ?? 0, hsk),
+            hsk: (eHanzi?.hsk ?? 0) > 0 ? Math.min(eHanzi?.hsk ?? 0, hsk) : hsk,
         };
 
         // @ts-ignore
         hzl[hanzi].source = (hzl[hanzi].source ?? "") + "GG";
+    }
+
+    for await (const { hanzi, hsk } of cleanHanziHskFromHskThreeDotOh()) {
+        const eHanzi = hzl[hanzi];
+
+        // console.log("for cleanHanziHskFromUnihan");
+        // console.log(hanzi);
+
+        // if already has HSK, but the existing's HSK is different from
+        // one we are iterating, why?
+        if (eHanzi?.hsk && hsk !== eHanzi?.hsk) {
+            // throw Error(`Hanzi: ${hanzi}. HSK-a: ${eHanzi.hsk} HSK-b: ${hsk}`);
+        }
+
+        hzl[hanzi] = {
+            ...eHanzi,
+            // hsk: (eHanzi?.hsk ?? 0) > 0 ? Math.min(eHanzi?.hsk ?? 0, hsk) : hsk,
+            // make this the official:
+            hsk,
+        };
+
+        // @ts-ignore
+        hzl[hanzi].source = (hzl[hanzi].source ?? "") + "HH";
     }
 
     await processCleanHanziPinyinHskWithEnglish({ secondPass: true });
@@ -869,6 +892,26 @@ async function* cleanHanziHskFromUnihan(): AsyncIterable<IHanziHsk> {
 
     for (const [hanzi, hsk] of Object.entries(json)) {
         yield { hanzi, hsk };
+    }
+}
+
+async function* cleanHanziHskFromHskThreeDotOh(): AsyncIterable<IHanziHsk> {
+    // HSK-3.0-words-list-main/HSK List/HSK 1.txt
+
+    interface IHanziCollection {
+        [hanzi: string]: number; // hsk
+    }
+
+    for (let hsk = 1; hsk <= 6; ++hsk) {
+        const text = (await Deno.readTextFile(
+            `HSK-3.0-words-list-main/HSK List/HSK ${hsk}.txt`
+        )) as string;
+
+        const textLines = text.split("\n");
+
+        for (const hanzi of textLines) {
+            yield { hanzi, hsk };
+        }
     }
 }
 
