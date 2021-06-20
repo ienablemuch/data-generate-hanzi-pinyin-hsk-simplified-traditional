@@ -365,13 +365,8 @@ Tái wān guān xì fǎ
     for await (const { hanzi, hsk } of cleanHanziHskFromHskThreeDotOh()) {
         const eHanzi = hzl[hanzi];
 
-        // console.log("for cleanHanziHskFromUnihan");
-        // console.log(hanzi);
-
-        // if already has HSK, but the existing's HSK is different from
-        // one we are iterating, why?
-        if (eHanzi?.hsk && hsk !== eHanzi?.hsk) {
-            // throw Error(`Hanzi: ${hanzi}. HSK-a: ${eHanzi.hsk} HSK-b: ${hsk}`);
+        if (!eHanzi) {
+            continue;
         }
 
         hzl[hanzi] = {
@@ -904,13 +899,15 @@ async function* cleanHanziHskFromHskThreeDotOh(): AsyncIterable<IHanziHsk> {
 
     for (let hsk = 1; hsk <= 6; ++hsk) {
         const text = (await Deno.readTextFile(
-            `HSK-3.0-words-list-main/HSK List/HSK ${hsk}.txt`
+            `HSK-3.0-words-list-main/HSK list with meaning/HSK ${hsk}.tsv`
         )) as string;
 
         const textLines = text.split("\n");
 
-        for (const hanzi of textLines) {
-            yield { hanzi, hsk };
+        for (const line of textLines) {
+            const [traditional, simplified] = line.split("\t");
+            yield { hanzi: traditional, hsk };
+            yield { hanzi: simplified, hsk };
         }
     }
 }

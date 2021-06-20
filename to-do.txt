@@ -1,3 +1,33 @@
+updated HSK, include traditional, exclude no pinyin
+
+
+lookup-all.json
+before: 5,308,958
+after: 5,311,402
+
+
+lookup-dictionary-debug.json
+before: 1,837,704
+before: 1,837,697
+
+
+lookup-dictionary.json 
+before: 18.7MB
+before: 18.7MB
+
+
+lookup-hanzi-pinyin-hsk-tone.json
+before: 13.4MB
+before: 13.4MB
+
+
+entries:
+before: 316,974 - 317,693
+after: 316,933 - 317,652
+
+
+---
+
 updated HSK
 
 
