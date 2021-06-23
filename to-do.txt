@@ -1,3 +1,12 @@
+后 后 [Hou4] /surname Hou/
+后 后 [hou4] /empress/queen/(archaic) monarch/ruler/
+
+後 后 [hou4] /back/behind/rear/afterwards/after/later/post-/
+
+When it's surname, don't make it the official type, let the succeeding data override the type
+
+----
+
 updated HSK, include traditional, exclude no pinyin
 
 
