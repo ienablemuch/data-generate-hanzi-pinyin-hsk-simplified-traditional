@@ -3,7 +3,9 @@
 
 後 后 [hou4] /back/behind/rear/afterwards/after/later/post-/
 
-When it's surname, don't make it the official type, let the succeeding data override the type
+When it's surname, don't make it the official type (traditional / simplified), let the succeeding definitions override the type
+
+test here: https://www.zhihu.com/question/332411777/answer/1257189231
 
 ----
 
