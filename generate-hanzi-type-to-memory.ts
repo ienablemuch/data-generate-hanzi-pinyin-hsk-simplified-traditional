@@ -14,10 +14,20 @@ export async function generateHanziTypeToMemory(): Promise<IHanziTypeList> {
     )) as ITraToSim;
 
     for (const [traditional, simplifiedList] of Object.entries(json)) {
-        htl[traditional] ??= "T";
+        htl[traditional] =
+            // prettier-ignore
+            htl[traditional] === 'S' ? 
+                'B' 
+            :
+                'T';
 
         for (const simplified of simplifiedList) {
-            htl[simplified] ??= "S";
+            htl[simplified] =
+                // prettier-ignore
+                htl[simplified] === 'T' ?
+                    'B'
+                :
+                    'S';
         }
     }
 

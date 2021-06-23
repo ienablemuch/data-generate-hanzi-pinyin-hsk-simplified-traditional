@@ -45,7 +45,7 @@ export interface IConversion {
 
 // master list for 100% hanzi type
 export interface IHanziTypeList {
-    [hanzi: string]: "S" | "T";
+    [hanzi: string]: "S" | "T" | "B";
 }
 
 // ..cleaned
