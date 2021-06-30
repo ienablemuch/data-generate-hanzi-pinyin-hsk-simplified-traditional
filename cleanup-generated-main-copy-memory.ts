@@ -190,7 +190,14 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                     ||
                     (
                             /[,;?!]/.test(other)  
-                            && other.splitKeep(',;?!').map(each => 'to ' + each.trim()).includes(toExclude)
+                            && 
+                            (
+                                other.splitKeep(',;?!').map(each => 'to ' + each.trim()).includes(toExclude)
+                                ||
+                                other.splitKeep(',;?!').map(each => 'a ' + each.trim()).includes(toExclude)
+                                ||
+                                other.splitKeep(',;?!').map(each => 'an ' + each.trim()).includes(toExclude)
+                            )
                     )
                     ||
                     // 工作 gōngzuò to work. job. work. task

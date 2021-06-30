@@ -1,3 +1,30 @@
+會 huì to assemble, meet together; a meeting; an organization. can (i.e. have the skill, know how to). likely to. sure to. to meet. to get together. meeting. gathering. union. group. association. a moment (Taiwan pr. for this sense is [hui3]) kuài to balance an account. accountancy. accounting
+
+Remove the "meeting" since there is already "a meeting", likewise with *an*
+
+lookup-all.json
+before: 5,311,402
+
+
+lookup-dictionary-debug.json
+before: 1,837,697
+
+
+lookup-dictionary.json 
+before: 18.7MB
+
+
+lookup-hanzi-pinyin-hsk-tone.json
+before: 13.4MB
+
+
+entries:
+before: 316,933 - 317,652
+after: 316,933 - 317,652
+
+-----
+
+
 后 后 [Hou4] /surname Hou/
 后 后 [hou4] /empress/queen/(archaic) monarch/ruler/
 
@@ -19,17 +46,17 @@ after: 5,311,402
 
 lookup-dictionary-debug.json
 before: 1,837,704
-before: 1,837,697
+after: 1,837,697
 
 
 lookup-dictionary.json 
 before: 18.7MB
-before: 18.7MB
+after: 18.7MB
 
 
 lookup-hanzi-pinyin-hsk-tone.json
 before: 13.4MB
-before: 13.4MB
+after: 13.4MB
 
 
 entries:
