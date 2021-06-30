@@ -186,7 +186,15 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                         other.replaceAll("'", "").replaceAll('-', ' ') === toExclude
                     )
                     ||
-                    other.splitKeep(',;?!').map(each => each.trim()).includes(toExclude)
+                    (
+                        other.splitKeep(',;?!').map(each => each.trim()).includes(toExclude)
+                        ||
+                        other.splitKeep(',;?!').map(each => each.trim()).includes('to ' + toExclude)
+                        ||
+                        other.splitKeep(',;?!').map(each => each.trim()).includes('a ' + toExclude)
+                        ||
+                        other.splitKeep(',;?!').map(each => each.trim()).includes('an ' + toExclude)
+                    )
                     ||
                     (
                             /[,;?!]/.test(other)  
@@ -203,6 +211,10 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                     // 工作 gōngzuò to work. job. work. task
                     // keep the *to work*, remove *work*
                     other === 'to ' + toExclude
+                    ||
+                    other === 'a ' + toExclude
+                    ||
+                    other === 'an ' + toExclude
                 )
         );
     }
