@@ -4,10 +4,12 @@ Remove the "meeting" since there is already "a meeting", likewise with *an*
 
 lookup-all.json
 before: 5,311,402
+after: 5,311,226
 
 
 lookup-dictionary-debug.json
 before: 1,837,697
+before: 1,837,690
 
 
 lookup-dictionary.json 
