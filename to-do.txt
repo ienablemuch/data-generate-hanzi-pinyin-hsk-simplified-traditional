@@ -1,3 +1,18 @@
+entries:
+before: 316,933 - 317,652
+after: 317,132 - 317,851
+
+lookup-all.json
+before: 5,310,855
+after: 5,314,428
+
+lookup-dictionary-debug.json
+before: 1,837,676
+after: 1,838,657
+
+
+---
+
 會 huì to assemble, meet together; a meeting; an organization. can (i.e. have the skill, know how to). likely to. sure to. to meet. to get together. meeting. gathering. union. group. association. a moment (Taiwan pr. for this sense is [hui3]) kuài to balance an account. accountancy. accounting
 
 Remove the "meeting" since there is already "a meeting", likewise with *an*
@@ -27,6 +42,8 @@ before: 13.4MB
 entries:
 before: 316,933 - 317,652
 after: 316,933 - 317,652
+
+
 
 -----
 
