@@ -1,7 +1,20 @@
+entries:
+before: 317,620 - 318,339
+after: 318,157 - 318,876
+
+lookup-all.json
+before: 5,323,169
+after: 5,332,564
+
+lookup-dictionary-debug.json
+before: 1,841,168
+after: 1,843,888
+
+-----
 
 entries:
 before: 317,132 - 317,851
-before: 317,620 - 318,339
+after: 317,620 - 318,339
 
 lookup-all.json
 before: 5,314,428
