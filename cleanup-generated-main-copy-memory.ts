@@ -187,6 +187,7 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                     )
                     ||
                     (
+                        // Not so urgent TODO: Make the "to, a, an, the" dynamic
                         other.splitKeep(',;?!').map(each => each.trim()).includes(toExclude)
                         ||
                         other.splitKeep(',;?!').map(each => each.trim()).includes('to ' + toExclude)
@@ -194,6 +195,8 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                         other.splitKeep(',;?!').map(each => each.trim()).includes('a ' + toExclude)
                         ||
                         other.splitKeep(',;?!').map(each => each.trim()).includes('an ' + toExclude)
+                        ||
+                        other.splitKeep(',;?!').map(each => each.trim()).includes('the ' + toExclude)
                     )
                     ||
                     (
@@ -205,6 +208,8 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                                 other.splitKeep(',;?!').map(each => 'a ' + each.trim()).includes(toExclude)
                                 ||
                                 other.splitKeep(',;?!').map(each => 'an ' + each.trim()).includes(toExclude)
+                                ||
+                                other.splitKeep(',;?!').map(each => 'the ' + each.trim()).includes(toExclude)
                             )
                     )
                     ||
@@ -215,6 +220,8 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                     other === 'a ' + toExclude
                     ||
                     other === 'an ' + toExclude
+                    ||
+                    other === 'the ' + toExclude
                 )
         );
     }
