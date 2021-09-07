@@ -197,6 +197,8 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                         other.splitKeep(',;?!').map(each => each.trim()).includes('an ' + toExclude)
                         ||
                         other.splitKeep(',;?!').map(each => each.trim()).includes('the ' + toExclude)
+                        ||
+                        other.splitKeep(',;?!').map(each => each.trim()).includes('as ' + toExclude)
                     )
                     ||
                     (
@@ -210,6 +212,8 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                                 other.splitKeep(',;?!').map(each => 'an ' + each.trim()).includes(toExclude)
                                 ||
                                 other.splitKeep(',;?!').map(each => 'the ' + each.trim()).includes(toExclude)
+                                ||
+                                other.splitKeep(',;?!').map(each => 'as ' + each.trim()).includes(toExclude)
                             )
                     )
                     ||
@@ -222,6 +226,8 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                     other === 'an ' + toExclude
                     ||
                     other === 'the ' + toExclude
+                    ||
+                    other === 'as ' + toExclude
                 )
         );
     }

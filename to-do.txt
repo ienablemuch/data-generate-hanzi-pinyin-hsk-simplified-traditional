@@ -2,6 +2,23 @@ entries:
 before: 318,157 - 318,876
 after: 318,157 - 318,876
 
+
+lookup-all.json
+before: 5,332,250
+after: 5,332,236
+
+lookup-dictionary-debug.json
+before: 1,843,888
+after: 1，843，888
+
+
+
+---
+
+entries:
+before: 318,157 - 318,876
+after: 318,157 - 318,876
+
 lookup-all.json
 before: 5,332,564
 after: 5,332,250
