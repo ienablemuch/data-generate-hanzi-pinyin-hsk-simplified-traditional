@@ -218,18 +218,31 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                     )
                     ||
                     (
+                        /*
+                        便 
+                        definitions:
+                             to urinate or defecate
+                             to urinate
+                             to defecate
+                        remove:
+                             to urinate
+                             to defecate
 
-                        // 便 
-                        // definitions:
-                        //      to urinate or defecate
-                        //      to urinate
-                        //      to defecate
-                        // remove:
-                        //      to urinate
-                        //      to defecate                        
+                        搡
+                        definitions:
+                            to push over or push back
+                            push back
+                            push over
+                        remove:
+                            push back
+                            push over
+                        */
                         (other.startsWith('to ') && other.slice(3).split(' or ').length > 1)                                                
                         &&
-                        other.slice(3).split(' or ').map(word => 'to ' + word).includes(toExclude)
+                        (
+                            other.slice(3).split(' or ')
+                            .some(word => 'to ' + word === toExclude || word === toExclude)
+                        )
                     )
                     ||
                     // 工作 gōngzuò to work. job. work. task

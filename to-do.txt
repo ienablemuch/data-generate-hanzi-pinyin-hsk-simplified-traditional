@@ -1,11 +1,14 @@
 entries:
 before: 318,157 - 318,876
+before: 318,157 - 318,876
 
 
 lookup-all.json
 before: 5,332,236
+before: 5,332,207
 
 lookup-dictionary-debug.json
+before: 1,843,888
 before: 1,843,888
 
 
