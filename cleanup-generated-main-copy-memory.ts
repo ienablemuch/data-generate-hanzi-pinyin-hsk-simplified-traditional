@@ -217,6 +217,21 @@ export function postCleanup(hzl: IHanziLookup): IHanziLookup {
                             )
                     )
                     ||
+                    (
+
+                        // 便 
+                        // definitions:
+                        //      to urinate or defecate
+                        //      to urinate
+                        //      to defecate
+                        // remove:
+                        //      to urinate
+                        //      to defecate                        
+                        (other.startsWith('to ') && other.slice(3).split(' or ').length > 1)                                                
+                        &&
+                        other.slice(3).split(' or ').map(word => 'to ' + word).includes(toExclude)
+                    )
+                    ||
                     // 工作 gōngzuò to work. job. work. task
                     // keep the *to work*, remove *work*
                     other === 'to ' + toExclude
