@@ -96,7 +96,9 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
     async function createHanziPinyinHskToneLookupFile() {
         const hphlt: IHanziPinyinHskToneLookup = {};
 
-        for (const [hanzi, { pinyin, hsk }] of Object.entries(hzl)) {
+        for (const [hanzi, { pinyin, hsk, pinyinEnglish }] of Object.entries(
+            hzl
+        )) {
             const firstPinyin = pinyin?.[0];
 
             if (!(firstPinyin || hsk)) {
@@ -147,9 +149,13 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
                 hl.l = hsk;
             }
 
-            // hanzi can have multiple pinyin, if it has, add the count to hphlt
-            if ((pinyin?.length ?? 0) > 1) {
-                hl.c = pinyin?.length;
+            if (pinyinEnglish) {
+                const definitionsCount = Object.keys(pinyinEnglish).length;
+
+                // hanzi can have multiple pinyin, if it has, add the count to hphlt
+                if (definitionsCount > 1) {
+                    hl.c = definitionsCount;
+                }
             }
         }
 
