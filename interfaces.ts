@@ -199,5 +199,6 @@ export interface IHanziPinyinHskToneLookup {
         p?: string; // pinyin
         l?: number; // hsk level
         t?: string; // tone
+        c?: number; // if hanzi has multiple pinyin, this indicates count
     };
 }

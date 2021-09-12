@@ -146,6 +146,11 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
             if (hsk) {
                 hl.l = hsk;
             }
+
+            // hanzi can have multiple pinyin, if it has, add the count to hphlt
+            if ((pinyin?.length ?? 0) > 1) {
+                hl.c = pinyin?.length;
+            }
         }
 
         // console.log(hpl);
