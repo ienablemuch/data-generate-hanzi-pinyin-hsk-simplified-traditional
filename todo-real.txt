@@ -1,3 +1,15 @@
+After getting at least one entry, anything that follows with comma should be excluded
+
+偏高 偏高 [pian1 gao1] /higher/quite high/
+
+口傳律法 口传律法 [kou3 chuan2_lu:4 fa3] /oral tradition/oral law/tradition, oral/
+
+阿壩縣 阿坝县 [A1 ba4_Xian4] /Aba (county, in Sichuan)/
+
+北上廣深 北上广深 [Bei3 Shang4 Guang3 Shen1] /Beijing, Shanghai, Guangzhou and Shenzhen/Shanghai, Guangzhou and Shenzhen, Beijing,/
+
+
+
 唪
     "to recite, to intone or chant",
     "chant"
