@@ -1392,7 +1392,13 @@ async function* cleanCedPane(): AsyncIterable<ISimplifiedTraditionalWithEnglish>
         //     Deno.exit(1);
         // }
 
-        const english = englishRaw.split("/");
+        // B3261913-0F7E-4D8D-9228-BB959BFAADD0
+        // TODO:
+        // 類型檢查 类型检查 [lei4 xing2_jian3 cha2] /type checking/checking, type/<comp.>/
+        // Include the <comp.>
+        const english = englishRaw
+            .split("/")
+            .filter((e, i) => i === 0 || !e.includes(","));
 
         // if (simplified === "干净") {
         //     console.log("clean");

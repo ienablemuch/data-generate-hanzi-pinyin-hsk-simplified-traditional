@@ -326,10 +326,19 @@ export async function generateHanziLookupFiles(hzl: IHanziLookup) {
                 const pinyinMeaning: PinyinMeaning = {
                     p: cp,
                     e: englishList
-                        .slice(
-                            0,
-                            source.startsWith("AA") ? 1 : englishList.length + 1
-                        )
+                        // We can now include all of the definitions from CedPane(denoted by AA),
+                        // we already have mechanism to keep only one copy
+                        // from duplicate definitions
+                        // The duplicate just have this format:
+                        //      /bake (hard) with fire/fire, bake with/
+                        // We exclude the second second definition,
+                        //      see: B3261913-0F7E-4D8D-9228-BB959BFAADD0
+                        // Which means we can remove this slice code now, 
+                        // just comment it. Remove later
+                        // .slice(
+                        //     0,
+                        //     source.startsWith("AA") ? 1 : englishList.length + 1
+                        // )
                         .reduce(
                             (acc, item, i) =>
                                 i > 0 ? acc + ". " + item : item,
