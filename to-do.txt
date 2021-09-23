@@ -1,15 +1,33 @@
+new words
+
 entries:
 before: 318,157 - 318,876
+after: 318,466 - 319,185
+
+
+lookup-all.json
+before: 5,332,207
+after: 5,337,640
+
+lookup-dictionary-debug.json
+before: 1,843,888
+after: 1,845,469
+
+------
+
+
+entries:
 before: 318,157 - 318,876
+after: 318,157 - 318,876
 
 
 lookup-all.json
 before: 5,332,236
-before: 5,332,207
+after: 5,332,207
 
 lookup-dictionary-debug.json
 before: 1,843,888
-before: 1,843,888
+after: 1,843,888
 
 
 
