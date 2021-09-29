@@ -1,3 +1,22 @@
+corrected cleanup
+
+entries:
+before: 318,466 - 319,185
+before: 318,466 - 319,185
+
+
+lookup-all.json
+before: 5,262,778
+before: 5,262,778
+
+
+lookup-dictionary-debug.json
+before: 1,841,388
+before: 1,841,678
+
+
+------
+
 cleanup duplicate definitions
 
 entries:

@@ -722,11 +722,14 @@ async function* cleanHanziPinyinHskWithEnglish({
         // need to restore this, we have hanzi that don't have supporting translation.
         // don't allow symbols
 
+        let english: string[];
+
         if (withBestDefinitionList.some((best) => best === hanzi)) {
-            continue;
+            english = [];
+        } else {
+            english = translations;
         }
 
-        let english: string[] = translations;
         if (!secondPass) {
             english = english.filter((e) => !/[^A-Za-z0-9- ]/.test(e));
         }
@@ -1844,6 +1847,7 @@ async function getCedictCedpaneHanziList(): Promise<string[]> {
         }
     }
 
+    // CedPane
     {
         const text = await Deno.readTextFile(
             "CedPane-master/other-formats/CedPane-ChinaScribe.txt"
