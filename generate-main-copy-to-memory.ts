@@ -698,6 +698,8 @@ async function* cleanHanziPinyinHskWithEnglish({
 }: {
     secondPass: boolean;
 }): AsyncIterable<IHanziPinyinHskWithEnglish> {
+    const withBestDefinitionList = await getCedictCedpaneHanziList();
+
     interface IHsk {
         id: number;
         hanzi: string;
@@ -710,12 +712,19 @@ async function* cleanHanziPinyinHskWithEnglish({
         "chinese-sentence-miner-master/data/hsk.json"
     )) as IHsk[];
 
+    // Don't get english from hsk.json
+    // it's just a duplicate of cedict_ts.u8
+
     for (const { hanzi, pinyin: pinyinRaw, HSK: hsk, translations } of json) {
         // May 18:
         // removed this, too many translations already from CedPane and CEDICT.
         // May 19:
         // need to restore this, we have hanzi that don't have supporting translation.
         // don't allow symbols
+
+        if (withBestDefinitionList.some((best) => best === hanzi)) {
+            continue;
+        }
 
         let english: string[] = translations;
         if (!secondPass) {
@@ -1782,3 +1791,90 @@ export function generateSpacing(
 
 // "凈 净 [jing4] /variant of 淨|净
 // 冷顫 冷颤 [leng3 zhan5]
+
+async function getCedictCedpaneHanziList(): Promise<string[]> {
+    const hanziSet = new Set<string>();
+
+    // cedict
+    {
+        const text = await Deno.readTextFile(
+            "zhongwen-master/data/cedict_ts.u8"
+        );
+
+        const lines = text.split("\n");
+
+        for (const line of lines) {
+            if (line[0] === "#") continue;
+            if (line[0] === "\n") break;
+            // console.log(line);
+
+            /([^\[]+)\[([^\]]+)\] \/(.+)\//.test(line);
+
+            const hanziSource = RegExp.$1;
+            const pinyinSource = RegExp.$2;
+            const englishSource = RegExp.$3;
+
+            // console.log(
+            //     JSON.stringify({ hanziSource, pinyinSource, englishSource })
+            // );
+
+            const hanzi = hanziSource
+                .split("")
+                .map((word) => word.trim())
+                .filter((word) => word.length > 0);
+            const pinyin = pinyinify(pinyinSource).split(" ");
+            const english = englishSource.split(/[\/;]/).map((d) => d.trim());
+
+            if (pinyin.length * 2 !== hanzi.length) {
+                continue;
+                console.error(hanzi);
+                console.error(pinyin);
+                throw Error(
+                    `Error on ${line}; PL: ${pinyin.length}; HL: ${hanzi.length}`
+                );
+            }
+
+            const word = {
+                simplified: hanzi.slice(pinyin.length).join(""),
+                traditional: hanzi.slice(0, pinyin.length).join(""),
+            };
+
+            hanziSet.add(word.simplified);
+            hanziSet.add(word.traditional);
+        }
+    }
+
+    {
+        const text = await Deno.readTextFile(
+            "CedPane-master/other-formats/CedPane-ChinaScribe.txt"
+        );
+
+        const lines = text.split("\n").slice(6);
+        let count = 0;
+        for (const line of lines) {
+            if (line.length === 0) {
+                break;
+            }
+            // prettier-ignore
+            const r = line.match(/([\p{Script=Han}\p{Script=Latin}]+) ([\p{Script=Han}\p{Script=Latin}]+) \[([^\]]+)\] \/(.*)\//u);
+            const {
+                $1: traditional,
+                $2: simplified,
+                $3: pinyinRaw,
+                $4: englishRaw,
+            } = RegExp;
+
+            if (!(traditional && simplified)) {
+                throw Error(`Error on this line:\n` + line);
+                continue;
+            }
+
+            hanziSet.add(simplified);
+            hanziSet.add(traditional);
+        }
+    }
+
+    return [...hanziSet];
+
+    // console.log("done");
+}
