@@ -43,13 +43,12 @@ export async function applyCompatibilityCorrection(
 }
 
 
-// Don't use this anymore. the bamboo radical ⺮
-// transforms to non-radical 嫗
+// Use applyUnifiedCorrection, but maybe delete this:
 // 2EAE       ; 25AD7 #     CJK RADICAL BAMBOO
 // ⺮         嫗
 
 // https://www.unicode.org/Public/UCD/latest/ucd/EquivalentUnifiedIdeograph.txt
-export async function _x_applyUnifiedCorrection(
+export async function applyUnifiedCorrection(
     cleanedHzl: IHanziLookup
 ): Promise<ICorrection> {
     const text = await Deno.readTextFile("other-sources/to-unified-cjk.txt");
