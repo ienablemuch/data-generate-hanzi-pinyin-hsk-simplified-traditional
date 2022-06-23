@@ -14,7 +14,7 @@ import {
 } from "./cleanup-generated-main-copy-memory.ts";
 
 import {
-    applyUnifiedCorrection,
+    // applyUnifiedCorrection,
     applyCompatibilityCorrection,
 } from "./generate-correction-to-memory.ts";
 
@@ -73,7 +73,7 @@ import { readJson } from "https://deno.land/x/jsonfile/mod.ts";
 
     const hzl = useUnderscoreOnPinyinEnglish(hzlKeepOne);
 
-    const unifiedMappingCorrection = await applyUnifiedCorrection(hzl);
+    // const unifiedMappingCorrection = await applyUnifiedCorrection(hzl);
     const compatibilityMappingCorrection = await applyCompatibilityCorrection(
         hzl
     );
@@ -102,20 +102,22 @@ import { readJson } from "https://deno.land/x/jsonfile/mod.ts";
 
     // return;
 
+
+
     if (toGenerateFiles) {
         // Generate file
         // cleanupSource(); // remove the source
         await generateHanziLookupFiles(hzl);
         await generateCorrectionFile({
             ...compatibilityMappingCorrection,
-            ...unifiedMappingCorrection,
+            // ...unifiedMappingCorrection,
         });
     } else {
         // Preview on terminal
         console.log(hzl);
         console.log({
             ...compatibilityMappingCorrection,
-            ...unifiedMappingCorrection,
+            // ...unifiedMappingCorrection,
         });
     }
 
